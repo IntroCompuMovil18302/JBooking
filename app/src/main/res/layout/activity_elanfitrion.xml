@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF3366"
+    tools:context=".Elanfitrion">
+
+    <Button
+        android:id="@+id/contactar"
+        android:layout_width="329dp"
+        android:layout_height="31dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:background="@android:color/background_light"
+        android:text="Conacta al afitrion"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/hospedbbyview"
+        android:layout_width="369dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="Hospedado por Benoiy y Johana"
+        android:textColor="@android:color/background_light"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/infoview"
+        android:layout_width="351dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:text="Bogota, Colombia. Se registro en marzo de 2011"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/idiomas"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="158dp"
+        android:text="Idiomas: English, Español, Français  "
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/respuesta"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="122dp"
+        android:text="Índice de respuesta: 100%  "
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tiempo_res"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp"
+        android:text="Tiempo de respuesta: en menos de una hora  "
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/titleinfoview"
+        android:layout_width="233dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="154dp"
+        android:text="Benoit y Johanna es un SuperAnfitrión"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/evaluacionesview"
+        android:layout_width="121dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView5"
+        android:layout_toEndOf="@+id/imageView5"
+        android:text="Bogota, Colombia. Se registro en marzo de 2011"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
+        tools:text="190 evaluaciones" />
+
+    <TextView
+        android:id="@+id/textviewtext"
+        android:layout_width="228dp"
+        android:layout_height="116dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/titleinfoview"
+        android:layout_marginTop="201dp"
+        android:text="Bogota, Colombia. Se registro en marzo de 2011"
+        android:textColor="@android:color/background_light"
+        tools:text="Los SuperAnfitriones tienen experiencia y muy buenas puntuaciones, se esfuerzan por que sus huéspedes disfruten de estancias inolvidables." />
+
+    <TextView
+        android:id="@+id/verificadoview"
+        android:layout_width="74dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/evaluacionesview"
+        android:layout_marginEnd="95dp"
+        android:text="Bogota, Colombia. Se registro en marzo de 2011"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
+        tools:text="Verificado" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="23dp"
+        android:layout_height="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/infoview"
+        android:layout_marginTop="122dp"
+        app:srcCompat="@android:drawable/btn_star" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="26dp"
+        android:layout_height="22dp"
+        android:layout_alignTop="@+id/evaluacionesview"
+        android:layout_toStartOf="@+id/verificadoview"
+        app:srcCompat="@android:drawable/ic_menu_compass" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="111dp"
+        android:layout_height="165dp"
+        android:layout_alignStart="@+id/infoview"
+        android:layout_alignTop="@+id/titleinfoview"
+        app:srcCompat="@drawable/medal" />
+</RelativeLayout>

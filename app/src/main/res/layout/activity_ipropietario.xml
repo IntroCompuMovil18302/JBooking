@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF3366"
+    tools:context=".IPropietario">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="128dp"
+        android:layout_height="96dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="55dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/agregar_turist"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/background_light"
+        android:text="AGREGAR LUGAR TURISTICO"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/editar_turisticos"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="189dp"
+        android:background="@android:color/background_light"
+        android:text="EDITAR LUGAR TURISTICO"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/borrar_turistico"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="131dp"
+        android:background="@android:color/background_light"
+        android:text="BORRAR LUGAR TURISTICO"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/logout2"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:background="@android:color/background_light"
+        android:text="CERRAR SESION"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/Nombrepropietario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="176dp"
+        android:text="Nombre del Propietario"
+        android:textColor="@android:color/background_dark"
+        android:textSize="30sp" />
+</RelativeLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF3366"
+    tools:context=".Registro">
+
+    <TextView
+        android:id="@+id/Crear_perfilview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CREAR PERFIL"
+        android:textColor="@android:color/background_light"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/nombre"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="NOMBRE"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edad"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="118dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="EDAD"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/correo"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="175dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="CORREO"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/Genero"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="236dp"
+        android:background="@color/colorAccent"
+        android:entries="@array/genero" />
+
+    <Spinner
+        android:id="@+id/nacionalidad"
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="210dp"
+        android:background="@color/colorAccent"
+        android:entries="@array/Nacionalidad" />
+
+    <Spinner
+        android:id="@+id/tipo_usuario"
+        android:layout_width="327dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="162dp"
+        android:background="@color/colorAccent"
+        android:entries="@array/tipo_usuario" />
+
+    <Button
+        android:id="@+id/foto"
+        android:layout_width="228dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="101dp"
+        android:background="@android:color/background_light"
+        android:text="FOTO"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/crear_perfil"
+        android:layout_width="329dp"
+        android:layout_height="31dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:background="@android:color/background_light"
+        android:text="CREAR PERFIL"
+        android:textColor="@color/colorAccent" />
+</RelativeLayout>

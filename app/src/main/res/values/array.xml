@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="genero">
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </string-array>
+
+    <string-array name="tipo_usuario">
+        <item>Huesped</item>
+        <item>Anfitrion</item>
+        <item>Propietario</item>
+    </string-array>
+
+    <string-array name="Nacionalidad">
+        <item>Colombia</item>
+        <item>Venezuela</item>
+    </string-array>
+</resources>

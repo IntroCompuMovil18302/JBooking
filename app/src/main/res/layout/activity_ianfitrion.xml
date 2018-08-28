@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF3366"
+    tools:context=".IAnfitrion">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="128dp"
+        android:layout_height="96dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="55dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/agregar_aloj"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="203dp"
+        android:background="@android:color/background_light"
+        android:text="AGREGAR ALOJAMIENTO"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/reservas"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="230dp"
+        android:background="@android:color/background_light"
+        android:text="RESERVACIONES"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/editar_aloj"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="178dp"
+        android:background="@android:color/background_light"
+        android:text="EDITAR ALOJAMIENTO"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/borrar_aloj"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="122dp"
+        android:background="@android:color/background_light"
+        android:text="BORRAR ALOJAMIENTO"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/logout3"
+        android:layout_width="331dp"
+        android:layout_height="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:background="@android:color/background_light"
+        android:text="CERRAR SESION"
+        android:textColor="@color/colorAccent" />
+
+</RelativeLayout>
