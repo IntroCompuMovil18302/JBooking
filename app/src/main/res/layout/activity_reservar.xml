@@ -20,6 +20,40 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/fechasview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/valor"
+        android:layout_marginTop="136dp"
+        android:text="Fechas"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/huespedview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/fechasview"
+        android:layout_centerVertical="true"
+        android:text="Huespedes"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/reservar"
+        android:layout_width="329dp"
+        android:layout_height="31dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:background="@android:color/background_light"
+        android:text="RESERVAR"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
         android:id="@+id/valor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,4 +77,108 @@
         android:text="por noche"
         android:textColor="@android:color/background_dark"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/totalview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/fechasview"
+        android:layout_marginBottom="80dp"
+        android:text="Total"
+        android:textColor="@android:color/background_dark"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/totalvalor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/valorcompra"
+        android:layout_alignTop="@+id/totalview"
+        android:text="$188,381"
+        android:textColor="@android:color/background_dark"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/infocomprano"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/fechasview"
+        android:layout_marginBottom="160dp"
+        android:text="$133,474 x 1 noche"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/valorcompra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/infocomprano"
+        android:layout_marginEnd="78dp"
+        android:text="$133,474"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/valorlimpieza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/valorcompra"
+        android:layout_alignTop="@+id/infolimpieza"
+        android:text="$33,369"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/valorlimpieza2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/valorcompra"
+        android:layout_alignTop="@+id/comisionview"
+        android:text="$21,538"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/infolimpieza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/fechasview"
+        android:layout_marginBottom="133dp"
+        android:text="Tarifa de limpieza"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/comisionview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/fechasview"
+        android:layout_marginBottom="107dp"
+        android:text="Comision por servicio"
+        android:textColor="@android:color/background_dark" />
+
+    <Spinner
+        android:id="@+id/numerohuespedes"
+        android:layout_width="328dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/fechasview"
+        android:entries="@array/Nhuespedes"
+        android:layout_marginBottom="191dp" />
+
+    <CalendarView
+        android:id="@+id/fechallegada"
+        android:layout_width="145dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/fechasview"
+        android:layout_marginTop="182dp" />
+
+    <CalendarView
+        android:id="@+id/fechasalida"
+        android:layout_width="145dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/numerohuespedes"
+        android:layout_alignTop="@+id/fechallegada" />
+
 </RelativeLayout>
