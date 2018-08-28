@@ -20,7 +20,7 @@ public class IPropietario extends AppCompatActivity {
         agregar = (Button)findViewById(R.id.agregar_turist);
         editar = (Button)findViewById(R.id.editar_turisticos);
         borrar = (Button)findViewById(R.id.borrar_turistico);
-        logout = (Button)findViewById(R.id.logout);
+        logout = (Button)findViewById(R.id.logout2);
 
 
         agregar.setOnClickListener(new View.OnClickListener(){

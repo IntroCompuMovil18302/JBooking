@@ -19,7 +19,7 @@ public class IAnfitrion extends AppCompatActivity {
         agregar = (Button)findViewById(R.id.agregar_aloj);
         editar = (Button)findViewById(R.id.editar_aloj);
         borrar = (Button)findViewById(R.id.borrar_aloj);
-        logout = (Button)findViewById(R.id.logout);
+        logout = (Button)findViewById(R.id.logout3);
 
 
         agregar.setOnClickListener(new View.OnClickListener(){
