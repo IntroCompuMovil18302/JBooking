@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ProyectoCompumovil</string>
+    <string name="titulo_historial_reservas">HISTORIAL</string>
+    <string name="title_create_lodging">CREAR ALOJAMIENTO</string>
+    <string name="photos_create_lodging">SUBIR FOTOS</string>
+    <string name="localization_create_lodging">LOCALIZACION</string>
+    <string name="next_create_lodging">SIGUIENTE</string>
+    <string name="title_create_lodging2">Descripcion</string>
 </resources>
