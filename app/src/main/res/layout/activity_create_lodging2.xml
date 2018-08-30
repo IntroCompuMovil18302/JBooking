@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context=".CreateLodging2">
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="250dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="12dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView22"
+        tools:layout_editor_absoluteX="26dp"
+        tools:text="Servicios" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="250dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="12dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        tools:layout_editor_absoluteX="26dp"
+        tools:text="Disponibilidad" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="250dp"
+        android:layout_height="31dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="452dp"
+        tools:text="Precios" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="250dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView23"
+        tools:layout_editor_absoluteX="26dp"
+        tools:text="Fotos" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="155dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/title_create_lodging2"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="359dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:textAlignment="viewStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        tools:text="Algo" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="119dp"
+        android:layout_height="29dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:text="TextView"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText3"
+        tools:text="4 Huespedes" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="8dp"
+        android:text="TextView"
+        android:textColor="@android:color/darker_gray"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView19"
+        tools:layout_editor_absoluteX="162dp"
+        tools:text="1 Dormitorio" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="119dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/textView19"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="237dp"
+        tools:text="2 Camas" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="102dp"
+        android:layout_height="29dp"
+        android:text="TextView"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="237dp"
+        tools:text="1 Banio" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="250dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/textView18"
+        tools:layout_editor_absoluteX="26dp"
+        tools:text="Leer mas sobre el espacio" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="235dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/common_google_signin_btn_text_dark_default"
+        android:text="Button"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>
