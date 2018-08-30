@@ -33,7 +33,7 @@ public class IAnfitrion extends AppCompatActivity {
         editar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                startActivity(new Intent(v.getContext(),IAnfitrion.class));
+                startActivity(new Intent(v.getContext(),CreateLodging.class));
 
             }
         });

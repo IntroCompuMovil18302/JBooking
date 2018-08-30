@@ -43,7 +43,7 @@ public class IHuesped extends AppCompatActivity {
         calificar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                startActivity(new Intent(v.getContext(),IHuesped.class));
+                startActivity(new Intent(v.getContext(),Servicios.class));
 
             }
         });

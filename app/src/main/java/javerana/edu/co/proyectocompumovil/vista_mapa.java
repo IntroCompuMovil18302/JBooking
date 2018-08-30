@@ -20,7 +20,7 @@ public class vista_mapa extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getBaseContext(), reservar.class);
+                Intent intent = new Intent(getBaseContext(), hospedaje.class);
                 startActivity(intent);
             }
         });
