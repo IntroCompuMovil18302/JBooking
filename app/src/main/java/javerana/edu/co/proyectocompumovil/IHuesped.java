@@ -51,7 +51,7 @@ public class IHuesped extends AppCompatActivity {
         historial.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                startActivity(new Intent(v.getContext(),IHuesped.class));
+                startActivity(new Intent(v.getContext(),LodgingHistory.class));
 
             }
         });
