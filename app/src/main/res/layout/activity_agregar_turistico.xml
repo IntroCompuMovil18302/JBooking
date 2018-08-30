@@ -7,6 +7,18 @@
     android:background="#FF3366"
     tools:context=".agregar_turistico">
 
+    <TextView
+        android:id="@+id/mapaaux2"
+        android:layout_width="wrap_content"
+        android:layout_height="101dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="91dp"
+        android:text="MAP"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="60sp"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/agregar"
         android:layout_width="329dp"

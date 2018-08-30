@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="24dp"
         android:text="Bogota, Cundinamarca"
         android:textColor="@android:color/background_light"
         android:textSize="30dp"
@@ -33,12 +32,26 @@
         android:layout_height="272dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="55dp" />
+        android:layout_marginTop="55dp"
+        android:visibility="invisible" />
 
     <ListView
         android:id="@+id/listlugares"
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:entries="@array/Nhuespedes" />
+
+    <TextView
+        android:id="@+id/mapaaux"
+        android:layout_width="wrap_content"
+        android:layout_height="101dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="118dp"
+        android:text="MAP"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="60sp"
+        android:textStyle="bold" />
 </RelativeLayout>

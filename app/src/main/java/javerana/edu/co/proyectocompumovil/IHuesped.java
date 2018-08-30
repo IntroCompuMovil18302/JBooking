@@ -27,7 +27,7 @@ public class IHuesped extends AppCompatActivity {
         consultaal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                startActivity(new Intent(v.getContext(),IHuesped.class));
+                startActivity(new Intent(v.getContext(),vista_mapa.class));
 
             }
         });
@@ -35,7 +35,7 @@ public class IHuesped extends AppCompatActivity {
         consultatur.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                startActivity(new Intent(v.getContext(),IHuesped.class));
+                startActivity(new Intent(v.getContext(),vista_mapa.class));
 
             }
         });
