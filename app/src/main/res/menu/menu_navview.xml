@@ -14,5 +14,16 @@
             android:title="@string/settings"/>
     </group>
 
+    <item
+        android:id="@+id/subheader"
+        android:title="Otras opciones">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:title="Logout"
+            />
+        </menu>
+    </item>
+
 
 </menu>

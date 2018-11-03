@@ -1,5 +1,6 @@
 package com.example.andre.jbookingmobile;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
@@ -9,11 +10,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navView;
     Toolbar appbar;
+    private FirebaseAuth mAuth;
+    private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_view_headline);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         navView = findViewById(R.id.navview);
         navView.setNavigationItemSelectedListener(
@@ -49,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = new Fragment3();
                                 fragmentTransaction = true;
                                 break;
+                            case R.id.logout:
+                                mAuth.signOut();
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                         }
 
                         if(fragmentTransaction) {
