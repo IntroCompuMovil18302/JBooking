@@ -2,6 +2,7 @@ package com.example.andre.jbookingmobile;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         navView = findViewById(R.id.navview);
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.content_frame, new Fragment1());
+        getSupportActionBar().setTitle("Alojamientos");
+        tx.commit();
+
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
