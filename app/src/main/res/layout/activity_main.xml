@@ -9,6 +9,8 @@
     tools:context=".MainActivity">
 
     <!-- Layout real de la actividad -->
+
+    <!-- <include layout="@layout/testo" /> -->
     <include layout="@layout/content_layout" />
 
     <!-- Layout del menú lateral (Navigation View) -->
@@ -19,6 +21,5 @@
         android:fitsSystemWindows="true"
         android:layout_gravity="start"
         app:headerLayout="@layout/header_navview"
-        app:menu="@menu/menu_navview" />
-
+        app:menu="@menu/menu_navview"/>
 </android.support.v4.widget.DrawerLayout>
