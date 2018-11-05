@@ -422,9 +422,12 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                         Alojamiento locaciones = singleSnapshot.getValue(Alojamiento.class);
                         LatLng ubicacionActual = new LatLng(locaciones.getUbicacion().getLatitud(), locaciones.getUbicacion().getLongitud());
 
-                        MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
-                        lugar.title(locaciones.getUbicacion().getNombre());
-                        mMap.addMarker(lugar);
+                        if (distance(ubicacionusuario.latitude,ubicacionusuario.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
+                            MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
+                            lugar.title(locaciones.getUbicacion().getNombre());
+                            mMap.addMarker(lugar);
+                        }
+
                     }
                 }
                 @Override
