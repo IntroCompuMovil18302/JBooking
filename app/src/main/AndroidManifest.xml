@@ -31,7 +31,14 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".Registro4Activity" />
-        <activity android:name=".Registro3Activity"></activity>
+        <activity android:name=".Registro3Activity" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento1" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento2" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento3" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento4" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento5" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento6" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento7"></activity>
     </application>
 
 </manifest>

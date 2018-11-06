@@ -6,9 +6,26 @@ import java.util.List;
 
 public class Alojamiento implements Serializable {
     private int id;
+    private String nombre;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     private String tipo;
+    private String tipoPropiedad;
+    private String disposicion;
+    private int huespedes;
+    private int banhos;
+    private boolean banhosPriv;
+    private List<String> servicios;
     private double valorNoche;
     private String fotos;
+
     private Ubicacion ubicacion;
     private Anfitrion anfitrion;
     private Calendario calendario;
@@ -18,6 +35,7 @@ public class Alojamiento implements Serializable {
     public Alojamiento() {
         comentarios = new ArrayList<>();
         reservas = new ArrayList<>();
+        servicios = new ArrayList<>();
     }
 
     public Alojamiento(int id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
@@ -30,6 +48,54 @@ public class Alojamiento implements Serializable {
         this.calendario = calendario;
         this.comentarios = comentarios;
         this.reservas = reservas;
+    }
+
+    public String getTipoPropiedad() {
+        return tipoPropiedad;
+    }
+
+    public void setTipoPropiedad(String tipoPropiedad) {
+        this.tipoPropiedad = tipoPropiedad;
+    }
+
+    public String getDisposicion() {
+        return disposicion;
+    }
+
+    public void setDisposicion(String disposicion) {
+        this.disposicion = disposicion;
+    }
+
+    public int getHuespedes() {
+        return huespedes;
+    }
+
+    public void setHuespedes(int huespedes) {
+        this.huespedes = huespedes;
+    }
+
+    public int getBanhos() {
+        return banhos;
+    }
+
+    public void setBanhos(int banhos) {
+        this.banhos = banhos;
+    }
+
+    public boolean isBanhosPriv() {
+        return banhosPriv;
+    }
+
+    public void setBanhosPriv(boolean banhosPriv) {
+        this.banhosPriv = banhosPriv;
+    }
+
+    public List<String> getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(List<String> servicios) {
+        this.servicios = servicios;
     }
 
     public int getId() {

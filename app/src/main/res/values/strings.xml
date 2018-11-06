@@ -29,9 +29,88 @@
     <string-array name="GendersString">
         <item>Hombre</item>
         <item>Mujer</item>
-
     </string-array>
+    <string-array name="AlojamientosStrings">
+        <item><i>Selecciona un tipo </i></item>
+        <item>Alojamiento entero</item>
+        <item>Habitación privada</item>
+        <item>Habitación compartida</item>
+    </string-array>
+    <string-array name="AlojamientosParaStrings">
+        <item><i>Selecciona cantidad huéspedes</i></item>
+        <item>para 1 huésped</item>
+        <item>para 2 huéspedes</item>
+        <item>para 3 huéspedes</item>
+        <item>para 4 huéspedes</item>
+        <item>para 5 huéspedes</item>
+        <item>para 6 huéspedes</item>
+        <item>para más de 6 huéspedes</item>
+    </string-array>
+
+    <string-array name="PropiedadesStrings">
+        <item><i>Selecciona una opción</i></item>
+        <item>Apartamento</item>
+        <item>Casa</item>
+        <item>Vivienda anexa</item>
+        <item>Espacio único</item>
+        <item>Hotel boutiques</item>
+        <item>Bed and breakfast</item>
+    </string-array>
+
+    <string-array name="DisposicionStrings">
+        <item><i>Selecciona una opción</i></item>
+        <item> Alojamiento entero</item>
+        <item>Habitación privada  </item>
+        <item>Habitación compartida</item>
+    </string-array>
+    <string name="DisposicionInfoStrings">
+    <b> Alojamiento entero </b>\n
+            <i>Los huéspedes disponen de un alojamiento entero para ellos que, por lo general, incluye un dormitorio, un cuarto de baño y una cocina.</i>\n\n
+       <b>Habitación privada</b>\n
+            <i>Los huéspedes disponen de su propio dormitorio. Otras áreas pueden ser compartidas.</i>\n\n
+       <b>Habitación compartida</b>\n
+            <i> Los huéspedes duermen en una habitación o zona común que podrían compartir con otras personas.</i>\n\n
+    </string>
+    <string name="camasInfoStrings">
+    El número y el tipo de camas de las que dispongas determinará la cantidad de huéspedes que pueden alojarse cómodamente en tu espacio.\n
+    La información sobre la distribución de las camas ayuda a los huéspedes a saber si tu espacio se adecúa a sus necesidades y a qué esperarse
+    </string>
+
+    <string name="hintdesc">Describe el tipo de decoración, si está bien iluminado, qué hay cerca</string>
     <string name="auth_failed">Email o password invalidos</string>
+    <string-array name="ServiciosStrings">
+        <item> Elementos básicos</item>
+        <item>Wifi</item>
+        <item>Champú</item>
+        <item>Armario o cajones</item>
+        <item>TV</item>
+        <item>Calefacción</item>
+        <item>Aire acondicionado</item>
+        <item>Desayuno, café, té</item>
+        <item>Escritorio/zona para trabajar</item>
+        <item>Chimenea</item>
+        <item>Plancha</item>
+        <item>Secador de pelo</item>
+        <item>Mascotas en la casa</item>
+        <item>Entrada independiente</item>
+    </string-array>
+
+    <string-array name="ServiciosStringsSec">
+        <item>Detector de humo</item>
+        <item>Detector de monóxido de carbono</item>
+        <item>Botiquín</item>
+        <item>Ficha de instrucciones de seguridad</item>
+        <item>Extintor de incendios</item>
+        <item>Cerradura con llave en la puerta del dormitorio</item>
+    </string-array>
+
+
+    <string name="dialog_services_title">Servicios disponibles</string>
+    <string name="ok_label">OK</string>
+    <string name="dismiss_label">Cancelar</string>
+    <string name="clear_all_label">Limpiar</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="siguiente">SIGUIENTE</string>
 </resources>
