@@ -1,46 +1,67 @@
 package com.example.andre.jbookingmobile.CrearAlojamientos;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.R;
 
 import java.util.ArrayList;
 
 
 public class CrearAlojamiento5 extends AppCompatActivity {
-    Button mServ;
-    TextView mServSelected;
-    String[] listItems;
-    boolean[] checkedItems;
-    ArrayList<Integer> mUserItems = new ArrayList<>();
-    Button mServSec;
-    TextView mServSelectedSec;
-    String[] listItemsSec;
+    private Button mServ;
+    private  TextView mServSelected;
+    private String[] listItems;
+    private  boolean[] checkedItems;
+    private  ArrayList<Integer> mUserItems = new ArrayList<>();
+    private  Button mServSec;
+    private  TextView mServSelectedSec;
+    private  String[] listItemsSec;
     boolean[] checkedItemsSec;
-    ArrayList<Integer> mUserItemsSec = new ArrayList<>();
-
+    private ArrayList<Integer> mUserItemsSec = new ArrayList<>();
+    private Toolbar toolbar;
+    private Alojamiento myAlj;
+    private Button nextCrear5;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_alojamiento5);
+        toolbar =  findViewById(R.id.appbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initElementos();
+        initEventos();
 
-        mServ =  findViewById(R.id.butSelecServ);
-        mServSelected = findViewById(R.id.textViewA52);
-        listItems = getResources().getStringArray(R.array.ServiciosStrings);
-        checkedItems = new boolean[listItems.length];
+    }
 
-        mServSec =  findViewById(R.id.butSelecServSec);
-        mServSelectedSec = findViewById(R.id.textViewA54);
-        listItemsSec = getResources().getStringArray(R.array.ServiciosStringsSec);
-        checkedItemsSec = new boolean[listItems.length];
+    private void initEventos() {
+
+        nextCrear5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(validarForma()){
+                    myAlj.setServicios(mServSelected.getText().toString());
+                    myAlj.setServiciosSec(mServSelectedSec.getText().toString());
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("ALOJ",  myAlj);
+                    Intent intent = new Intent(CrearAlojamiento5.this, CrearAlojamiento6.class);
+                    intent.putExtra("bundle",bundle);
+                    startActivity(intent);
+                }
+
+            }
+        });
 
         mServ.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,13 +71,7 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-//                        if (isChecked) {
-//                            if (!mUserItems.contains(position)) {
-//                                mUserItems.add(position);
-//                            }
-//                        } else if (mUserItems.contains(position)) {
-//                            mUserItems.remove(position);
-//                        }
+
                         if(isChecked){
                             mUserItems.add(position);
                         }else{
@@ -73,7 +88,7 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                         for (int i = 0; i < mUserItems.size(); i++) {
                             item = item + listItems[mUserItems.get(i)];
                             if (i != mUserItems.size() - 1) {
-                                item = item + ", ";
+                                item = item + "; ";
                             }
                         }
                         mServSelected.setText(item);
@@ -112,7 +127,6 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                 mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-
                         if(isChecked){
                             mUserItemsSec.add(position);
                         }else{
@@ -158,5 +172,42 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                 mDialog.show();
             }
         });
+    }
+
+    private boolean validarForma() {
+        return true;
+    }
+
+    private void initElementos() {
+        mServ =  findViewById(R.id.butSelecServ);
+        mServSelected = findViewById(R.id.textViewA52);
+        listItems = getResources().getStringArray(R.array.ServiciosStrings);
+        checkedItems = new boolean[listItems.length];
+
+        mServSec =  findViewById(R.id.butSelecServSec);
+        mServSelectedSec = findViewById(R.id.textViewA54);
+        listItemsSec = getResources().getStringArray(R.array.ServiciosStringsSec);
+        checkedItemsSec = new boolean[listItems.length];
+        nextCrear5= findViewById(R.id.butAloj5);
+
+        Bundle bundle=getIntent().getBundleExtra("bundle");
+        myAlj= (Alojamiento) bundle.getSerializable("ALOJ");
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.trans_right_in,
+                R.anim.trans_right_out);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 }

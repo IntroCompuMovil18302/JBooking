@@ -6,26 +6,27 @@ import java.util.List;
 
 public class Alojamiento implements Serializable {
     private int id;
+
     private String nombre;
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    private String descripcion;
 
     private String tipo;
     private String tipoPropiedad;
     private String disposicion;
+
     private int huespedes;
+    private int dormitorios;
+    private int camas;
+
     private int banhos;
     private boolean banhosPriv;
-    private List<String> servicios;
+
+    private String servicios;
+    private String serviciosSec;
+
+
     private double valorNoche;
     private String fotos;
-
     private Ubicacion ubicacion;
     private Anfitrion anfitrion;
     private Calendario calendario;
@@ -35,7 +36,6 @@ public class Alojamiento implements Serializable {
     public Alojamiento() {
         comentarios = new ArrayList<>();
         reservas = new ArrayList<>();
-        servicios = new ArrayList<>();
     }
 
     public Alojamiento(int id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
@@ -48,6 +48,52 @@ public class Alojamiento implements Serializable {
         this.calendario = calendario;
         this.comentarios = comentarios;
         this.reservas = reservas;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(String servicios) {
+        this.servicios = servicios;
+    }
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public String getServiciosSec() {
+        return serviciosSec;
+    }
+
+    public void setServiciosSec(String serviciosSec) {
+        this.serviciosSec = serviciosSec;
+    }
+
+    public int getDormitorios() {
+        return dormitorios;
+    }
+
+    public void setDormitorios(int dormitorios) {
+        this.dormitorios = dormitorios;
+    }
+
+    public int getCamas() {
+        return camas;
+    }
+
+    public void setCamas(int camas) {
+        this.camas = camas;
     }
 
     public String getTipoPropiedad() {
@@ -88,14 +134,6 @@ public class Alojamiento implements Serializable {
 
     public void setBanhosPriv(boolean banhosPriv) {
         this.banhosPriv = banhosPriv;
-    }
-
-    public List<String> getServicios() {
-        return servicios;
-    }
-
-    public void setServicios(List<String> servicios) {
-        this.servicios = servicios;
     }
 
     public int getId() {

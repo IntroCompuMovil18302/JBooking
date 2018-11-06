@@ -24,7 +24,8 @@
         android:text="¿A cuántos huéspedes puedes alojar en tu espacio?"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"/>
 
     <TextView
         android:id="@+id/textViewA22"
@@ -95,14 +96,12 @@
         android:id="@+id/textViewA24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="Dormitorios"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/butDelDorm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/butDelDorm" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewA23" />
 
     <EditText
         android:id="@+id/eTALDormiNUM"
@@ -114,20 +113,20 @@
         android:inputType="number"
         android:text="0"
         android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/butAddDorm"
+        app:layout_constraintBottom_toBottomOf="@+id/butDelDorm"
         app:layout_constraintEnd_toStartOf="@+id/butAddDorm"
         app:layout_constraintStart_toEndOf="@+id/butDelDorm"
-        app:layout_constraintTop_toTopOf="@+id/butAddDorm" />
+        app:layout_constraintTop_toTopOf="@+id/butDelDorm" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/butDelDorm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/eTALDormiNUM"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewA24"
         app:layout_constraintStart_toStartOf="@+id/butDelHUes"
-        app:layout_constraintTop_toTopOf="@+id/eTALDormiNUM"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toTopOf="@+id/textViewA24"
         app:srcCompat="@android:drawable/dialog_holo_light_frame" />
 
     <android.support.design.widget.FloatingActionButton
@@ -135,10 +134,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
         android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/eTALDormiNUM"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewA23"
+        app:layout_constraintTop_toTopOf="@+id/eTALDormiNUM"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
 
@@ -163,14 +162,12 @@
         android:id="@+id/textViewA26"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:text="Camas"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/butDelCam"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/butDelCam" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewA25" />
 
     <EditText
         android:id="@+id/eTALCamNUM"
@@ -178,24 +175,24 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="number"
         android:text="0"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/butDelCam"
         app:layout_constraintEnd_toStartOf="@+id/butAddCam"
         app:layout_constraintStart_toEndOf="@+id/butDelCam"
-        app:layout_constraintTop_toBottomOf="@+id/textViewA25" />
+        app:layout_constraintTop_toTopOf="@+id/butDelCam" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/butDelCam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/eTALCamNUM"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewA26"
         app:layout_constraintStart_toStartOf="@+id/butDelDorm"
-        app:layout_constraintTop_toTopOf="@+id/eTALCamNUM"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="@+id/textViewA26"
         app:srcCompat="@android:drawable/dialog_holo_light_frame" />
 
     <android.support.design.widget.FloatingActionButton

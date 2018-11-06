@@ -32,36 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
-    <TextView
-        android:id="@+id/textViewA2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:text="¿Qué tipo de alojamiento tienes?"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewA1" />
-
-
-    <Spinner
-        android:id="@+id/spinAlojTipo"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:elevation="12dp"
-        android:entries="@array/AlojamientosStrings"
-        android:textSize="20sp"
-        android:theme="@style/AlertDialog.AppCompat.Light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewA2" />
-
-
 
     <TextView
         android:id="@+id/textViewA4"
@@ -69,12 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:text=" Ahora elige un tipo de propiedad"
+        android:layout_marginTop="32dp"
+        android:text="Elige un tipo de propiedad"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinAlojTipo" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewA1" />
 
 
     <Spinner
@@ -86,6 +56,7 @@
         android:layout_marginTop="16dp"
         android:elevation="12dp"
         android:entries="@array/PropiedadesStrings"
+        android:spinnerMode="dialog"
         android:textSize="20sp"
         android:theme="@style/AlertDialog.AppCompat.Light"
         app:layout_constraintEnd_toEndOf="parent"
@@ -137,6 +108,8 @@
         android:layout_width="33dp"
         android:layout_height="36dp"
         android:clickable="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@+id/spinReAlojTipoPropiedad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinReAlojTipoPropiedad"
