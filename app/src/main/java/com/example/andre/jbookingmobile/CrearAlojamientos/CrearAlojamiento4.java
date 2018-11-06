@@ -51,7 +51,7 @@ public class CrearAlojamiento4 extends AppCompatActivity {
                     myAlj.setUbicacion(myUbic);
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("ALOJ",  myAlj);
-                    Intent intent = new Intent(CrearAlojamiento4.this, CrearAlojamiento5.class);
+                    Intent intent = new Intent(CrearAlojamiento4.this, CrearAlojamiento6.class);
                     intent.putExtra("bundle",bundle);
                     startActivity(intent);
                 }

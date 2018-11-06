@@ -76,8 +76,8 @@ public class Registro4Activity extends AppCompatActivity {
             }
         });
     }
-    public void register(final Object myUser){
-        String email = null;
+        public void register(final Object myUser){
+            String email = null;
         String password = null;
 
 if(Rol.equals("PROPIETARIO")){

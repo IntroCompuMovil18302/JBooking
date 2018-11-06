@@ -76,7 +76,7 @@ public class CrearAlojamiento3 extends AppCompatActivity {
                     myAlj.setBanhosPriv(privado);
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("ALOJ",  myAlj);
-                    Intent intent = new Intent(CrearAlojamiento3.this, CrearAlojamiento4.class);
+                    Intent intent = new Intent(CrearAlojamiento3.this, CrearAlojamiento5.class);
                     intent.putExtra("bundle",bundle);
                     startActivity(intent);
                 }

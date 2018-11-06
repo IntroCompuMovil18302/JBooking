@@ -122,9 +122,9 @@ public class CrearAlojamiento5 extends AppCompatActivity {
         mServSec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(CrearAlojamiento5.this);
-                mBuilder.setTitle(R.string.dialog_services_title);
-                mBuilder.setMultiChoiceItems(listItems, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                AlertDialog.Builder mBuildersec = new AlertDialog.Builder(CrearAlojamiento5.this);
+                mBuildersec.setTitle(R.string.dialog_services_title);
+                mBuildersec.setMultiChoiceItems(listItemsSec, checkedItemsSec, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
                         if(isChecked){
@@ -135,8 +135,8 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                     }
                 });
 
-                mBuilder.setCancelable(false);
-                mBuilder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+                mBuildersec.setCancelable(false);
+                mBuildersec.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         String item = "";
@@ -150,14 +150,14 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                     }
                 });
 
-                mBuilder.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
+                mBuildersec.setNegativeButton(R.string.dismiss_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
                     }
                 });
 
-                mBuilder.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
+                mBuildersec.setNeutralButton(R.string.clear_all_label, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
                         for (int i = 0; i < checkedItemsSec.length; i++) {
@@ -168,7 +168,7 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                     }
                 });
 
-                AlertDialog mDialog = mBuilder.create();
+                AlertDialog mDialog = mBuildersec.create();
                 mDialog.show();
             }
         });
