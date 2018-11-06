@@ -12,7 +12,7 @@ public class Huesped extends Usuario implements Serializable {
     public Huesped() {
     }
 
-    public Huesped(int id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, String genero, String nacionalidad, int puntos) {
+    public Huesped(String id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, String genero, String nacionalidad, int puntos) {
         super(id, nombre, fechaNacimiento, foto, correo, reservas);
         this.genero = genero;
         this.nacionalidad = nacionalidad;

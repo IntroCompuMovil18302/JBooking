@@ -108,19 +108,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cargaralojamientos(){
-
-
         /*Ubicacion ubi = new Ubicacion(4.660557, -74.090749, 0.0, "Parque Simón Bolivar");
         Ubicacion ubi2 = new Ubicacion(4.628308, -74.064929, 0.0, "Pontificia Universidad Javeriana");
         Ubicacion ubi3 = new Ubicacion(4.596862, -74.072810, 0.0, "Biblioteca Luis Angel Arango");
         Ubicacion ubi4 = new Ubicacion(4.651711, -74.055819, 0.0, "Zona Gastronómica de Bogotá");
 
         String fotos = "https://img.olx.com.br/images/73/735830037100629.jpg;http://www.icesi.edu.co/blogs_estudiantes/hogarydecoracion/files/2017/04/inmueble.jpg";
+        String desc = "at com.google.firebase.database.core.utilities.encoding.CustomClassMappergoogle.firebase.database.core.utilities.encoding.CustomClassMapper.convertToCustomClassat com.google.firebase.database.core.utilities.encoding.CustomClassMapper.convertToCustomClassat com.google.firebase.database.core.utilities.encoding.CustomClassMapper.convertToCustomClass";
+        Alojamiento aloj = new Alojamiento("1","La rosa",desc,"Apartamento","Apartamento","Alojamiento Entero",10,2,5,2,true,"TV;Computador","Detector de humo",5000.0,fotos,ubi,null,"1",null,null,null);
+        Alojamiento aloj2 = new Alojamiento("2","guadalupe",desc,"Casa","Casa","Alojamiento Entero",10,2,5,2,true,"TV;Computador","Detector de humo",5000.0,fotos,ubi2,null,"1",null,null,null);
+        Alojamiento aloj3 = new Alojamiento("3","La perra",desc,"Apartamento","Apartamento","Alojamiento Entero",10,2,5,2,true,"TV;Computador","Detector de humo",5000.0,fotos,ubi3,null,"1",null,null,null);
+        Alojamiento aloj4 = new Alojamiento("4","El castillo",desc,"Casa","Casa","Alojamiento Entero",10,2,5,2,true,"TV;Computador","Detector de humo",5000.0,fotos,ubi4,null,"1",null,null,null);
 
-        Alojamiento aloj = new Alojamiento(1,"La rosa","Apartamento",5000.0,fotos,ubi,null,null,null,null);
-        Alojamiento aloj2 = new Alojamiento(2,"Guadalupe","Casa",4000.0,fotos,ubi2,null,null,null,null);
-        Alojamiento aloj3 = new Alojamiento(3,"Calla","Apartamento",3000.0,fotos,ubi3,null,null,null,null);
-        Alojamiento aloj4 = new Alojamiento(4,"Casita","Casa",2000.0,fotos,ubi4,null,null,null,null);
 
 
         myRef=database.getReference().child(PATH_ALOJAMIENTOS);
@@ -139,6 +138,5 @@ public class MainActivity extends AppCompatActivity {
         key = myRef.push().getKey();
         myRef=database.getReference().child(PATH_ALOJAMIENTOS).child(key);
         myRef.setValue(aloj4);*/
-
     }
 }

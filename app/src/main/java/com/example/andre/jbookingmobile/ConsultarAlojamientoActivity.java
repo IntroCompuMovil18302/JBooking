@@ -135,7 +135,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                 mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.light));
             }
 
-            loadPlaces();
+
 
 
         }
@@ -206,15 +206,17 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                             usuario.setPosition(ubicacionActual);
                         }
 
-                        CircleOptions circleOptions = new CircleOptions()
-                                .center(ubicacionActual)
-                                .radius(2000) //metros
-                                .strokeWidth(10)
-                                .strokeColor(Color.BLUE)
-                                .fillColor(Color.argb(128, 127, 0, 0))
-                                .clickable(true);
-                        mMap.addCircle(circleOptions);
+
+                        loadPlaces();
                         if (firstTime){
+                            CircleOptions circleOptions = new CircleOptions()
+                                    .center(ubicacionActual)
+                                    .radius(2000) //metros
+                                    .strokeWidth(4)
+                                    .strokeColor(Color.BLUE)
+                                    .fillColor(Color.parseColor("#33FFFFFF"))
+                                    .clickable(true);
+                            mMap.addCircle(circleOptions);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(ubicacionActual));
                             firstTime = false;
                         }
@@ -421,7 +423,6 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                         Alojamiento locaciones = singleSnapshot.getValue(Alojamiento.class);
                         LatLng ubicacionActual = new LatLng(locaciones.getUbicacion().getLatitud(), locaciones.getUbicacion().getLongitud());
-
                         if (distance(ubicacionusuario.latitude,ubicacionusuario.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
                             MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
                             lugar.title(locaciones.getUbicacion().getNombre());

@@ -66,6 +66,30 @@ public class Alojamiento implements Serializable {
         this.anfitrionId = anfitrionId;
     }
 
+    public Alojamiento(String id, String nombre, String descripcion, String tipo, String tipoPropiedad, String disposicion, int huespedes, int dormitorios, int camas, int banhos, boolean banhosPriv, String servicios, String serviciosSec, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, String anfitrionId, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.tipoPropiedad = tipoPropiedad;
+        this.disposicion = disposicion;
+        this.huespedes = huespedes;
+        this.dormitorios = dormitorios;
+        this.camas = camas;
+        this.banhos = banhos;
+        this.banhosPriv = banhosPriv;
+        this.servicios = servicios;
+        this.serviciosSec = serviciosSec;
+        this.valorNoche = valorNoche;
+        this.fotos = fotos;
+        this.ubicacion = ubicacion;
+        this.anfitrion = anfitrion;
+        this.anfitrionId = anfitrionId;
+        this.calendario = calendario;
+        this.comentarios = comentarios;
+        this.reservas = reservas;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }
