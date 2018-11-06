@@ -5,12 +5,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Alojamiento implements Serializable {
-    private int id;
+    private String id;
+
+    private String nombre;
+    private String descripcion;
+
     private String tipo;
+    private String tipoPropiedad;
+    private String disposicion;
+
+    private int huespedes;
+    private int dormitorios;
+    private int camas;
+
+    private int banhos;
+    private boolean banhosPriv;
+
+    private String servicios;
+    private String serviciosSec;
+
+
     private double valorNoche;
     private String fotos;
     private Ubicacion ubicacion;
+
     private Anfitrion anfitrion;
+    private String anfitrionId;
+
     private Calendario calendario;
     private List<Comentario> comentarios;
     private List<Reserva> reservas;
@@ -20,7 +41,7 @@ public class Alojamiento implements Serializable {
         reservas = new ArrayList<>();
     }
 
-    public Alojamiento(int id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
+    public Alojamiento(String id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
         this.id = id;
         this.tipo = tipo;
         this.valorNoche = valorNoche;
@@ -32,11 +53,110 @@ public class Alojamiento implements Serializable {
         this.reservas = reservas;
     }
 
-    public int getId() {
+    public Alojamiento(String id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas, String anfitrionId) {
+        this.id = id;
+        this.tipo = tipo;
+        this.valorNoche = valorNoche;
+        this.fotos = fotos;
+        this.ubicacion = ubicacion;
+        this.anfitrion = anfitrion;
+        this.calendario = calendario;
+        this.comentarios = comentarios;
+        this.reservas = reservas;
+        this.anfitrionId = anfitrionId;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getServicios() {
+        return servicios;
+    }
+
+    public void setServicios(String servicios) {
+        this.servicios = servicios;
+    }
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public String getServiciosSec() {
+        return serviciosSec;
+    }
+
+    public void setServiciosSec(String serviciosSec) {
+        this.serviciosSec = serviciosSec;
+    }
+
+    public int getDormitorios() {
+        return dormitorios;
+    }
+
+    public void setDormitorios(int dormitorios) {
+        this.dormitorios = dormitorios;
+    }
+
+    public int getCamas() {
+        return camas;
+    }
+
+    public void setCamas(int camas) {
+        this.camas = camas;
+    }
+
+    public String getTipoPropiedad() {
+        return tipoPropiedad;
+    }
+
+    public void setTipoPropiedad(String tipoPropiedad) {
+        this.tipoPropiedad = tipoPropiedad;
+    }
+
+    public String getDisposicion() {
+        return disposicion;
+    }
+
+    public void setDisposicion(String disposicion) {
+        this.disposicion = disposicion;
+    }
+
+    public int getHuespedes() {
+        return huespedes;
+    }
+
+    public void setHuespedes(int huespedes) {
+        this.huespedes = huespedes;
+    }
+
+    public int getBanhos() {
+        return banhos;
+    }
+
+    public void setBanhos(int banhos) {
+        this.banhos = banhos;
+    }
+
+    public boolean isBanhosPriv() {
+        return banhosPriv;
+    }
+
+    public void setBanhosPriv(boolean banhosPriv) {
+        this.banhosPriv = banhosPriv;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -102,5 +222,13 @@ public class Alojamiento implements Serializable {
 
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
+    }
+
+    public String getAnfitrionId() {
+        return anfitrionId;
+    }
+
+    public void setAnfitrionId(String anfitrionId) {
+        this.anfitrionId = anfitrionId;
     }
 }

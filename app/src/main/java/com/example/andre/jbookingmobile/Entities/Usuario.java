@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Usuario implements Serializable {
-    private int id;
+    private String id;
     private String nombre;
     private Date fechaNacimiento;
     private String foto;
@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
         reservas = new ArrayList<>();
     }
 
-    public Usuario(int id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas) {
+    public Usuario(String id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas) {
         this.id = id;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
@@ -37,11 +37,11 @@ public class Usuario implements Serializable {
         this.userName = userName;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

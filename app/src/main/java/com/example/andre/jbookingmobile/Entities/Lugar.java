@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lugar implements Serializable {
-    private int id;
+    private String id;
     private String nombre;
     private Propietario propietario;
+    private String propietarioId;
     private String fotos;
     private Ubicacion ubicacion;
     private List<Comentario> comentarios;
@@ -16,20 +17,21 @@ public class Lugar implements Serializable {
         comentarios = new ArrayList<>();
     }
 
-    public Lugar(int id, String nombre, Propietario propietario, String fotos, Ubicacion ubicacion, List<Comentario> comentarios) {
+    public Lugar(String id, String nombre, Propietario propietario, String propietarioId, String fotos, Ubicacion ubicacion, List<Comentario> comentarios) {
         this.id = id;
         this.nombre = nombre;
         this.propietario = propietario;
+        this.propietarioId = propietarioId;
         this.fotos = fotos;
         this.ubicacion = ubicacion;
         this.comentarios = comentarios;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -71,5 +73,13 @@ public class Lugar implements Serializable {
 
     public void setComentarios(List<Comentario> comentarios) {
         this.comentarios = comentarios;
+    }
+
+    public String getPropietarioId() {
+        return propietarioId;
+    }
+
+    public void setPropietarioId(String propietarioId) {
+        this.propietarioId = propietarioId;
     }
 }
