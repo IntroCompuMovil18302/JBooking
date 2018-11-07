@@ -1,11 +1,13 @@
 package com.example.andre.jbookingmobile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -29,6 +32,8 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
     private TextView textViewNombre;
     private TextView textViewDescripcion;
     private TextView textViewPrecio;
+
+    private Button buttonDisponibilidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +53,13 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
         textViewNombre = findViewById(R.id.textViewAlojamientoDetalleNombre);
         textViewDescripcion = findViewById(R.id.textViewAlojamientoDetalleDescripcion);
         textViewPrecio = findViewById(R.id.textViewAlojamientoDetallePrecio);
+        buttonDisponibilidad = findViewById(R.id.buttonAlojamientoDetalleDisponible);
 
         alojamiento = (Alojamiento) getIntent().getExtras().getSerializable("alojamiento");
 
         linearLayoutGaleria = findViewById(R.id.linearLayoutGaleria);
         inflater = LayoutInflater.from(this);
-
+        initEvents();
         cargarVista();
     }
 
@@ -81,5 +87,16 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
         textViewLugar.setText(alojamiento.getUbicacion().getNombre());
         textViewNombre.setText(alojamiento.getNombre());
         textViewPrecio.setText("$"+alojamiento.getValorNoche()+"/ Noche");
+    }
+
+    private void initEvents(){
+        buttonDisponibilidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AlojamientoDetalleActivity.this,CalendarioAlojamientoActivity.class);
+                intent.putExtra("alojamiento",(Serializable) alojamiento);
+                startActivity(intent);
+            }
+        });
     }
 }
