@@ -143,7 +143,7 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                         for (int i = 0; i < mUserItemsSec.size(); i++) {
                             item = item + listItemsSec[mUserItemsSec.get(i)];
                             if (i != mUserItemsSec.size() - 1) {
-                                item = item + ", ";
+                                item = item + "; ";
                             }
                         }
                         mServSelectedSec.setText(item);

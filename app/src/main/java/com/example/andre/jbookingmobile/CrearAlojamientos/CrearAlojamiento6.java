@@ -56,7 +56,7 @@ public class CrearAlojamiento6 extends AppCompatActivity {
                     myAlj.setDescripcion(edDesc.getText().toString());
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("ALOJ", myAlj);
-                    Intent intent = new Intent(CrearAlojamiento6.this, CrearAlojamiento7.class);
+                    Intent intent = new Intent(CrearAlojamiento6.this, CrearAlojamiento8.class);
                     intent.putExtra("bundle", bundle);
                     startActivity(intent);
                 }

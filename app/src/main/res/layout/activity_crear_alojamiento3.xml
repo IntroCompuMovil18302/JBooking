@@ -7,12 +7,12 @@
     tools:context=".CrearAlojamientos.CrearAlojamiento3">
     <android.support.v7.widget.Toolbar
         android:id="@+id/appbar"
-        android:layout_width="683dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <TextView
         android:id="@+id/textViewA31"
@@ -28,7 +28,8 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"/>
 
     <TextView
         android:id="@+id/textViewA32"

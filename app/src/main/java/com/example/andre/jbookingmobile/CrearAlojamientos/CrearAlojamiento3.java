@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class CrearAlojamiento3 extends AppCompatActivity {
 
@@ -25,7 +26,8 @@ public class CrearAlojamiento3 extends AppCompatActivity {
     private RadioButton r1;
     private RadioButton r2;
     private  boolean privado= false;
-
+    private FirebaseAuth mAuth;
+    private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class CrearAlojamiento3 extends AppCompatActivity {
         toolbar =  findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         initElementos();
         initEventos();
     }
@@ -76,7 +79,7 @@ public class CrearAlojamiento3 extends AppCompatActivity {
                     myAlj.setBanhosPriv(privado);
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("ALOJ",  myAlj);
-                    Intent intent = new Intent(CrearAlojamiento3.this, CrearAlojamiento5.class);
+                    Intent intent = new Intent(CrearAlojamiento3.this, CrearAlojamiento4_1.class);
                     intent.putExtra("bundle",bundle);
                     startActivity(intent);
                 }

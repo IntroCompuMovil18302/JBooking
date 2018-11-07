@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
+
+
         navView = findViewById(R.id.navview);
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento1;
+import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento3;
 
 import java.io.Serializable;
 
@@ -33,7 +34,9 @@ public class Fragment2 extends Fragment {
         newAlj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),CrearAlojamiento1.class);
+                Toast.makeText(getActivity(),"No tiene sentido la seleccion actual ",Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getActivity(),CrearAlojamiento1.class);
                 startActivity(intent);
             }
         });
