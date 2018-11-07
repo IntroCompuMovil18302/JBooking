@@ -2,27 +2,38 @@ package com.example.andre.jbookingmobile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ListView;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.andre.jbookingmobile.Adapters.AlojamientoAdaptador;
+import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Fragment1 extends Fragment {
 
-    TextView usernameview;
-    TextView usernamemenu;
-    private FirebaseAuth mAuth;
-    private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private List<Alojamiento> alojamientos;
+    private GridView gridViewAlojamientos;
+    private AlojamientoAdaptador alojamientoAdaptador;
+    public static final String PATH_ALOJAMIENTOS = "alojamientos/";
 
     public Fragment1() {
         // Required empty public constructor
@@ -32,29 +43,64 @@ public class Fragment1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_fragment1, container, false);
-        View rootView = (View) inflater.inflate(R.layout.fragment_fragment1, container, false);
-        mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
-        usernameview = (TextView) rootView.findViewById(R.id.usernameview);
-        //usernamemenu = findViewById(R.id.textviewusermenu);
-        Button consultaralojamiento = rootView.findViewById(R.id.buttonconsultarAlojamientos);
-        if (mAuth.getCurrentUser().getDisplayName() != null){
-            usernameview.setText("Bienvenido: "+mAuth.getCurrentUser().getDisplayName());
-            //usernamemenu.setText(mAuth.getCurrentUser().getDisplayName());
-            //Log.i("TAG",usernamemenu.getText().toString());
-        }else{
-            usernameview.setText("Bienvenido");
-        }
+        View view = inflater.inflate(R.layout.fragment_fragment1, container, false);
+        database = FirebaseDatabase.getInstance();
+        alojamientos = new ArrayList<>();
+        alojamientoAdaptador = new AlojamientoAdaptador(getContext(), alojamientos);
+        gridViewAlojamientos = view.findViewById(R.id.gridViewFragment1Alojamientos);
+        gridViewAlojamientos.setAdapter(alojamientoAdaptador);
+        initEvents();
+        cargarAlojamientos();
+        return view;
 
-        consultaralojamiento.setOnClickListener(new View.OnClickListener()
-        {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    private void cargarAlojamientos(){
+        myRef = database.getReference(PATH_ALOJAMIENTOS);
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onClick(View v)
-            {
-                startActivity(new Intent(getActivity(), ConsultarAlojamientoActivity.class));
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Alojamiento alojamiento = dataSnapshot.getValue(Alojamiento.class);
+                alojamientos.add(alojamiento);
+                alojamientoAdaptador.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+    }
 
-        return rootView;
+    private void initEvents(){
+        gridViewAlojamientos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Alojamiento alojamientoActual = (Alojamiento) parent.getItemAtPosition(position);
+                Intent intent = new Intent(getContext(),AlojamientoDetalleActivity.class);
+                intent.putExtra("alojamiento",(Serializable) alojamientoActual);
+                startActivity(intent);
+            }
+        });
     }
 }

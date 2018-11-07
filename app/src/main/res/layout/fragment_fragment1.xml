@@ -1,70 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".Fragment1">
 
-    <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonFragment1PorFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/boton_filtro"
+            android:text="fechas"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tittle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="92dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="JBooking"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/usernameview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="48dp"
-            android:fontFamily="@font/roboto_thin"
-            android:text="Usuario"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tittle" />
-
         <Button
-            android:id="@+id/buttonconsultarAlojamientos"
-            android:layout_width="311dp"
-            android:layout_height="46dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="48dp"
-            android:background="@color/colorPrimaryDark"
-            android:text="Consultar Alojamientos"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/usernameview" />
+            android:id="@+id/buttonFragment1Mapa"
+            android:layout_width="171dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/boton_general"
+            android:text="Alojamientos cercanos"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextoBoton" />
 
-    </android.support.constraint.ConstraintLayout>
-</FrameLayout>
+        <GridView
+            android:id="@+id/gridViewFragment1Alojamientos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="130dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:horizontalSpacing="4dp"
+            android:numColumns="2"
+            android:paddingLeft="15dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp" />
+    </FrameLayout>
 
-
-
-
+</LinearLayout>

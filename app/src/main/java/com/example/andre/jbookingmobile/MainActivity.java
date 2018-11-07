@@ -1,44 +1,25 @@
 package com.example.andre.jbookingmobile;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.andre.jbookingmobile.Entities.Alojamiento;
-import com.example.andre.jbookingmobile.Entities.Anfitrion;
-import com.example.andre.jbookingmobile.Entities.Calendario;
-import com.example.andre.jbookingmobile.Entities.Comentario;
-import com.example.andre.jbookingmobile.Entities.Reserva;
-import com.example.andre.jbookingmobile.Entities.Ubicacion;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navView;
     Toolbar appbar;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
     private FirebaseAuth mAuth;
     private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
-    public static final String PATH_ALOJAMIENTOS="alojamientos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         navView = findViewById(R.id.navview);
-        database= FirebaseDatabase.getInstance();
-        cargaralojamientos();
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.content_frame, new Fragment1());
+        getSupportActionBar().setTitle("Alojamientos");
+        tx.commit();
+
         navView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
