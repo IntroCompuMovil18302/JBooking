@@ -1,6 +1,7 @@
 package com.example.andre.jbookingmobile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -33,6 +35,7 @@ public class Fragment1 extends Fragment {
     private List<Alojamiento> alojamientos;
     private GridView gridViewAlojamientos;
     private AlojamientoAdaptador alojamientoAdaptador;
+    private Button buttonMapa;
     public static final String PATH_ALOJAMIENTOS = "alojamientos/";
 
     public Fragment1() {
@@ -48,6 +51,7 @@ public class Fragment1 extends Fragment {
         alojamientos = new ArrayList<>();
         alojamientoAdaptador = new AlojamientoAdaptador(getContext(), alojamientos);
         gridViewAlojamientos = view.findViewById(R.id.gridViewFragment1Alojamientos);
+        buttonMapa = view.findViewById(R.id.buttonFragment1Mapa);
         gridViewAlojamientos.setAdapter(alojamientoAdaptador);
         initEvents();
         cargarAlojamientos();
@@ -100,6 +104,13 @@ public class Fragment1 extends Fragment {
                 Intent intent = new Intent(getContext(),AlojamientoDetalleActivity.class);
                 intent.putExtra("alojamiento",(Serializable) alojamientoActual);
                 startActivity(intent);
+            }
+        });
+
+        buttonMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ConsultarAlojamientoActivity.class));
             }
         });
     }

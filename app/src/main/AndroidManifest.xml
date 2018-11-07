@@ -46,6 +46,10 @@
         <activity android:name=".Registro4Activity" />
         <activity android:name=".Registro3Activity" />
         <activity android:name=".AlojamientoDetalleActivity"></activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <activity android:name=".ConsultarAlojamientoActivity"></activity>
     </application>
 
 </manifest>
