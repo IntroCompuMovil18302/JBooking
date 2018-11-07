@@ -11,12 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.Adapters.HintAdapter;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.R;
 import com.example.andre.jbookingmobile.RegistroActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class CrearAlojamiento1 extends AppCompatActivity {
@@ -24,6 +26,7 @@ public class CrearAlojamiento1 extends AppCompatActivity {
     Spinner spinTipoProp;
     FloatingActionButton helpDispo;
     Button nextCrear1;
+    TextView bienveida;
     private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,12 @@ public class CrearAlojamiento1 extends AppCompatActivity {
         toolbar =  findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initElementos();
+        initEventos();
+
+    }
+
+    private void initElementos() {
         spinTipo = findViewById(R.id.spinAlojTipoPropiedad);
         HintAdapter hintAdapterTipo=new HintAdapter(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.PropiedadesStrings));
         spinTipo.setAdapter(hintAdapterTipo);
@@ -42,11 +51,10 @@ public class CrearAlojamiento1 extends AppCompatActivity {
         spinTipoProp.setSelection(hintAdapterTipoProp.getCount());
         helpDispo = findViewById(R.id.floatingActionButton);
         nextCrear1= findViewById(R.id.butAloj1);
-        initEventos();
-
-
-
-
+        bienveida = findViewById(R.id.textViewA1);
+        FirebaseAuth mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
+        String hello="¡Hola,"+mAuth.getCurrentUser().getDisplayName()+"! Vamos a crear un anuncio para tu alojamiento.";
+        bienveida.setText(hello);
     }
 
     private void initEventos() {

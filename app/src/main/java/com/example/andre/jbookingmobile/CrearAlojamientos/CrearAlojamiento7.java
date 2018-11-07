@@ -1,30 +1,73 @@
 package com.example.andre.jbookingmobile.CrearAlojamientos;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.example.andre.jbookingmobile.MainActivity;
 import com.example.andre.jbookingmobile.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.concurrent.LinkedBlockingDeque;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
 public class CrearAlojamiento7 extends AppCompatActivity {
+
     private Toolbar toolbar;
     private Alojamiento myAlj;
     private Button nextCrear7;
+
+    private LinearLayout linearLayoutGaleriaReg;
+    private LayoutInflater inflaterReg;
+    private ImageButton addImg;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    public static final String PATH_USERS="users";
+    public static final String PATH_ALOJAMIENTOS="alojamientos";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
+    final int IMAGE_PICKER_REQUEST = 4;
+    public Uri myimage = null;
+    ArrayList<Bitmap> usrFotos;
+    LinkedBlockingDeque myimagesReg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +83,15 @@ public class CrearAlojamiento7 extends AppCompatActivity {
 
     private void initElementos() {
 
-
+        addImg= findViewById(R.id.agregarIMG);
         nextCrear7= findViewById(R.id.butAloj7);
         mAuth = FirebaseAuth.getInstance();
         database= FirebaseDatabase.getInstance();
 
         Bundle bundle=getIntent().getBundleExtra("bundle");
         myAlj= (Alojamiento) bundle.getSerializable("ALOJ");
+        linearLayoutGaleriaReg = findViewById(R.id.linearLayoutGaleriaReg);
+        inflaterReg = LayoutInflater.from(this);
     }
 
 
@@ -54,22 +99,70 @@ public class CrearAlojamiento7 extends AppCompatActivity {
         nextCrear7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             /*   if (validarForma()) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    user.g
-                    if(user!=null) {
-                        myAlj.setAnfitrion();
-                    }
-
-                }*/
+            publicar();
+                startActivity(new Intent(CrearAlojamiento7.this, MainActivity.class));
 
             }
         });
+        addImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("Si entro","Si si");
+                int permissionCheck = ContextCompat.checkSelfPermission((Activity) v.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+                if (permissionCheck== PackageManager.PERMISSION_GRANTED){
+                    Intent pickImage = new Intent(Intent.ACTION_PICK);
+                    pickImage.setType("image/*");
+                    startActivityForResult(pickImage, IMAGE_PICKER_REQUEST);
+                }else{
+                    requestPermission((Activity) v.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE, "BUENA ",  MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                }
+
+            }
+        });
+
     }
 
-    private boolean validarForma() {
-        return true;
+    private void publicar() {
+        InputStream imageStream;
+        try {
+            List<String> imagenes = new ArrayList<>();
+            StringTokenizer st = new StringTokenizer(myAlj.getFotos(), ";");
+            while (st.hasMoreTokens()) {
+                imagenes.add(st.nextToken());
+            }
+int cont=1;
+            for (String img : imagenes) {
+                imageStream = getContentResolver().openInputStream(Uri.parse(img));
+                final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                String path = "alojamientos/" + myAlj.getNombre().trim() + cont++ + ".png";
+                StorageReference userimgref = storage.getReference(path);
+
+                StorageMetadata metadata = new StorageMetadata.Builder()
+                        .setCustomMetadata("text", myAlj.getId() + "")
+                        .build();
+                UploadTask uploadTask = userimgref.putBytes(data, metadata);
+                uploadTask.addOnSuccessListener(CrearAlojamiento7.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.i("Entro", "Exito");
+                    }
+                });
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        myRef=database.getReference().child(PATH_ALOJAMIENTOS);
+        String key = myRef.push().getKey();
+        myRef=database.getReference().child(PATH_ALOJAMIENTOS).child(key);
+        myRef.setValue(myAlj);
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -87,4 +180,78 @@ public class CrearAlojamiento7 extends AppCompatActivity {
         }
         return true;
     }
+
+
+    private void takePicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case IMAGE_PICKER_REQUEST: {
+                if (resultCode == RESULT_OK) {
+
+                        final Uri imageUri = data.getData();
+                        String fotos =myAlj.getFotos()+"";
+                            fotos+=imageUri.toString()+";";
+                            myAlj.setFotos(fotos);
+                        View view = inflaterReg.inflate(R.layout.imagen_alojamiento_item, linearLayoutGaleriaReg,false);
+                            ImageView imagenActual = view.findViewById(R.id.imageViewAlojamientoDetalleFoto);
+                            Picasso.with(CrearAlojamiento7.this).load(imageUri).into(imagenActual);
+                            linearLayoutGaleriaReg.addView(view);
+
+                }
+                return;
+            }
+            case REQUEST_IMAGE_CAPTURE:{
+                if (resultCode == RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+                    if(imageBitmap!=null || usrFotos.contains(imageBitmap))
+                        usrFotos.add(imageBitmap);
+                    addImg.setImageBitmap(imageBitmap);
+                }
+            }
+        }
+    }
+
+    private void requestPermission(Activity context, String permiso, String justificacion, int idCode){
+        if (ContextCompat.checkSelfPermission(context, permiso)!= PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(context, permiso)) {
+
+            }
+            ActivityCompat.requestPermissions(context,new String[]{permiso},
+                    idCode);
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:{
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, continue with task related to permission
+                    /*Toast.makeText(this,"PERMISO CONCEDIDO",Toast.LENGTH_LONG).show();
+                    Intent intent2 = new Intent(this, activity_camara.class);
+                    intent2.putExtra("GRANT", "True");
+                    startActivity(intent2);*/
+                } else {
+                    /*Toast.makeText(this,"PERMISO DENEGADO",Toast.LENGTH_LONG).show();
+                    Intent intent2 = new Intent(this, activity_camara.class);
+                    intent2.putExtra("GRANT", "False");
+                    startActivity(intent2);*/
+                    // permission denied, disable functionality that depends on this permission.
+                }
+
+            }
+
+        }
+    }
+
 }
