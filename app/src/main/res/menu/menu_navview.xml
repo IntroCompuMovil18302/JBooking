@@ -9,7 +9,7 @@
         <item
             android:id="@+id/menu_seccion_2"
             android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="@string/favourite"/>
+            android:title="@string/alojamientos"/>
         <item
             android:id="@+id/menu_seccion_3"
             android:icon="@drawable/ic_settings_black_24dp"
