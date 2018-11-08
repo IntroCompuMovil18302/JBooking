@@ -33,13 +33,13 @@
 
         <Button
             android:id="@+id/buttonFragment1Mapa"
-            android:layout_width="171dp"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="bottom|right"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/boton_general"
-            android:text="Alojamientos cercanos"
+            android:background="@drawable/round_button"
+            android:text="Map"
             android:textAllCaps="false"
             android:textColor="@color/colorTextoBoton" />
 

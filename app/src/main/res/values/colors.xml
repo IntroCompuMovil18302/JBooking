@@ -6,4 +6,5 @@
     <color name="colorBoton">#303f9f</color>
     <color name="colorTextoBoton">#ffffff</color>
     <color name="colorUbicacion">#b1b6bb</color>
+    <color name="not_avialable_day">#E34444</color>
 </resources>

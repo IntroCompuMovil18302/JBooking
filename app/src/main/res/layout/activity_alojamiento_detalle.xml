@@ -81,13 +81,93 @@
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="4dp"
                     android:text="A veces hace falta renegar y sentir que la humanidad da vergüenza, que la sociedad está enferma y que uno puede ser lo que quiera menos el psicoanalista del otro."
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewAlojamientoDetalleTipo" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="1dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewAlojamientoDetalleDescripcion">
+
+                    <TextView
+                        android:id="@+id/textViewAlojamientoDetalleHuespedes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="5 huespedes"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewAlojamientoDetalleDormitorios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="1 cuarto"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewAlojamientoDetalleCamas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="2 camas"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewAlojamientoDetalleBanhos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="1 baño"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textViewAlojamientoDetalleTipo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Apartamento"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewAlojamientoDetalleNombre" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Servicios"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+                <TextView
+                    android:id="@+id/textViewAlojamientoDetalleServicios"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Wifi, Desayuno.."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
             </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>

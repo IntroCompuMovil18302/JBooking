@@ -50,6 +50,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <activity android:name=".ConsultarAlojamientoActivity"></activity>
+        <activity android:name=".AlojamientoDetalleActivity" />
+        <activity android:name=".CalendarioAlojamientoActivity" />
+        <activity android:name=".FiltroFechaActivity" android:noHistory="true"/>
+        <activity android:name=".AlojamientosFiltroFechaActivity"></activity>
     </application>
 
 </manifest>

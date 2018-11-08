@@ -37,6 +37,7 @@ public class Fragment1 extends Fragment {
     private AlojamientoAdaptador alojamientoAdaptador;
     private Button buttonMapa;
     public static final String PATH_ALOJAMIENTOS = "alojamientos/";
+    private Button buttonFiltroFecha;
 
     public Fragment1() {
         // Required empty public constructor
@@ -53,6 +54,7 @@ public class Fragment1 extends Fragment {
         gridViewAlojamientos = view.findViewById(R.id.gridViewFragment1Alojamientos);
         buttonMapa = view.findViewById(R.id.buttonFragment1Mapa);
         gridViewAlojamientos.setAdapter(alojamientoAdaptador);
+        buttonFiltroFecha = view.findViewById(R.id.buttonFragment1PorFecha);
         initEvents();
         cargarAlojamientos();
         return view;
@@ -111,6 +113,14 @@ public class Fragment1 extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), ConsultarAlojamientoActivity.class));
+            }
+        });
+
+        buttonFiltroFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),FiltroFechaActivity.class);
+                startActivity(intent);
             }
         });
     }

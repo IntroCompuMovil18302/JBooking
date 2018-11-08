@@ -14,7 +14,7 @@ public class Calendario implements Serializable {
         fechasOcupadas = new ArrayList<>();
     }
 
-    public Calendario(List<Date>fechasOcupadas) {
+    public Calendario(List<Date> fechasOcupadas) {
         this.fechasOcupadas = fechasOcupadas;
     }
 
@@ -31,8 +31,15 @@ public class Calendario implements Serializable {
         return true;
     }
 
-    public boolean consultarDisponibilidad(Date inicio, Date fin){
-        //TODO: Implementar
+    public boolean consultarDisponibilidad(Date inicio, Date fin) {
+        if (fechasOcupadas != null) {
+            for (Date d : fechasOcupadas) {
+                if (d.getTime() >= inicio.getTime() && d.getTime() <= fin.getTime()) {
+                    return false;
+                }
+            }
+            return true;
+        }
         return true;
     }
 }
