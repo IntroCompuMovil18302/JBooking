@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -34,6 +35,7 @@ public class Fragment1 extends Fragment {
     private GridView gridViewAlojamientos;
     private AlojamientoAdaptador alojamientoAdaptador;
     public static final String PATH_ALOJAMIENTOS = "alojamientos/";
+    private Button buttonFiltroFecha;
 
     public Fragment1() {
         // Required empty public constructor
@@ -49,6 +51,7 @@ public class Fragment1 extends Fragment {
         alojamientoAdaptador = new AlojamientoAdaptador(getContext(), alojamientos);
         gridViewAlojamientos = view.findViewById(R.id.gridViewFragment1Alojamientos);
         gridViewAlojamientos.setAdapter(alojamientoAdaptador);
+        buttonFiltroFecha = view.findViewById(R.id.buttonFragment1PorFecha);
         initEvents();
         cargarAlojamientos();
         return view;
@@ -99,6 +102,14 @@ public class Fragment1 extends Fragment {
                 Alojamiento alojamientoActual = (Alojamiento) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getContext(),AlojamientoDetalleActivity.class);
                 intent.putExtra("alojamiento",(Serializable) alojamientoActual);
+                startActivity(intent);
+            }
+        });
+
+        buttonFiltroFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),FiltroFechaActivity.class);
                 startActivity(intent);
             }
         });

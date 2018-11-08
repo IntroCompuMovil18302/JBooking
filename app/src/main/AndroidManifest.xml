@@ -35,7 +35,8 @@
         <activity android:name=".Registro4Activity" />
         <activity android:name=".Registro3Activity" />
         <activity android:name=".AlojamientoDetalleActivity" />
-        <activity android:name=".CalendarioAlojamientoActivity"></activity>
+        <activity android:name=".CalendarioAlojamientoActivity" />
+        <activity android:name=".FiltroFechaActivity"></activity>
     </application>
 
 </manifest>
