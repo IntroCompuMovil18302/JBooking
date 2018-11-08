@@ -96,7 +96,7 @@ public class CrearAlojamiento3 extends AppCompatActivity {
         if (r2.isChecked()==true) {
             privado= false;
         }
-        if(banhos<=0 &&(r1.isChecked()==false||r2.isChecked()==false) ){
+        if(banhos<=0 &&(r1.isChecked()==false&&r2.isChecked()==false) ){
             Toast.makeText(CrearAlojamiento3.this,"No tiene sentido la seleccion actual",Toast.LENGTH_SHORT).show();
             return false;
         }

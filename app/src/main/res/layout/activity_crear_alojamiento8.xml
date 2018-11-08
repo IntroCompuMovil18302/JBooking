@@ -1,34 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CrearAlojamientos.CrearAlojamiento8">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_weight="0.1"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <TextView
-        android:id="@+id/textViewA71"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Asignale un precio a tu hospedaje"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9">
+
+        <TextView
+            android:id="@+id/textViewA71"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Asignale un precio a tu hospedaje"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/textViewA72"
         android:layout_width="wrap_content"
@@ -55,17 +63,17 @@
         app:layout_constraintStart_toEndOf="@+id/butDelPrec"
         app:layout_constraintTop_toTopOf="@+id/butDelPrec" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/butDelPrec"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="150dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewA72"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewA72"
-        app:srcCompat="@android:drawable/dialog_holo_light_frame"
-        tools:ignore="MissingConstraints" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/butDelPrec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="160dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewA72"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewA72"
+            app:srcCompat="@android:drawable/dialog_holo_light_frame"
+            tools:ignore="MissingConstraints" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/butAddPrec"
@@ -86,5 +94,5 @@
         android:text="@string/siguiente"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

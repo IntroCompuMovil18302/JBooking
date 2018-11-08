@@ -88,7 +88,7 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                         for (int i = 0; i < mUserItems.size(); i++) {
                             item = item + listItems[mUserItems.get(i)];
                             if (i != mUserItems.size() - 1) {
-                                item = item + "; ";
+                                item = item + ";\n";
                             }
                         }
                         mServSelected.setText(item);
@@ -143,7 +143,7 @@ public class CrearAlojamiento5 extends AppCompatActivity {
                         for (int i = 0; i < mUserItemsSec.size(); i++) {
                             item = item + listItemsSec[mUserItemsSec.get(i)];
                             if (i != mUserItemsSec.size() - 1) {
-                                item = item + "; ";
+                                item = item + ";\n";
                             }
                         }
                         mServSelectedSec.setText(item);
