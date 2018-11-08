@@ -35,7 +35,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/boton_general"
         android:text="COMPLETAR"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"

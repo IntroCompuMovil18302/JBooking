@@ -19,212 +19,224 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9">
+        android:layout_weight="0.1">
 
-
-        <TextView
-            android:id="@+id/textViewA21"
-            android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="¿A cuántos huéspedes puedes alojar en tu espacio?"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textViewA22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="64dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
-            android:text="Huéspedes"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/textViewA23"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewA21" />
-
-        <EditText
-            android:id="@+id/eTHuespedesNUM"
-            android:layout_width="41dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text="0"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/butDelHUes"
-            app:layout_constraintEnd_toStartOf="@+id/butAddHUes"
-            app:layout_constraintStart_toEndOf="@+id/butDelHUes"
-            app:layout_constraintTop_toTopOf="@+id/butDelHUes" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/butDelHUes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="170dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewA22"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewA22"
-            app:srcCompat="@android:drawable/dialog_holo_light_frame" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/butAddHUes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="@+id/eTHuespedesNUM"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/eTHuespedesNUM"
-            app:srcCompat="@android:drawable/ic_menu_add" />
-
-        <TextView
-            android:id="@+id/textViewA23"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
-            android:text=" ¿Cuántos dormitorios pueden ocupar los huéspedes?"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewA22" />
-
-        <!-- **********************************DORMitorios                                        -->
-        <TextView
-            android:id="@+id/textViewA24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="Dormitorios"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewA23" />
-
-        <EditText
-            android:id="@+id/eTALDormiNUM"
-            android:layout_width="41dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text="0"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/butDelDorm"
-            app:layout_constraintEnd_toStartOf="@+id/butAddDorm"
-            app:layout_constraintStart_toEndOf="@+id/butDelDorm"
-            app:layout_constraintTop_toTopOf="@+id/butDelDorm" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/butDelDorm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewA24"
-            app:layout_constraintStart_toStartOf="@+id/butDelHUes"
-            app:layout_constraintTop_toTopOf="@+id/textViewA24"
-            app:srcCompat="@android:drawable/dialog_holo_light_frame" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/butAddDorm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="@+id/eTALDormiNUM"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/eTALDormiNUM"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+            android:layout_weight="0.9">
 
 
-        <!-- **********************************CAMAS                                        -->
+            <TextView
+                android:id="@+id/textViewA21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="¿A cuántos huéspedes puedes alojar en tu espacio?"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewA22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginBottom="64dp"
+                android:text="Huéspedes"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewA23"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewA21" />
+
+            <EditText
+                android:id="@+id/eTHuespedesNUM"
+                android:layout_width="41dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="0"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/butDelHUes"
+                app:layout_constraintEnd_toStartOf="@+id/butAddHUes"
+                app:layout_constraintStart_toEndOf="@+id/butDelHUes"
+                app:layout_constraintTop_toTopOf="@+id/butDelHUes" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/butDelHUes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="170dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewA22"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textViewA22"
+                app:srcCompat="@android:drawable/dialog_holo_light_frame" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/butAddHUes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/eTHuespedesNUM"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eTHuespedesNUM"
+                app:srcCompat="@android:drawable/ic_menu_add" />
+
+            <TextView
+                android:id="@+id/textViewA23"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="8dp"
+                android:text=" ¿Cuántos dormitorios pueden ocupar los huéspedes?"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewA22" />
+
+            <!-- **********************************DORMitorios                                        -->
+            <TextView
+                android:id="@+id/textViewA24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="Dormitorios"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewA23" />
+
+            <EditText
+                android:id="@+id/eTALDormiNUM"
+                android:layout_width="41dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="0"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/butDelDorm"
+                app:layout_constraintEnd_toStartOf="@+id/butAddDorm"
+                app:layout_constraintStart_toEndOf="@+id/butDelDorm"
+                app:layout_constraintTop_toTopOf="@+id/butDelDorm" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/butDelDorm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewA24"
+                app:layout_constraintStart_toStartOf="@+id/butDelHUes"
+                app:layout_constraintTop_toTopOf="@+id/textViewA24"
+                app:srcCompat="@android:drawable/dialog_holo_light_frame" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/butAddDorm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/eTALDormiNUM"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eTALDormiNUM"
+                app:srcCompat="@android:drawable/ic_menu_add" />
 
 
-        <TextView
-            android:id="@+id/textViewA25"
-            android:layout_width="0dp"
-            android:layout_height="47dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
-            android:text=" ¿Cuántas camas pueden utilizar los huéspedes?"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewA24" />
+            <!-- **********************************CAMAS                                        -->
 
-        <TextView
-            android:id="@+id/textViewA26"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="Camas"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewA25" />
 
-        <EditText
-            android:id="@+id/eTALCamNUM"
-            android:layout_width="41dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text="0"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/butDelCam"
-            app:layout_constraintEnd_toStartOf="@+id/butAddCam"
-            app:layout_constraintStart_toEndOf="@+id/butDelCam"
-            app:layout_constraintTop_toTopOf="@+id/butDelCam" />
+            <TextView
+                android:id="@+id/textViewA25"
+                android:layout_width="0dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="8dp"
+                android:text=" ¿Cuántas camas pueden utilizar los huéspedes?"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewA24" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/butDelCam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewA26"
-            app:layout_constraintStart_toStartOf="@+id/butDelDorm"
-            app:layout_constraintTop_toTopOf="@+id/textViewA26"
-            app:srcCompat="@android:drawable/dialog_holo_light_frame" />
+            <TextView
+                android:id="@+id/textViewA26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:text="Camas"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewA25" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/butAddCam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="@+id/eTALCamNUM"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/eTALCamNUM"
-            app:srcCompat="@android:drawable/ic_menu_add" />
+            <EditText
+                android:id="@+id/eTALCamNUM"
+                android:layout_width="41dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="0"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/butDelCam"
+                app:layout_constraintEnd_toStartOf="@+id/butAddCam"
+                app:layout_constraintStart_toEndOf="@+id/butDelCam"
+                app:layout_constraintTop_toTopOf="@+id/butDelCam" />
 
-        <Button
-            android:id="@+id/butAloj2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp"
-            android:text="@string/siguiente"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/butDelCam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewA26"
+                app:layout_constraintStart_toStartOf="@+id/butDelDorm"
+                app:layout_constraintTop_toTopOf="@+id/textViewA26"
+                app:srcCompat="@android:drawable/dialog_holo_light_frame" />
 
-    </android.support.constraint.ConstraintLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/butAddCam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="@+id/eTALCamNUM"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/eTALCamNUM"
+                app:srcCompat="@android:drawable/ic_menu_add" />
+
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/butAloj2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/boton_general"
+        android:text="@string/siguiente"
+        android:textColor="@color/colorTextoBoton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </LinearLayout>

@@ -17,7 +17,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/boton_filtro"
-            android:text="fechas"
+            android:text="Fechas"
             android:textAllCaps="false"
             android:textSize="12sp" />
 
