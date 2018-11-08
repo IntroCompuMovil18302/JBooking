@@ -10,7 +10,7 @@ public class Propietario extends Usuario  implements Serializable {
     public Propietario() {
     }
 
-    public Propietario(int id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, Lugar lugar) {
+    public Propietario(String id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, Lugar lugar) {
         super(id, nombre, fechaNacimiento, foto, correo, reservas);
         this.lugar = lugar;
     }

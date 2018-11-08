@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.MainActivity;
 import com.example.andre.jbookingmobile.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,6 +47,8 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import static java.lang.Thread.sleep;
 
 public class CrearAlojamiento7 extends AppCompatActivity {
 
@@ -67,7 +71,11 @@ public class CrearAlojamiento7 extends AppCompatActivity {
     final int IMAGE_PICKER_REQUEST = 4;
     public Uri myimage = null;
     ArrayList<Bitmap> usrFotos;
-    LinkedBlockingDeque myimagesReg;
+    private int imagsCont;
+    String path;
+    private int contaux;
+    String fotosHTTP = "";
+    String aux;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
         toolbar =  findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        imagsCont = 0;
         initElementos();
         initEventos();
     }
@@ -99,8 +108,13 @@ public class CrearAlojamiento7 extends AppCompatActivity {
         nextCrear7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            publicar();
-                startActivity(new Intent(CrearAlojamiento7.this, MainActivity.class));
+                try {
+                    publicar();
+                    startActivity(new Intent(CrearAlojamiento7.this, MainActivity.class));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         });
@@ -122,7 +136,15 @@ public class CrearAlojamiento7 extends AppCompatActivity {
 
     }
 
-    private void publicar() {
+    private void publicar() throws InterruptedException {
+
+        subirimagenes();
+        sleep(6000);
+        getURISfotos();
+
+    }
+
+    private void subirimagenes() {
         InputStream imageStream;
         try {
             List<String> imagenes = new ArrayList<>();
@@ -130,38 +152,41 @@ public class CrearAlojamiento7 extends AppCompatActivity {
             while (st.hasMoreTokens()) {
                 imagenes.add(st.nextToken());
             }
-int cont=1;
+            int cont=1;
             for (String img : imagenes) {
                 imageStream = getContentResolver().openInputStream(Uri.parse(img));
                 final Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
                 byte[] data = baos.toByteArray();
+               path = "alojamientos/" + myAlj.getNombre().replaceAll(" ","") +"/img";
 
-                String path = "alojamientos/" + myAlj.getNombre().trim() + cont++ + ".png";
-                StorageReference userimgref = storage.getReference(path);
+                final StorageReference userimgref = storage.getReference(path+cont + ".png");
+                Log.i("TagPth",path+cont+".png");
 
                 StorageMetadata metadata = new StorageMetadata.Builder()
                         .setCustomMetadata("text", myAlj.getId() + "")
                         .build();
                 UploadTask uploadTask = userimgref.putBytes(data, metadata);
+                imagsCont++;
                 uploadTask.addOnSuccessListener(CrearAlojamiento7.this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.i("Entro", "Exito");
-                    }
-                });
+                        userimgref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
 
+                                Log.i("-------ON SUCCESS FIRST","-"+path+"--"+imagsCont);
+                            }
+                        });}
+                });
+                cont++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        myRef=database.getReference().child(PATH_ALOJAMIENTOS);
-        String key = myRef.push().getKey();
-        myRef=database.getReference().child(PATH_ALOJAMIENTOS).child(key);
-        myRef.setValue(myAlj);
-    }
 
+    }
 
 
     @Override
@@ -195,16 +220,15 @@ int cont=1;
         switch(requestCode) {
             case IMAGE_PICKER_REQUEST: {
                 if (resultCode == RESULT_OK) {
-
                         final Uri imageUri = data.getData();
-                        String fotos =myAlj.getFotos()+"";
+                        String fotos = ((myAlj.getFotos() == null) ? "": myAlj.getFotos());
                             fotos+=imageUri.toString()+";";
                             myAlj.setFotos(fotos);
-                        View view = inflaterReg.inflate(R.layout.imagen_alojamiento_item, linearLayoutGaleriaReg,false);
-                            ImageView imagenActual = view.findViewById(R.id.imageViewAlojamientoDetalleFoto);
+                             View view = inflaterReg.inflate(R.layout.imagen_alojamiento_vis, linearLayoutGaleriaReg,false);
+                            ImageView imagenActual = view.findViewById(R.id.imageViewAlojamientoDetalleFotoReg);
                             Picasso.with(CrearAlojamiento7.this).load(imageUri).into(imagenActual);
+                    Toast.makeText(this,myAlj.getFotos(),Toast.LENGTH_LONG).show();
                             linearLayoutGaleriaReg.addView(view);
-
                 }
                 return;
             }
@@ -254,4 +278,70 @@ int cont=1;
         }
     }
 
+    public void getURISfotos() {
+        /*Log.i("-------ON SUCCESS"+fotosHTTP+".",path+"--"+imagsCont);
+        StorageReference userimgref ;
+        StorageReference island;
+        //String npath = "alojamientos/andyflow/img1.png";
+        int i = 1;
+
+        String npath = "alojamientos/"+myAlj.getNombre().toString()+"/img".concat(Integer.toString(i)).concat(".png");
+        userimgref = storage.getReference();
+        island = userimgref.child(npath);
+        Log.i("------------ON FOR"+fotosHTTP+"--","Si si ");
+        island.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                fotosHTTP=fotosHTTP + uri.toString()+";";
+                Log.i("Tag",fotosHTTP);
+                Log.i("----ON SUCCESS SECOND"+fotosHTTP+".","Entro al on succes");
+                myAlj.setFotos(fotosHTTP);
+                Log.i("Tag3",myAlj.getFotos());
+                myRef=database.getReference().child(PATH_ALOJAMIENTOS);
+                String key = myRef.push().getKey();
+                myRef=database.getReference().child(PATH_ALOJAMIENTOS).child(key);
+                myRef.setValue(myAlj);
+            }
+
+        });*/
+
+        StorageReference userimgref;
+        StorageReference island;
+        fotosHTTP="";
+        contaux = 1;
+        for (int i=1;i<=imagsCont;i++){
+            //Log.i("-------ON SUCCESS"+fotosHTTP+".",path+"--"+imagsCont);
+
+            //String npath = "alojamientos/andyflow/img1.png";
+            String npath = "alojamientos/"+myAlj.getNombre().toString()+"/img".concat(Integer.toString(i)).concat(".png");
+            Log.i("npath",npath);
+            userimgref = storage.getReference().child(npath);
+            Log.i("------------ON FOR"+fotosHTTP+"--","Si si ");
+            userimgref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    fotosHTTP=fotosHTTP + uri.toString()+";";
+                    Log.i("Tag",fotosHTTP);
+                    Log.i("----ON SUCCESS SECOND"+fotosHTTP+".","Entro al on succes");
+
+                    if (contaux >= 4){
+                        myAlj.setFotos(fotosHTTP);
+                        myRef=database.getReference().child(PATH_ALOJAMIENTOS);
+                        String key = myRef.push().getKey();
+                        myRef=database.getReference().child(PATH_ALOJAMIENTOS).child(key);
+                        myRef.setValue(myAlj);
+
+                    }
+                    contaux++;
+
+                }
+
+            });
+
+        }
+        Log.i("Tag3",myAlj.getFotos());
+
+
+
+    }
 }

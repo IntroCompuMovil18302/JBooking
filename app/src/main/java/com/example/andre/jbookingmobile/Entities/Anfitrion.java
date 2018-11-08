@@ -10,7 +10,7 @@ public class Anfitrion extends Usuario implements Serializable {
     public Anfitrion() {
     }
 
-    public Anfitrion(int id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, Alojamiento alojamiento) {
+    public Anfitrion(String id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, Alojamiento alojamiento) {
         super(id, nombre, fechaNacimiento, foto, correo, reservas);
         this.alojamiento = alojamiento;
     }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Alojamiento implements Serializable {
-    private int id;
+    private String id;
 
     private String nombre;
     private String descripcion;
@@ -38,7 +38,7 @@ public class Alojamiento implements Serializable {
         reservas = new ArrayList<>();
     }
 
-    public Alojamiento(int id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
+    public Alojamiento(String id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
         this.id = id;
         this.tipo = tipo;
         this.valorNoche = valorNoche;
@@ -136,11 +136,11 @@ public class Alojamiento implements Serializable {
         this.banhosPriv = banhosPriv;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
