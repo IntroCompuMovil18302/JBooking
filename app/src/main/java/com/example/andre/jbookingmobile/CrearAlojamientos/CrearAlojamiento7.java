@@ -139,7 +139,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
     private void publicar() throws InterruptedException {
 
         subirimagenes();
-        sleep(6000);
+        sleep(8000);
         getURISfotos();
 
     }
@@ -227,7 +227,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
                              View view = inflaterReg.inflate(R.layout.imagen_alojamiento_vis, linearLayoutGaleriaReg,false);
                             ImageView imagenActual = view.findViewById(R.id.imageViewAlojamientoDetalleFotoReg);
                             Picasso.with(CrearAlojamiento7.this).load(imageUri).into(imagenActual);
-                    Toast.makeText(this,myAlj.getFotos(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this,myAlj.getFotos(),Toast.LENGTH_LONG).show();
                             linearLayoutGaleriaReg.addView(view);
                 }
                 return;
@@ -313,7 +313,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
             //Log.i("-------ON SUCCESS"+fotosHTTP+".",path+"--"+imagsCont);
 
             //String npath = "alojamientos/andyflow/img1.png";
-            String npath = "alojamientos/"+myAlj.getNombre().toString()+"/img".concat(Integer.toString(i)).concat(".png");
+            String npath = "alojamientos/"+myAlj.getNombre().toString().replaceAll(" ","")+"/img".concat(Integer.toString(i)).concat(".png");
             Log.i("npath",npath);
             userimgref = storage.getReference().child(npath);
             Log.i("------------ON FOR"+fotosHTTP+"--","Si si ");
@@ -326,10 +326,12 @@ public class CrearAlojamiento7 extends AppCompatActivity {
 
                     if (contaux >= 4){
                         myAlj.setFotos(fotosHTTP);
+                        myAlj.getUbicacion().setNombre(myAlj.getNombre().toString());
                         myRef=database.getReference().child(PATH_ALOJAMIENTOS);
                         String key = myRef.push().getKey();
                         myRef=database.getReference().child(PATH_ALOJAMIENTOS).child(key);
                         myRef.setValue(myAlj);
+
 
                     }
                     contaux++;
