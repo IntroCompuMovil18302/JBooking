@@ -33,6 +33,13 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
     private TextView textViewDescripcion;
     private TextView textViewPrecio;
 
+    private TextView textViewTipo;
+    private TextView textViewHuespedes;
+    private TextView textViewCuartos;
+    private TextView textViewCamas;
+    private TextView textViewBanhos;
+    private TextView textViewServicios;
+
     private Button buttonDisponibilidad;
 
     @Override
@@ -53,6 +60,13 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
         textViewNombre = findViewById(R.id.textViewAlojamientoDetalleNombre);
         textViewDescripcion = findViewById(R.id.textViewAlojamientoDetalleDescripcion);
         textViewPrecio = findViewById(R.id.textViewAlojamientoDetallePrecio);
+        textViewTipo = findViewById(R.id.textViewAlojamientoDetalleTipo);
+        textViewHuespedes = findViewById(R.id.textViewAlojamientoDetalleHuespedes);
+        textViewCuartos = findViewById(R.id.textViewAlojamientoDetalleDormitorios);
+        textViewCamas = findViewById(R.id.textViewAlojamientoDetalleCamas);
+        textViewBanhos = findViewById(R.id.textViewAlojamientoDetalleBanhos);
+        textViewServicios = findViewById(R.id.textViewAlojamientoDetalleServicios);
+
         buttonDisponibilidad = findViewById(R.id.buttonAlojamientoDetalleDisponible);
 
         alojamiento = (Alojamiento) getIntent().getExtras().getSerializable("alojamiento");
@@ -86,6 +100,13 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
 
         textViewLugar.setText(alojamiento.getUbicacion().getNombre());
         textViewNombre.setText(alojamiento.getNombre());
+        textViewTipo.setText(alojamiento.getTipoPropiedad());
+        textViewDescripcion.setText(alojamiento.getDescripcion());
+        textViewHuespedes.setText(alojamiento.getHuespedes()+" Huespedes");
+        textViewCuartos.setText(alojamiento.getDormitorios()+" Dormitorios");
+        textViewCamas.setText(alojamiento.getCamas()+" Camas");
+        textViewBanhos.setText(alojamiento.getBanhos()+" Baños");
+        textViewServicios.setText(alojamiento.getServicios()+"");
         textViewPrecio.setText("$"+alojamiento.getValorNoche()+"/ Noche");
     }
 

@@ -31,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_view_headline);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         navView = findViewById(R.id.navview);
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.content_frame, new Fragment1());
-        getSupportActionBar().setTitle("Alojamientos");
+        getSupportActionBar().setTitle(R.string.home);
         tx.commit();
 
         navView.setNavigationItemSelectedListener(
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_seccion_3:
                                 fragment = new Fragment3();
+                                fragmentTransaction = true;
+                                break;
+                            case R.id.menu_seccion_4:
+                                fragment = new MisAlojamientosFragment();
                                 fragmentTransaction = true;
                                 break;
                             case R.id.logout:
@@ -89,5 +94,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initAnfitrion(){
+
     }
 }

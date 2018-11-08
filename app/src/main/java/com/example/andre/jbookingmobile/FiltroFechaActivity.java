@@ -1,5 +1,6 @@
 package com.example.andre.jbookingmobile;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -64,6 +65,9 @@ public class FiltroFechaActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("fecha1",(Serializable)fechaInicio);
                     bundle.putSerializable("fecha2",(Serializable)fechaFin);
+                    Intent intent = new Intent(FiltroFechaActivity.this, AlojamientosFiltroFechaActivity.class);
+                    intent.putExtra("bundle",bundle);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(FiltroFechaActivity.this,"Debes seleccionar las fechas",Toast.LENGTH_SHORT).show();
                 }

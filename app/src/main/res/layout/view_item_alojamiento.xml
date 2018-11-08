@@ -14,27 +14,35 @@
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars[3]" />
 
-    <TextView
-        android:id="@+id/textViewAlojaminetoAdapterUbicacion"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_weight="1"
-        android:text=" Bogota"
-        android:textColor="@color/colorUbicacion"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewAlojaminetoAdapterNombre"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text=" Aparta estudio"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textViewAlojaminetoAdapterUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_weight="0.33"
+            android:text=" Bogota"
+            android:textColor="@color/colorUbicacion"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textViewAlojaminetoAdapterPrecio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text=" COP 255" />
+        <TextView
+            android:id="@+id/textViewAlojaminetoAdapterNombre"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_weight="0.33"
+            android:text=" Aparta estudio"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewAlojaminetoAdapterPrecio"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_weight="0.33"
+            android:text=" COP 255" />
+    </LinearLayout>
+
 </LinearLayout>

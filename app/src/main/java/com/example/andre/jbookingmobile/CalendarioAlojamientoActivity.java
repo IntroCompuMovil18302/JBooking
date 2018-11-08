@@ -36,7 +36,7 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button buttonReservar;
     private int contadorTouch;
-    private Date fechaInicion;
+    private Date fechaInicio;
     private Date fechaFin;
 
     @Override
@@ -78,7 +78,7 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         calendarView.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(View view, DateData date) {
-                actualizarFechas(date);
+                actualizarCalendario(date);
             }
         });
     }
@@ -102,40 +102,121 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         }
     }
 
-    private void actualizarFechas(DateData date){
-        if(contadorTouch == 0){
-            if(fechaDisponible(date)){
-                ++contadorTouch;
-                calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#44a4ff"));
-                calendarView.markDate(new DateData(date.getYear(),date.getMonth(),date.getDay()));
-            }else{
-                Toast.makeText(CalendarioAlojamientoActivity.this,"Fecha no disponible",Toast.LENGTH_SHORT).show();
-            }
+    private void actualizarCalendario(DateData date){
+        Calendar calendar0 = Calendar.getInstance();
+        calendar0.set(Calendar.YEAR,date.getYear());
+        calendar0.set(Calendar.MONTH,date.getMonth()-1);
+        calendar0.set(Calendar.DAY_OF_MONTH,date.getDay());
+        if (contadorTouch == 0){
+            ++contadorTouch;
 
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, date.getYear());
+            calendar.set(Calendar.MONTH, date.getMonth()-1);
+            calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
+            fechaInicio = calendar.getTime();
+
+            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+            calendarView.markDate(new DateData(date.getYear(),date.getMonth(),date.getDay()));
         }else if (contadorTouch == 1){
+            if (fechaIgual(fechaInicio, calendar0.getTime()) == 0){
+                // se deja todo igual
+            }else if(fechaIgual(fechaInicio, calendar0.getTime()) > 0){
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.setTime(fechaInicio);
+                calendarView.unMarkDate(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH));
 
+                Calendar calendar2 = Calendar.getInstance();
+                calendar2.set(Calendar.YEAR, date.getYear());
+                calendar2.set(Calendar.MONTH, date.getMonth()-1);
+                calendar2.set(Calendar.DAY_OF_MONTH, date.getDay());
+                fechaInicio = calendar2.getTime();
+
+                calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+                calendarView.markDate(date);
+            }else{
+                ++contadorTouch;
+
+                Calendar calendar3 = Calendar.getInstance();
+                calendar3.set(Calendar.YEAR, date.getYear());
+                calendar3.set(Calendar.MONTH, date.getMonth()-1);
+                calendar3.set(Calendar.DAY_OF_MONTH, date.getDay());
+                fechaFin = calendar3.getTime();
+
+                calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+                calendarView.markDate(date);
+
+                dibujarSegmento(fechaInicio,fechaFin);
+            }
+        }else if (contadorTouch == 2){
+            contadorTouch = 1;
+
+            limpiarSegmento(fechaInicio,fechaFin);
+
+            fechaFin = null;
+
+            Calendar calendar4 = Calendar.getInstance();
+            calendar4.set(Calendar.YEAR, date.getYear());
+            calendar4.set(Calendar.MONTH, date.getMonth()-1);
+            calendar4.set(Calendar.DAY_OF_MONTH, date.getDay());
+
+            fechaInicio = calendar4.getTime();
+
+            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+            calendarView.markDate(date);
         }
     }
 
-    private boolean fechaDisponible(DateData data){
-        List<Date> fechasOcupadas =  null;// = calendario.getFechasOcupadas();
-        if (fechasOcupadas == null){
-            fechasOcupadas =  new ArrayList<>();
+    private long fechaIgual(Date fechaInicio, Date data){
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(fechaInicio);
+        Calendar c2 =  Calendar.getInstance();
+        c2.setTime(data);
+        if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)){
+            return 0;
         }
-        Calendar fechita = Calendar.getInstance();
-        fechita.set(Calendar.YEAR,2018);
-        fechita.set(Calendar.MONTH,10);
-        fechita.set(Calendar.DAY_OF_MONTH,6);
-        fechasOcupadas.add(fechita.getTime());
+        return fechaInicio.getTime() - data.getTime();
+    }
 
-        for (Date fechaActual: fechasOcupadas){
-            Calendar calendarFecha = Calendar.getInstance();
-            calendarFecha.setTime(fechaActual);
-            if (calendarFecha.get(Calendar.YEAR) == data.getYear() && calendarFecha.get(Calendar.MONTH) == data.getMonth()-1 && calendarFecha.get(Calendar.DAY_OF_MONTH) == data.getDay()){
-                return false;
-            }
+    private void dibujarSegmento(Date f1, Date f2){
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.setTime(f1);
+        calendar2.setTime(f2);
+
+        calendar1.add(Calendar.DATE,1);
+
+        while(fechaIgual(calendar1.getTime(),calendar2.getTime()) < 0){
+            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+            calendarView.markDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH)+1, calendar1.get(Calendar.DAY_OF_MONTH));
+            calendar1.add(Calendar.DATE,1);
         }
-        return true;
+    }
+
+    private void limpiarSegmento(Date f1, Date f2){
+        List<DateData> diasPintados = new ArrayList<>();
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.setTime(f1);
+        calendar2.setTime(f2);
+
+        while (fechaIgual(calendar1.getTime(),calendar2.getTime()) <= 0){
+            calendarView.unMarkDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH)+1, calendar1.get(Calendar.DAY_OF_MONTH));
+            calendar1.add(Calendar.DATE,1);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        limpiarCalendario();
+    }
+
+    private void limpiarCalendario(){
+        ArrayList<DateData> marcadas = (ArrayList)calendarView.getMarkedDates().getAll().clone();
+        for (int i = 0; i<marcadas.size();i++){
+            calendarView.unMarkDate(marcadas.get(i));
+        }
     }
 }
 
