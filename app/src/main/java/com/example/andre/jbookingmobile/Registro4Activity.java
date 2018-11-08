@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento7;
 import com.example.andre.jbookingmobile.Entities.Anfitrion;
 import com.example.andre.jbookingmobile.Entities.Huesped;
 import com.example.andre.jbookingmobile.Entities.Propietario;
@@ -268,7 +269,9 @@ public class Registro4Activity extends AppCompatActivity {
                                     myRef.setValue(myPro);
                                 }
 
-                                startActivity(new Intent(Registro4Activity.this, MainActivity.class)); //o en el listener
+                                Intent intent = new Intent(Registro4Activity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                             }
                         }
                         if (!task.isSuccessful()) {

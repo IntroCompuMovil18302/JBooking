@@ -110,7 +110,9 @@ public class CrearAlojamiento7 extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     publicar();
-                    startActivity(new Intent(CrearAlojamiento7.this, MainActivity.class));
+                    Intent intent = new Intent(CrearAlojamiento7.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
