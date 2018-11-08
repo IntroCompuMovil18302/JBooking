@@ -248,20 +248,4 @@ public class Alojamiento implements Serializable {
         this.reservas = reservas;
     }
 
-    public String getAnfitrionId() {
-        return anfitrionId;
-    }
-
-    public String getAnfitrionId() {
-        return anfitrionId;
-    }
-
-    public void setAnfitrionId(String anfitrionId) {
-        this.anfitrionId = anfitrionId;
-    }
-}
-
-    public void setAnfitrionId(String anfitrionId) {
-        this.anfitrionId = anfitrionId;
-    }
 }
