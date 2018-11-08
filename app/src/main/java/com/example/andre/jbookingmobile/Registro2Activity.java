@@ -115,4 +115,5 @@ public class Registro2Activity extends AppCompatActivity {
         });
     }
 
+
 }

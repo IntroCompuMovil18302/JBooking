@@ -113,8 +113,8 @@ public class Registro4Activity extends AppCompatActivity {
             }
         });
     }
-    public void register(final Object myUser){
-        String email = null;
+        public void register(final Object myUser){
+            String email = null;
         String password = null;
 
         if(Rol.equals("PROPIETARIO")){
@@ -155,6 +155,7 @@ public class Registro4Activity extends AppCompatActivity {
                                     Propietario myPro= (Propietario) myUser;
                                     myPro.setContrasena(String.valueOf(finalPassword.hashCode()));
                                     myPro.setFoto(myimage.toString());
+                                    myPro.setId(mAuth.getUid());
                                     final InputStream imageStream;
                                     try {
                                         imageStream = getContentResolver().openInputStream(myimage);
@@ -195,7 +196,7 @@ public class Registro4Activity extends AppCompatActivity {
                                     Huesped myPro= (Huesped) myUser;
                                     myPro.setContrasena(String.valueOf(finalPassword.hashCode()));
                                     myPro.setFoto(myimage.toString());
-
+                                    myPro.setId(mAuth.getUid());
                                     final InputStream imageStream;
                                     try {
                                         imageStream = getContentResolver().openInputStream(myimage);
@@ -234,6 +235,7 @@ public class Registro4Activity extends AppCompatActivity {
                                     Anfitrion myPro= (Anfitrion) myUser;
                                     myPro.setContrasena(String.valueOf(finalPassword.hashCode()));
                                     myPro.setFoto(myimage.toString());
+                                    myPro.setId(mAuth.getUid());
                                     //Log.i("TAG",myPro.getNombre());
                                     final InputStream imageStream;
                                     try {
