@@ -8,21 +8,21 @@ import java.util.Date;
 import java.util.List;
 
 public class Calendario implements Serializable {
-    private List < Pair<Date,Date> > fechasOcupadas;
+    private List<Date> fechasOcupadas;
 
     public Calendario() {
         fechasOcupadas = new ArrayList<>();
     }
 
-    public Calendario(List<Pair<Date, Date>> fechasOcupadas) {
+    public Calendario(List<Date> fechasOcupadas) {
         this.fechasOcupadas = fechasOcupadas;
     }
 
-    public List<Pair<Date, Date>> getFechasOcupadas() {
+    public List<Date> getFechasOcupadas() {
         return fechasOcupadas;
     }
 
-    public void setFechasOcupadas(List<Pair<Date, Date>> fechasOcupadas) {
+    public void setFechasOcupadas(List<Date> fechasOcupadas) {
         this.fechasOcupadas = fechasOcupadas;
     }
 
@@ -31,8 +31,15 @@ public class Calendario implements Serializable {
         return true;
     }
 
-    public boolean consultarDisponibilidad(Date inicio, Date fin){
-        //TODO: Implementar
+    public boolean consultarDisponibilidad(Date inicio, Date fin) {
+        if (fechasOcupadas != null) {
+            for (Date d : fechasOcupadas) {
+                if (d.getTime() >= inicio.getTime() && d.getTime() <= fin.getTime()) {
+                    return false;
+                }
+            }
+            return true;
+        }
         return true;
     }
 }

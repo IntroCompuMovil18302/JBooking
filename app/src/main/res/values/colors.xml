@@ -3,6 +3,8 @@
     <color name="colorPrimary">#FF303F9F</color>
     <color name="colorPrimaryDark">#FF303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorBoton">#FF303F9F</color>
-    <color name="colorTextoBoton">#FFFFFFFF</color>
+    <color name="colorBoton">#303f9f</color>
+    <color name="colorTextoBoton">#ffffff</color>
+    <color name="colorUbicacion">#b1b6bb</color>
+    <color name="not_avialable_day">#E34444</color>
 </resources>

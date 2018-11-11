@@ -19,6 +19,7 @@ public class Registro3Activity extends AppCompatActivity {
     private EditText regNac;
     private Huesped myUsr;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

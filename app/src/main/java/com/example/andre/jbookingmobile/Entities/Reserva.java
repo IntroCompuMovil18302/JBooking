@@ -4,9 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Reserva implements Serializable {
-    private int id;
+    private String id;
     private Alojamiento alojamiento;
+    private String alojamientoId;
     private Usuario usuario;
+    private String usuarioId;
     private Date fechaInicio;
     private Date fechaFin;
     private double valor;
@@ -15,21 +17,23 @@ public class Reserva implements Serializable {
     public Reserva() {
     }
 
-    public Reserva(int id, Alojamiento alojamiento, Usuario usuario, Date fechaInicio, Date fechaFin, double valor, String tipo) {
+    public Reserva(String id, Alojamiento alojamiento, String alojamientoId, Usuario usuario, String usuarioId, Date fechaInicio, Date fechaFin, double valor, String tipo) {
         this.id = id;
         this.alojamiento = alojamiento;
+        this.alojamientoId = alojamientoId;
         this.usuario = usuario;
+        this.usuarioId = usuarioId;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.valor = valor;
         this.tipo = tipo;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
