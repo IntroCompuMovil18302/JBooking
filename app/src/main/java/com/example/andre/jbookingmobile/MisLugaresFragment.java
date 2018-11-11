@@ -15,8 +15,11 @@ import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.andre.jbookingmobile.Adapters.AlojamientoAdaptador;
+import com.example.andre.jbookingmobile.Adapters.LugarAdaptador;
 import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento1;
+import com.example.andre.jbookingmobile.CrearLugares.CrearLugar1;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.example.andre.jbookingmobile.Entities.Lugar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,18 +31,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MisAlojamientosFragment extends Fragment {
 
-    private Button buttonAgregar;
+public class MisLugaresFragment extends Fragment {
+
+    private Button agregar;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private List<Lugar> lugares;
     private FirebaseAuth mAuth;
-    private List<Alojamiento> alojamientos;
-    private GridView gridViewAlojamientos;
-    private AlojamientoAdaptador alojamientoAdaptador;
-    public static final String PATH_ALOJAMIENTOS = "alojamientos/";
+    private GridView gridViewLugares;
+    private LugarAdaptador lugarAdaptador;
+    public static final String PATH_ALOJAMIENTOS = "lugares/";
 
-    public MisAlojamientosFragment() {
+
+    public MisLugaresFragment() {
         // Required empty public constructor
     }
 
@@ -47,49 +52,52 @@ public class MisAlojamientosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_mis_alojamientos, container, false);
-        buttonAgregar = view.findViewById(R.id.buttonMisAlojamientosAdd);
+        View view = inflater.inflate(R.layout.fragment_mis_lugares, container, false);
+        agregar = view.findViewById(R.id.buttonMisLugaresAdd);
 
-
-        database = FirebaseDatabase.getInstance();
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
-        alojamientos = new ArrayList<>();
-        alojamientoAdaptador = new AlojamientoAdaptador(getContext(), alojamientos);
-        gridViewAlojamientos = view.findViewById(R.id.gridViewFragment1Alojamientos);
-        gridViewAlojamientos.setAdapter(alojamientoAdaptador);
-        initEvents();
-        cargarAlojamientos();
+        database = FirebaseDatabase.getInstance();
+        lugares = new ArrayList<>();
+        lugarAdaptador = new LugarAdaptador(getContext(), lugares);
+        gridViewLugares = view.findViewById(R.id.gridViewFragment1Lugares);
+        gridViewLugares.setAdapter(lugarAdaptador);
+
+        initevents();
+        cargarLugares();
+
+
         return view;
     }
 
-    private void initEvents(){
-        gridViewAlojamientos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public void  initevents(){
+        agregar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Alojamiento alojamientoActual = (Alojamiento) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getContext(),AlojamientoDetalleActivity.class);
-                intent.putExtra("alojamiento",(Serializable) alojamientoActual);
-                startActivity(intent);
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(),CrearLugar1.class));
             }
         });
 
-        buttonAgregar.setOnClickListener(new View.OnClickListener() {
+        gridViewLugares.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(),CrearAlojamiento1.class));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Lugar lugarActual = (Lugar) parent.getItemAtPosition(position);
+                /*Intent intent = new Intent(getContext(),LugarDetalleActivity.class);
+                intent.putExtra("lugar",(Serializable) lugarActual);
+                startActivity(intent);*/
             }
         });
     }
 
-    private void cargarAlojamientos(){
+
+    private void cargarLugares(){
         myRef = database.getReference(PATH_ALOJAMIENTOS);
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Alojamiento alojamiento = dataSnapshot.getValue(Alojamiento.class);
-                if (alojamiento.getAnfitrion().getCorreo().equals(mAuth.getCurrentUser().getEmail())){
-                    alojamientos.add(alojamiento);
-                    alojamientoAdaptador.notifyDataSetChanged();
+                Lugar lugar = dataSnapshot.getValue(Lugar.class);
+                if (lugar.getPropietario().getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                    lugares.add(lugar);
+                    lugarAdaptador.notifyDataSetChanged();
                 }
 
             }
@@ -115,5 +123,6 @@ public class MisAlojamientosFragment extends Fragment {
             }
         });
     }
+
 
 }

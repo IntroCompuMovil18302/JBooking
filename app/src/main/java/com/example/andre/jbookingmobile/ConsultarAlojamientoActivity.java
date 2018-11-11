@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.example.andre.jbookingmobile.Entities.Lugar;
 import com.example.andre.jbookingmobile.Entities.Ubicacion;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -76,6 +77,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
         private LatLng ubicacionusuario;
         private LatLng newlocation;
         private List<Alojamiento> alojamientosmapa;
+        private List<Lugar> lugaresmapa;
 
         public static final double lowerLeftLatitude = 4.486388;
         public static final double lowerLeftLongitude = -74.227082;
@@ -259,6 +261,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                                 firstTime = false;
                                 newlocation = pos;
                                 loadPlaces();
+                                loadTouristicPlaces();
                                 // pintarYMoverCasa(pos);
                                 editTextDireccion.setText("");
                                 // drawPath(ubicacionusuario, pos);
@@ -454,7 +457,6 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                     @Override
                                     public boolean onMarkerClick(Marker marker) {
-
                                         gotomaker(marker);
                                         return true;
                                     }
@@ -465,9 +467,19 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                         }
                         else{
                             if (distance(newlocation.latitude,newlocation.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
-                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
-                                lugar.title(locaciones.getUbicacion().getNombre());
-                                mMap.addMarker(lugar);
+                                if (!lugaresmapa.contains(locaciones)){
+                                    MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
+                                    lugar.title(locaciones.getUbicacion().getNombre());
+                                    mMap.addMarker(lugar);
+                                    alojamientosmapa.add(locaciones);
+                                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                        @Override
+                                        public boolean onMarkerClick(Marker marker) {
+                                            gotomaker(marker);
+                                            return true;
+                                        }
+                                    });
+                                }
                             }
                         }
 
@@ -480,6 +492,66 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                 }
             });
         }
+
+
+    public void loadTouristicPlaces() {
+        lugaresmapa = new ArrayList<Lugar>();
+        myRef = database.getReference("/lugares");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Lugar lugares = singleSnapshot.getValue(Lugar.class);
+
+                    LatLng ubicacionActual = new LatLng(lugares.getUbicacion().getLatitud(), lugares.getUbicacion().getLongitud());
+
+                    if (newlocation == null){
+                        if (distance(ubicacionusuario.latitude,ubicacionusuario.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
+                            MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.tourist));
+                            lugar.title(lugares.getUbicacion().getNombre());
+                            mMap.addMarker(lugar);
+                            lugaresmapa.add(lugares);
+                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    //gotomaker(marker);
+                                    return true;
+                                }
+                            });
+
+
+                        }
+                    }
+                    else{
+                        if (distance(newlocation.latitude,newlocation.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
+                            if (!lugaresmapa.contains(lugares)){
+                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.tourist));
+                                lugar.title(lugares.getUbicacion().getNombre());
+                                mMap.addMarker(lugar);
+                                lugaresmapa.add(lugares);
+                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+                                        //gotomaker(marker);
+                                        return true;
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
+    }
+
+
         public void gotomaker(Marker marker){
             String name = marker.getTitle();
             for(Alojamiento a: alojamientosmapa){

@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MisAlojamientosFragment">
+    tools:context=".MisLugaresFragment">
 
     <GridView
-        android:id="@+id/gridViewFragment1Alojamientos"
+        android:id="@+id/gridViewFragment1Lugares"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnWidth="130dp"
@@ -18,7 +18,7 @@
         android:verticalSpacing="8dp" />
 
     <Button
-        android:id="@+id/buttonMisAlojamientosAdd"
+        android:id="@+id/buttonMisLugaresAdd"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="bottom|right"

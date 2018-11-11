@@ -14,11 +14,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/je"
@@ -49,7 +47,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Registro4Activity" />
         <activity android:name=".Registro3Activity" />
-        <activity android:name=".AlojamientoDetalleActivity"></activity>
+        <activity android:name=".AlojamientoDetalleActivity" />
         <activity android:name=".ConsultarAlojamientoActivity" />
         <activity android:name=".CrearAlojamientos.CrearAlojamiento1" />
         <activity android:name=".CrearAlojamientos.CrearAlojamiento2" />
@@ -71,11 +69,18 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".CalendarioAlojamientoActivity" />
-        <activity android:name=".FiltroFechaActivity" android:noHistory="true"/>
-        <activity android:name=".AlojamientosFiltroFechaActivity"></activity>
+        <activity
+            android:name=".FiltroFechaActivity"
+            android:noHistory="true" />
+        <activity android:name=".AlojamientosFiltroFechaActivity" />
         <activity
             android:name=".CrearAlojamientos.CrearAlojamiento4_1"
-            android:label="@string/title_activity_crear_alojamiento4_1"></activity>
+            android:label="@string/title_activity_crear_alojamiento4_1" />
+        <activity android:name=".CrearLugares.CrearLugar1" />
+        <activity
+            android:name=".CrearLugares.CrearLugar2"
+            android:label="@string/title_activity_crear_lugar2" />
+        <activity android:name=".CrearLugares.CrearLugar3"></activity>
     </application>
 
 </manifest>

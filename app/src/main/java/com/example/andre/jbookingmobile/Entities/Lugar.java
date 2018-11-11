@@ -7,6 +7,7 @@ import java.util.List;
 public class Lugar implements Serializable {
     private String id;
     private String nombre;
+    private String descripcion;
     private Propietario propietario;
     private String propietarioId;
     private String fotos;
@@ -17,9 +18,10 @@ public class Lugar implements Serializable {
         comentarios = new ArrayList<>();
     }
 
-    public Lugar(String id, String nombre, Propietario propietario, String propietarioId, String fotos, Ubicacion ubicacion, List<Comentario> comentarios) {
+    public Lugar(String id, String nombre, String descripcion, Propietario propietario, String propietarioId, String fotos, Ubicacion ubicacion, List<Comentario> comentarios) {
         this.id = id;
         this.nombre = nombre;
+        this.descripcion = descripcion;
         this.propietario = propietario;
         this.propietarioId = propietarioId;
         this.fotos = fotos;
@@ -81,5 +83,13 @@ public class Lugar implements Serializable {
 
     public void setPropietarioId(String propietarioId) {
         this.propietarioId = propietarioId;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

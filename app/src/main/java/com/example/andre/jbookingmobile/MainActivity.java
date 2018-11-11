@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = new MisAlojamientosFragment();
                                 fragmentTransaction = true;
                                 break;
+                            case R.id.menu_seccion_5:
+                                fragment = new MisLugaresFragment();
+                                fragmentTransaction = true;
+                                break;
                             case R.id.logout:
                                 mAuth.signOut();
                                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
