@@ -41,15 +41,17 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 
 public class Fragment3 extends Fragment {
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseDatabase database;
     DatabaseReference myRef;
-    private Huesped huespedaux;
-    private Anfitrion anfitriondaux;
-    private Propietario propietarioaux;
+    private List<Huesped> huespedaux;
+    private List<Anfitrion> anfitriondaux;
+    private List<Propietario> propietarioaux;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     public static final String PATH_USUARIOS = "users/";
@@ -67,9 +69,10 @@ public class Fragment3 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment3, container, false);
         welcoming = view.findViewById(R.id.textviewnombre);
         userimage = view.findViewById(R.id.userimage);
-        huespedaux = null;
-        anfitriondaux = null;
-        propietarioaux = null;
+        huespedaux = new ArrayList<Huesped>();
+        anfitriondaux = new ArrayList<Anfitrion>();
+        propietarioaux = new ArrayList<Propietario>();
+
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() == null){
             welcoming.setText("Bienvenido");
@@ -78,6 +81,14 @@ public class Fragment3 extends Fragment {
         }
         database = FirebaseDatabase.getInstance();
 
+        loadHuesped();
+
+
+
+        Log.i("TAG","Holamundo" + huespedaux.size());
+        for (Huesped e : huespedaux){
+            Log.i("TAG", e.getCorreo());
+        }
 
 
 
@@ -103,8 +114,8 @@ public class Fragment3 extends Fragment {
                 }
             }
         }*/
-
-        String path1 = "userimages/huesped/"+mAuth.getCurrentUser().getEmail()+".png";
+////////////////////////////////////////////////////////////////
+       /* String path1 = "userimages/huesped/"+mAuth.getCurrentUser().getEmail()+".png";
         Log.i("Tag",path1);
         String path2 = "userimages/anfitrion/"+mAuth.getCurrentUser().getEmail()+".png";
         String path3 = "userimages/propietario/"+mAuth.getCurrentUser().getEmail()+".png";
@@ -114,32 +125,20 @@ public class Fragment3 extends Fragment {
 
 
         Log.i("Tag1",storageRef.child(path1).getDownloadUrl()+"");
-        /*if((storageRef.child(path1).getDownloadUrl()+"").contains(".png") ){
-            islandRef = storageRef.child(path1);
-            Log.i("Tag1","    ");
 
-        }else if ((storageRef.child(path2).getDownloadUrl()+"").contains(".png") ){
-            islandRef = storageRef.child(path2);
-            Log.i("Tag2","    ");
-        }
-           else if ((storageRef.child(path3).getDownloadUrl()+"").contains(".png") ){
-            islandRef = storageRef.child(path3);
-            Log.i("Tag3","    ");
-        }else {
-            Log.i("Tag3"," MURIO   ");
-        }*/
+
         islandRef = storageRef.child(path1);
 
         showimage(islandRef);
 
 
-        Log.i("Tagu",islandRef.getPath());
+        Log.i("Tagu",islandRef.getPath());*/
 
         return view;
     }
 
     public void showimage(final StorageReference islandRef){
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 1024 * 1024 * 5;
         islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
@@ -150,6 +149,116 @@ public class Fragment3 extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
+            }
+        });
+    }
+
+    public void loadHuesped() {
+        List<Huesped> aux = new ArrayList<Huesped>();
+        myRef = database.getReference("/users/huespedes");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Boolean  yaencontro = false;
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Huesped locaciones = singleSnapshot.getValue(Huesped.class);
+                    Log.i("TAG1",locaciones.getCorreo());
+                    Log.i("TAG1",mAuth.getCurrentUser().getEmail());
+                    if (locaciones.getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                        Log.i("TAG1","Encontro un correo");
+                        // PONER CODIGO PARA CARGAR LA IMAGEN DESDE HUESPED
+                        String path = "userimages/huesped/"+mAuth.getCurrentUser().getEmail()+".png";
+                        database = FirebaseDatabase.getInstance();
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference islandRef = storageRef.child(path);
+                        showimage(islandRef);
+                        yaencontro = true;
+                    }
+                }
+                if (!yaencontro){
+                    loadAnfitrion();
+                }
+                Log.i("TAG1","Holamundo" + huespedaux.size());
+                for (Huesped e : huespedaux){
+                    Log.i("TAG1", e.getCorreo());
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
+    }
+
+
+
+    public void loadAnfitrion() {
+        List<Huesped> aux = new ArrayList<Huesped>();
+        myRef = database.getReference("/users/anfitriones");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Boolean  yaencontro = false;
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Anfitrion locaciones = singleSnapshot.getValue(Anfitrion.class);
+                    Log.i("TAG1",locaciones.getCorreo());
+                    Log.i("TAG1",mAuth.getCurrentUser().getEmail());
+                    if (locaciones.getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                        Log.i("TAG1","Encontro un correo");
+                        // PONER CODIGO PARA CARGAR LA IMAGEN DESDE HUESPED
+                        String path = "userimages/anfitrion/"+mAuth.getCurrentUser().getEmail()+".png";
+                        database = FirebaseDatabase.getInstance();
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference islandRef = storageRef.child(path);
+                        showimage(islandRef);
+                        yaencontro = true;
+                    }
+                }
+                if (!yaencontro){
+                    loadPropietario();
+                }
+                Log.i("TAG1","Holamundo" + huespedaux.size());
+                for (Huesped e : huespedaux){
+                    Log.i("TAG1", e.getCorreo());
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
+    }
+
+
+    public void loadPropietario() {
+        List<Huesped> aux = new ArrayList<Huesped>();
+        myRef = database.getReference("/users/propietarios");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Boolean  yaencontro = false;
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Propietario locaciones = singleSnapshot.getValue(Propietario.class);
+                    Log.i("TAG1",locaciones.getCorreo());
+                    Log.i("TAG1",mAuth.getCurrentUser().getEmail());
+                    if (locaciones.getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                        Log.i("TAG1","Encontro un correo");
+                        // PONER CODIGO PARA CARGAR LA IMAGEN DESDE HUESPED
+                        String path = "userimages/propietario/"+mAuth.getCurrentUser().getEmail()+".png";
+                        database = FirebaseDatabase.getInstance();
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference islandRef = storageRef.child(path);
+                        showimage(islandRef);
+                        yaencontro = true;
+                    }
+                }
+                if (!yaencontro){
+                    Log.i("TAG", "FOTO NO ENCONTRADA");
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
             }
         });
     }
