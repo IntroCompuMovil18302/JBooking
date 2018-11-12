@@ -80,7 +80,8 @@
         <activity
             android:name=".CrearLugares.CrearLugar2"
             android:label="@string/title_activity_crear_lugar2" />
-        <activity android:name=".CrearLugares.CrearLugar3"></activity>
+        <activity android:name=".CrearLugares.CrearLugar3" />
+        <activity android:name=".LugarDetalleActivity"></activity>
     </application>
 
 </manifest>

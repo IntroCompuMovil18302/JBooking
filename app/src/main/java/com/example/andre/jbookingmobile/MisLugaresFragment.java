@@ -81,9 +81,9 @@ public class MisLugaresFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Lugar lugarActual = (Lugar) parent.getItemAtPosition(position);
-                /*Intent intent = new Intent(getContext(),LugarDetalleActivity.class);
+                Intent intent = new Intent(getContext(),LugarDetalleActivity.class);
                 intent.putExtra("lugar",(Serializable) lugarActual);
-                startActivity(intent);*/
+                startActivity(intent);
             }
         });
     }

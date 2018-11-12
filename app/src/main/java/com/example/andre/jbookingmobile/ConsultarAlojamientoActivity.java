@@ -514,7 +514,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                 @Override
                                 public boolean onMarkerClick(Marker marker) {
-                                    //gotomaker(marker);
+                                    gotomakerplace(marker);
                                     return true;
                                 }
                             });
@@ -532,7 +532,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                     @Override
                                     public boolean onMarkerClick(Marker marker) {
-                                        //gotomaker(marker);
+                                        gotomakerplace(marker);
                                         return true;
                                     }
                                 });
@@ -552,17 +552,29 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
     }
 
 
-        public void gotomaker(Marker marker){
-            String name = marker.getTitle();
-            for(Alojamiento a: alojamientosmapa){
-                Log.i("TAG",a.getNombre() + "-" + name);
-                if (a.getNombre().equals(name)){
+    public void gotomaker(Marker marker){
+        String name = marker.getTitle();
+        for(Alojamiento a: alojamientosmapa){
+            Log.i("TAG",a.getNombre() + "-" + name);
+            if (a.getNombre().equals(name)){
 
-                    Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
-                    intent.putExtra("alojamiento",(Serializable) a);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
+                intent.putExtra("alojamiento",(Serializable) a);
+                startActivity(intent);
             }
         }
+    }
+
+    public void gotomakerplace(Marker marker){
+        String name = marker.getTitle();
+        for(Lugar a: lugaresmapa){
+            Log.i("TAG",a.getNombre() + "-" + name);
+            if (a.getNombre().equals(name)){
+                Intent intent = new Intent(ConsultarAlojamientoActivity.this,LugarDetalleActivity.class);
+                intent.putExtra("lugar",(Serializable) a);
+                startActivity(intent);
+            }
+        }
+    }
 }
 
