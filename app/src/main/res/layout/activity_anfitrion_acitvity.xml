@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".AnfitrionAcitvity">
 
     <!-- Layout real de la actividad -->
 
@@ -15,12 +15,12 @@
 
     <!-- Layout del menú lateral (Navigation View) -->
     <android.support.design.widget.NavigationView
-        android:id="@+id/navview"
+        android:id="@+id/navview_anfitrion"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:layout_gravity="start"
         android:visibility="visible"
         app:headerLayout="@layout/header_navview"
-        app:menu="@menu/menu_navview"/>
+        app:menu="@menu/menu_navview_anfitrion"/>
 </android.support.v4.widget.DrawerLayout>

@@ -81,7 +81,9 @@
             android:name=".CrearLugares.CrearLugar2"
             android:label="@string/title_activity_crear_lugar2" />
         <activity android:name=".CrearLugares.CrearLugar3" />
-        <activity android:name=".LugarDetalleActivity"></activity>
+        <activity android:name=".LugarDetalleActivity" />
+        <activity android:name=".AnfitrionAcitvity" />
+        <activity android:name=".PropietarioActivity"></activity>
     </application>
 
 </manifest>
