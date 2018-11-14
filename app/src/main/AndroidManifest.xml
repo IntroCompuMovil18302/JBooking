@@ -83,7 +83,8 @@
         <activity android:name=".CrearLugares.CrearLugar3" />
         <activity android:name=".LugarDetalleActivity" />
         <activity android:name=".AnfitrionAcitvity" />
-        <activity android:name=".PropietarioActivity"></activity>
+        <activity android:name=".PropietarioActivity" />
+        <activity android:name=".ReservaDetalleActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageViewIReservaAdaptador"
+        android:layout_width="130dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        tools:srcCompat="@tools:sample/avatars[3]" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textViewReservaAdapterUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_weight="0.33"
+            android:text=" Bogota"
+            android:textColor="@color/colorUbicacion"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewReservaAdapterNombre"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_weight="0.33"
+            android:text=" Aparta estudio"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewReservaAdapterPrecio"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_weight="0.33"
+            android:text=" COP 255" />
+    </LinearLayout>
+</LinearLayout>
