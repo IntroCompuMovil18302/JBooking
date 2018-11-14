@@ -11,7 +11,7 @@ public class Calendario implements Serializable {
     private List<Date> fechasOcupadas;
 
     public Calendario() {
-        fechasOcupadas = new ArrayList<>();
+        fechasOcupadas = new ArrayList<Date>();
     }
 
     public Calendario(List<Date> fechasOcupadas) {
@@ -41,5 +41,14 @@ public class Calendario implements Serializable {
             return true;
         }
         return true;
+    }
+
+    public boolean isEmpty(){
+        if (this.fechasOcupadas.isEmpty()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

@@ -187,6 +187,7 @@ public class Registro4Activity extends AppCompatActivity {
                                     String key = myRef.push().getKey();
                                     myRef=database.getReference().child(PATH_USERS).child(PATH_PRPIETARIOS).child(key);
                                     myRef.setValue(myPro);
+                                    startActivity(new Intent(Registro4Activity.this, PropietarioActivity.class)); //o en el listener
                                 }else if(Rol.equals("HUESPED")){
                                     Huesped aux = (Huesped) myUser;
                                     upcrb.setDisplayName(aux.getNombre());
@@ -225,6 +226,7 @@ public class Registro4Activity extends AppCompatActivity {
                                     String key = myRef.push().getKey();
                                     myRef=database.getReference().child(PATH_USERS).child(PATH_HUESPEDES).child(key);
                                     myRef.setValue(myPro);
+                                    startActivity(new Intent(Registro4Activity.this, AnfitrionAcitvity.class)); //o en el listener
                                 }else if(Rol.equals("ANFITRION")){
                                     Anfitrion aux = (Anfitrion) myUser;
                                     upcrb.setDisplayName(aux.getNombre());
@@ -266,9 +268,10 @@ public class Registro4Activity extends AppCompatActivity {
                                     myRef=database.getReference().child(PATH_USERS).child(PATH_ANFITRIONES).child(key);
                                     //Log.i("TAG", myPro.getCorreo());
                                     myRef.setValue(myPro);
+                                    startActivity(new Intent(Registro4Activity.this, AnfitrionAcitvity.class)); //o en el listener
+
                                 }
 
-                                startActivity(new Intent(Registro4Activity.this, MainActivity.class)); //o en el listener
                             }
                         }
                         if (!task.isSuccessful()) {

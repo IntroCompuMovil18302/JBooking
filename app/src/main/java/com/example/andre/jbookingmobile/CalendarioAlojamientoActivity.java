@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -16,11 +17,24 @@ import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.Entities.Calendario;
+import com.example.andre.jbookingmobile.Entities.Huesped;
+import com.example.andre.jbookingmobile.Entities.Reserva;
+import com.example.andre.jbookingmobile.Entities.User;
+import com.example.andre.jbookingmobile.Entities.Usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.MarkStyle;
@@ -38,6 +52,12 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     private int contadorTouch;
     private Date fechaInicio;
     private Date fechaFin;
+    private FirebaseAuth mAuth;
+    private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    public final String PATH_RESERVAS = "reservas";
+    public final String PATH_ALOJAMIENTO = "alojamientos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +74,21 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         });
 
         alojamiento =  (Alojamiento)getIntent().getExtras().getSerializable("alojamiento");
-
+        Log.i("Tagggg",alojamiento.getId()+"Hola");
+        Log.i("Tagggg",alojamiento.getNombre());
+        mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         calendarView = findViewById(R.id.calendarAlojamiento);
         buttonReservar = findViewById(R.id.buttonCalendarioAlojamientoReservar);
         contadorTouch = 0;
         initEvents();
+        database = FirebaseDatabase.getInstance();
+
+        buttonReservar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                realizarreserva();
+            }
+        });
     }
 
     @Override
@@ -218,6 +248,105 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
             calendarView.unMarkDate(marcadas.get(i));
         }
     }
+
+    private void realizarreserva(){
+        Reserva myReserva = new Reserva();
+        myReserva.setAlojamiento(this.alojamiento);
+        myReserva.setAlojamientoId(this.alojamiento.getId());
+        myReserva.setFechaInicio(this.fechaInicio);
+        myReserva.setFechaFin(this.fechaFin);
+        int dias = fechaFin.getDay() - fechaInicio.getDay();
+        myReserva.setValor(alojamiento.getValorNoche()* dias);
+        myReserva.setTipo(alojamiento.getTipo());
+        loadHuesped(myReserva);
+
+    }
+
+
+    public void loadHuesped(final Reserva reserva) {
+        List<Huesped> aux = new ArrayList<Huesped>();
+        myRef = database.getReference("/users/huespedes");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Huesped locaciones = singleSnapshot.getValue(Huesped.class);
+                    Log.i("TAG1",locaciones.getCorreo());
+                    Log.i("TAG1",mAuth.getCurrentUser().getEmail());
+                    if (locaciones.getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                        Log.i("TAG1","Encontro un correo");
+                        // PONER CODIGO PARA CARGAR LA IMAGEN DESDE HUESPED
+                        reserva.setUsuario(locaciones);
+                        reserva.setUsuarioId(locaciones.getId());
+                        updatealojamiento(reserva);
+
+
+
+
+
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
+    }
+
+    public void updatealojamiento(Reserva reserva){
+
+        //Update Alojamiento
+
+        List<Date> fechasocupadas;
+        if (alojamiento.getCalendario().isEmpty()){
+            fechasocupadas = new ArrayList<Date>();
+        }else {
+            fechasocupadas = alojamiento.getCalendario().getFechasOcupadas();
+        }
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.setTime(fechaInicio);
+        calendar2.setTime(fechaFin);
+
+        calendar1.add(Calendar.DATE,1);
+        fechasocupadas.add(calendar1.getTime());
+        while(fechaIgual(calendar1.getTime(),calendar2.getTime()) < 0){
+            fechasocupadas.add(calendar1.getTime());
+            calendar1.add(Calendar.DATE,1);
+        }
+        fechasocupadas.add(calendar1.getTime());
+
+        Calendario calendario = new Calendario();
+        calendario.setFechasOcupadas(fechasocupadas);
+        alojamiento.setCalendario(calendario);
+
+        FirebaseDatabase database3= FirebaseDatabase.getInstance();
+        DatabaseReference myRef3 = database.getReference().child(PATH_ALOJAMIENTO);
+
+        String key = alojamiento.getId();
+        myRef3=database3.getReference().child(PATH_ALOJAMIENTO);
+        Log.i("TAGa",alojamiento.toString());
+        //myRef3.setValue(alojamiento);
+
+        Map<String, Object> alojamientoUpdates = new HashMap<>();
+        alojamientoUpdates.put(alojamiento.getId(), alojamiento);
+        myRef3.updateChildren(alojamientoUpdates);
+
+        addreserva(reserva);
+
+    }
+
+    public void addreserva(Reserva reserva){
+        //Agregar Reserva
+        FirebaseDatabase database2= FirebaseDatabase.getInstance();
+        DatabaseReference myRef2 = database.getReference().child(PATH_RESERVAS);
+        String key = myRef2.push().getKey();
+        myRef2=database2.getReference().child(PATH_RESERVAS).child(key);
+        reserva.setId(key);
+        myRef2.setValue(reserva);
+    }
+
 }
 
 

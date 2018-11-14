@@ -29,6 +29,7 @@ import com.example.andre.jbookingmobile.Entities.Anfitrion;
 import com.example.andre.jbookingmobile.Entities.Lugar;
 import com.example.andre.jbookingmobile.Entities.Propietario;
 import com.example.andre.jbookingmobile.MainActivity;
+import com.example.andre.jbookingmobile.PropietarioActivity;
 import com.example.andre.jbookingmobile.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -112,7 +113,7 @@ public class CrearLugar3 extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     publicar();
-                    startActivity(new Intent(CrearLugar3.this, MainActivity.class));
+                    startActivity(new Intent(CrearLugar3.this, PropietarioActivity.class));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

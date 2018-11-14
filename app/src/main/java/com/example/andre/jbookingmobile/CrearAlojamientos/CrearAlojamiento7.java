@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.andre.jbookingmobile.AnfitrionAcitvity;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.Entities.Anfitrion;
 import com.example.andre.jbookingmobile.Entities.Huesped;
@@ -115,7 +116,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     publicar();
-                    startActivity(new Intent(CrearAlojamiento7.this, MainActivity.class));
+                    startActivity(new Intent(CrearAlojamiento7.this, AnfitrionAcitvity.class));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -370,6 +371,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
                         FirebaseDatabase database2= FirebaseDatabase.getInstance();
                         DatabaseReference myRef2 = database.getReference().child(PATH_ALOJAMIENTOS);
                         String key = myRef2.push().getKey();
+                        myAlj.setId(key);
                         myRef2=database2.getReference().child(PATH_ALOJAMIENTOS).child(key);
                         myRef2.setValue(myAlj);
 
