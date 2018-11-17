@@ -33,6 +33,7 @@ public class LugarDetalleActivity extends AppCompatActivity {
     private TextView textViewDescripcion;
 
     private Button comollegar;
+    private Button comentarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class LugarDetalleActivity extends AppCompatActivity {
             }
         });
         comollegar = findViewById(R.id.buttoncomollegarLugar);
+        comentarios = findViewById(R.id.buttonComentarios);
         textViewLugar = findViewById(R.id.textViewLugarDetalleLugar);
         textViewNombre = findViewById(R.id.textViewLugarDetalleNombre);
         textViewDescripcion = findViewById(R.id.textViewLugarDetalleDescripcion);
@@ -92,6 +94,14 @@ public class LugarDetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LugarDetalleActivity.this,ComoLlegarActivity.class);
+                intent.putExtra("lugar",(Serializable) lugar);
+                startActivity(intent);
+            }
+        });
+        comentarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LugarDetalleActivity.this,ComentariosListaLugarActivity.class);
                 intent.putExtra("lugar",(Serializable) lugar);
                 startActivity(intent);
             }

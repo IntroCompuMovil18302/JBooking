@@ -86,7 +86,9 @@
         <activity android:name=".PropietarioActivity" />
         <activity android:name=".ReservaDetalleActivity" />
         <activity android:name=".ComoLlegarActivity" />
-        <activity android:name=".ComentariosActivity"></activity>
+        <activity android:name=".ComentariosActivity" />
+        <activity android:name=".ComentariosListaActivity" />
+        <activity android:name=".ComentariosListaLugarActivity"></activity>
     </application>
 
 </manifest>

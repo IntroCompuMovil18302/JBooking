@@ -92,4 +92,8 @@ public class Lugar implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    public void agregarComentario(Comentario comentario){
+        this.comentarios.add(comentario);
+    }
 }

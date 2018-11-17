@@ -368,6 +368,7 @@ public class CrearLugar3 extends AppCompatActivity {
                         FirebaseDatabase database2= FirebaseDatabase.getInstance();
                         DatabaseReference myRef2 = database.getReference().child(PATH_ALOJAMIENTOS);
                         String key = myRef2.push().getKey();
+                        myLug.setId(key);
                         myRef2=database2.getReference().child(PATH_ALOJAMIENTOS).child(key);
                         myRef2.setValue(myLug);
 

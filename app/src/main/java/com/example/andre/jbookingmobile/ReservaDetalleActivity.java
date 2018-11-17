@@ -16,6 +16,8 @@ import com.example.andre.jbookingmobile.Entities.Reserva;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -102,8 +104,10 @@ public class ReservaDetalleActivity extends AppCompatActivity {
         textViewTipo.setText(reserva.getAlojamiento().getTipoPropiedad());
         textViewServicios.setText(reserva.getAlojamiento().getServicios()+"");
         textViewPrecio.setText("$"+reserva.getValor());
-        String fecha1 = reserva.getFechaInicio().getDay()+"/"+reserva.getFechaInicio().getMonth()+"/"+reserva.getFechaInicio().getYear();
-        String fecha2 = reserva.getFechaFin().getDay()+"/"+reserva.getFechaFin().getMonth()+"/"+reserva.getFechaFin().getYear();
+        // yyyy.MM.dd
+        String fecha1 = new SimpleDateFormat("dd/MM/yyyy").format(reserva.getFechaInicio());
+        String fecha2 = new SimpleDateFormat("dd/MM/yyyy").format(reserva.getFechaFin());
+
         textViewDesde.setText(fecha1);
         textViewHasta.setText(fecha2);
     }

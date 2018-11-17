@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,9 +43,13 @@ public class ComentariosActivity extends AppCompatActivity {
     Reserva reserva;
     Comentario comentarioclass;
     Alojamiento alojamiento;
+    Lugar lugar;
+    private FirebaseAuth mAuth;
+    private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
     public final String PATH_ALOJAMIENTO = "alojamientos";
     public final String PATH_COMENTARIO = "comentarios";
     public final String PATH_RESERVA = "reservas";
+    public final String PATH_LUGAR = "lugares";
     boolean ya = false;
 
     @Override
@@ -58,9 +63,15 @@ public class ComentariosActivity extends AppCompatActivity {
     public void initVariables(){
         calificacion = findViewById(R.id.spinner);
         comentariodes = findViewById(R.id.edescripcion);
-        reserva = (Reserva) getIntent().getExtras().getSerializable("reserva");
+        mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
+        if (getIntent().getExtras().getSerializable("reserva") != null){
+            reserva = (Reserva) getIntent().getExtras().getSerializable("reserva");
+        }else{
+            lugar = (Lugar) getIntent().getExtras().getSerializable("lugar");
+        }
+
         agregarComentario = findViewById(R.id.buttonAddComentario);
-        Log.i("RES",reserva.getAlojamiento().getNombre());
+//        Log.i("RES",reserva.getAlojamiento().getNombre());
 
 
 
@@ -69,7 +80,11 @@ public class ComentariosActivity extends AppCompatActivity {
         agregarComentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadalojs();
+                if (reserva != null){
+                    loadalojs();
+                }else{
+                    loadplaces();
+                }
                 Intent intent = new Intent(ComentariosActivity.this,MainActivity.class);
                 intent.putExtra("reserva",(Serializable) reserva);
                 startActivity(intent);
@@ -102,8 +117,33 @@ public class ComentariosActivity extends AppCompatActivity {
         });
     }
 
+    public void loadplaces() {
+        FirebaseDatabase database7 = FirebaseDatabase.getInstance();
+        DatabaseReference myRef7 = database7.getReference("/lugares");
+        myRef7. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Lugar lugares = singleSnapshot.getValue(Lugar.class);
+                    Log.i("LOGGGG",lugares.getNombre());
+                    Log.i("LOGGGG",lugar.getNombre());
+                    if (lugares.getNombre().equals(lugar.getNombre())){
+                        Log.i("LOGU",lugares.getNombre());
+                        updateLugar(lugares);
+                    }
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
+    }
+
     public void updateAlojamiento(Alojamiento myalj){
         if(!ya){
+
             Comentario comentario = new Comentario();
             comentario.setPuntuacion(Integer.parseInt((String)calificacion.getSelectedItem()));
             comentario.setComentario(comentariodes.getText().toString());
@@ -140,9 +180,39 @@ public class ComentariosActivity extends AppCompatActivity {
             myRef.updateChildren(reservaUpdates);
             ya = true;
         }
+    }
+
+    public void updateLugar(Lugar mylug){
+        if(!ya){
+            Log.i("GAG","ENTRO A UPDATE ALOJS");
+            Comentario comentario = new Comentario();
+            comentario.setPuntuacion(Integer.parseInt((String)calificacion.getSelectedItem()));
+            comentario.setComentario(comentariodes.getText().toString());
+
+            comentario.setNombreUsuario(mAuth.getCurrentUser().getDisplayName());
+            FirebaseDatabase database2= FirebaseDatabase.getInstance();
+            DatabaseReference myRef2 = database2.getReference().child(PATH_COMENTARIO);
+            String key = myRef2.push().getKey();
+            myRef2=database2.getReference().child(PATH_COMENTARIO).child(key);
+            comentario.setId(key);
+            myRef2.setValue(comentario);
 
 
+            mylug.agregarComentario(comentario);
 
+
+            FirebaseDatabase database= FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference().child(PATH_LUGAR);
+            String key2 = mylug.getId();
+            myRef=database.getReference().child(PATH_LUGAR);
+            Log.i("TAGa",mylug.getId()+"");
+            Log.i("TAGa",myRef.getPath()+"");
+            Map<String, Object> lugarUpdates = new HashMap<>();
+            lugarUpdates.put(mylug.getId(), mylug);
+            myRef.updateChildren(lugarUpdates);
+
+            ya = true;
+        }
     }
 
 }

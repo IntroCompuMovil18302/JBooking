@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andre.jbookingmobile.Adapters.AlojamientoAdaptador;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.Entities.Lugar;
 import com.example.andre.jbookingmobile.Entities.Ubicacion;
@@ -74,6 +75,7 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng ubicacionusuario;
     private LatLng newlocation;
     private Lugar lugar;
+    private Alojamiento alojamiento;
 
     public static final double lowerLeftLatitude = 4.486388;
     public static final double lowerLeftLongitude = -74.227082;
@@ -102,7 +104,14 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
         mGeocoder = new Geocoder(getBaseContext());
         mLocationRequest = createLocationRequest();
         database= FirebaseDatabase.getInstance();
-        lugar = (Lugar) getIntent().getExtras().getSerializable("lugar");
+
+        if (getIntent().getExtras().getSerializable("lugar") != null){
+            lugar = (Lugar) getIntent().getExtras().getSerializable("lugar");
+        }else{
+            alojamiento = (Alojamiento) getIntent().getExtras().getSerializable("alojamiento");
+        }
+
+
         initEventos();
         initLocationUpdates();
         newlocation = null;
@@ -199,7 +208,13 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
                 Location location = locationResult.getLastLocation();
                 if (location != null && mMap != null){
                     LatLng ubicacionActual = new LatLng(location.getLatitude(), location.getLongitude());
-                    LatLng destino = new LatLng(lugar.getUbicacion().getLatitud(),lugar.getUbicacion().getLongitud());
+                    LatLng destino;
+                    if (lugar!= null){
+                        destino = new LatLng(lugar.getUbicacion().getLatitud(),lugar.getUbicacion().getLongitud());
+                    }else{
+                        destino = new LatLng(alojamiento.getUbicacion().getLatitud(),alojamiento.getUbicacion().getLongitud());
+                    }
+
                     ubicacionusuario = ubicacionActual;
                     if (usuario == null){
                         usuario = mMap.addMarker(new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.je)));
@@ -209,8 +224,16 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
                         usuario.setPosition(ubicacionActual);
                     }
 
-                    MarkerOptions lugarmark =  new MarkerOptions().position(destino).icon(BitmapDescriptorFactory.fromResource(R.drawable.destini));
-                    lugarmark.title(lugar.getUbicacion().getNombre());
+                    MarkerOptions lugarmark;
+                    if (lugar != null){
+                        lugarmark =  new MarkerOptions().position(destino).icon(BitmapDescriptorFactory.fromResource(R.drawable.destini));
+                        lugarmark.title(lugar.getUbicacion().getNombre());
+                    }else {
+                        lugarmark =  new MarkerOptions().position(destino).icon(BitmapDescriptorFactory.fromResource(R.drawable.housedr));
+                        lugarmark.title(alojamiento.getUbicacion().getNombre());
+                    }
+
+
                     mMap.addMarker(lugarmark);
                     mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
@@ -395,9 +418,16 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     public void gotomarker(Marker marker){
-        String name = marker.getTitle();
-        Intent intent = new Intent(ComoLlegarActivity.this,LugarDetalleActivity.class);
-        intent.putExtra("lugar",(Serializable) this.lugar);
-        startActivity(intent);
+        if (lugar != null){
+            String name = marker.getTitle();
+            Intent intent = new Intent(ComoLlegarActivity.this,LugarDetalleActivity.class);
+            intent.putExtra("lugar",(Serializable) this.lugar);
+            startActivity(intent);
+        }else{
+            String name = marker.getTitle();
+            Intent intent = new Intent(ComoLlegarActivity.this,AlojamientoDetalleActivity.class);
+            intent.putExtra("alojamiento",(Serializable) this.alojamiento);
+            startActivity(intent);
+        }
     }
 }
