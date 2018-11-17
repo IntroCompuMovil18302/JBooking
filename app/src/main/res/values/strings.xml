@@ -120,4 +120,15 @@
     <string name="siguiente">SIGUIENTE</string>
     <string name="title_activity_crear_alojamiento4_1">Map</string>
     <string name="title_activity_crear_lugar2">Map</string>
+
+    <string-array name="paises">
+        <item>Colombia</item>
+        <item>Mexico</item>
+        <item>Chile</item>
+        <item>Uruguay</item>
+        <item>Argentina</item>
+        <item>Venezuela</item>
+        <item>Ecuador</item>
+    </string-array>
+
 </resources>
