@@ -190,6 +190,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
                 fusedLocationProviderClient.requestLocationUpdates(mLocationRequest,locationCallback,null);
+                initEventos();
             }
         }
 
@@ -212,6 +213,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
 
 
                         loadPlaces();
+                        loadTouristicPlaces();
                         if (firstTime){
                             CircleOptions circleOptions = new CircleOptions()
                                     .center(ubicacionActual)
@@ -557,9 +559,16 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
         for(Alojamiento a: alojamientosmapa){
             Log.i("TAG",a.getNombre() + "-" + name);
             if (a.getNombre().equals(name)){
-
                 Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
                 intent.putExtra("alojamiento",(Serializable) a);
+                startActivity(intent);
+            }
+        }
+        for (Lugar l: lugaresmapa){
+            Log.i("TAG",l.getNombre() + "-" + name);
+            if (l.getNombre().equals(name)){
+                Intent intent = new Intent(ConsultarAlojamientoActivity.this,LugarDetalleActivity.class);
+                intent.putExtra("lugar",(Serializable) l);
                 startActivity(intent);
             }
         }
@@ -572,6 +581,14 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
             if (a.getNombre().equals(name)){
                 Intent intent = new Intent(ConsultarAlojamientoActivity.this,LugarDetalleActivity.class);
                 intent.putExtra("lugar",(Serializable) a);
+                startActivity(intent);
+            }
+        }
+        for(Alojamiento a: alojamientosmapa){
+            Log.i("TAG",a.getNombre() + "-" + name);
+            if (a.getNombre().equals(name)){
+                Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
+                intent.putExtra("alojamiento",(Serializable) a);
                 startActivity(intent);
             }
         }

@@ -112,9 +112,9 @@ public class ReservaDetalleActivity extends AppCompatActivity {
         buttonComentarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(ReservaDetalleActivity.this,ComentariosActivity.class);
+                Intent intent = new Intent(ReservaDetalleActivity.this,ComentariosActivity.class);
                 intent.putExtra("reserva",(Serializable) reserva);
-                startActivity(intent);*/
+                startActivity(intent);
             }
         });
     }

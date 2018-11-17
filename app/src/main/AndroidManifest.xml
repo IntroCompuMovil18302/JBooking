@@ -84,7 +84,9 @@
         <activity android:name=".LugarDetalleActivity" />
         <activity android:name=".AnfitrionAcitvity" />
         <activity android:name=".PropietarioActivity" />
-        <activity android:name=".ReservaDetalleActivity"></activity>
+        <activity android:name=".ReservaDetalleActivity" />
+        <activity android:name=".ComoLlegarActivity" />
+        <activity android:name=".ComentariosActivity"></activity>
     </application>
 
 </manifest>

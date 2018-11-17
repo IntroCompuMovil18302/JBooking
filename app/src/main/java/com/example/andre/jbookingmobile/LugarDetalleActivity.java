@@ -91,7 +91,9 @@ public class LugarDetalleActivity extends AppCompatActivity {
         comollegar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LugarDetalleActivity.this,ConsultarAlojamientoActivity.class));
+                Intent intent = new Intent(LugarDetalleActivity.this,ComoLlegarActivity.class);
+                intent.putExtra("lugar",(Serializable) lugar);
+                startActivity(intent);
             }
         });
     }

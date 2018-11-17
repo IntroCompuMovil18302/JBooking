@@ -249,4 +249,8 @@ public class Alojamiento implements Serializable {
         this.reservas = reservas;
     }
 
+    public void agregarcomentario(Comentario comentario){
+        this.comentarios.add(comentario);
+    }
+
 }
