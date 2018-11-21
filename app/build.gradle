@@ -39,6 +39,10 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
     implementation 'com.google.firebase:firebase-database:16.0.1'
+
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    implementation 'sun.bob:mcalendarview:1.0.0'
 }
 
 

@@ -52,6 +52,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,6 +74,8 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
         private EditText editTextDireccion;
         private TextView bienvenido;
         private LatLng ubicacionusuario;
+        private LatLng newlocation;
+        private List<Alojamiento> alojamientosmapa;
 
         public static final double lowerLeftLatitude = 4.486388;
         public static final double lowerLeftLongitude = -74.227082;
@@ -103,6 +106,8 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
             database= FirebaseDatabase.getInstance();
             initEventos();
             initLocationUpdates();
+            newlocation = null;
+
         }
 
 
@@ -134,9 +139,6 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
             }else{
                 mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.light));
             }
-
-            loadPlaces();
-
 
         }
 
@@ -206,15 +208,17 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                             usuario.setPosition(ubicacionActual);
                         }
 
-                        CircleOptions circleOptions = new CircleOptions()
-                                .center(ubicacionActual)
-                                .radius(2000) //metros
-                                .strokeWidth(10)
-                                .strokeColor(Color.BLUE)
-                                .fillColor(Color.argb(128, 127, 0, 0))
-                                .clickable(true);
-                        mMap.addCircle(circleOptions);
+
+                        loadPlaces();
                         if (firstTime){
+                            CircleOptions circleOptions = new CircleOptions()
+                                    .center(ubicacionActual)
+                                    .radius(2000) //metros
+                                    .strokeWidth(4)
+                                    .strokeColor(Color.BLUE)
+                                    .fillColor(Color.parseColor("#33FFFFFF"))
+                                    .clickable(true);
+                            mMap.addCircle(circleOptions);
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(ubicacionActual));
                             firstTime = false;
                         }
@@ -238,9 +242,26 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                         }else{
                             if (esDireccionValida(direccionActual)){
                                 LatLng pos = obtenerPosByDireccion(direccionActual);
-                                pintarYMoverCasa(pos);
+                                mMap.clear();
+                                MarkerOptions lugar =  new MarkerOptions().position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.je));
+                                mMap.addMarker(lugar);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+
+                                CircleOptions circleOptions = new CircleOptions()
+                                        .center(pos)
+                                        .radius(2000) //metros
+                                        .strokeWidth(4)
+                                        .strokeColor(Color.BLUE)
+                                        .fillColor(Color.parseColor("#33FFFFFF"))
+                                        .clickable(true);
+                                mMap.addCircle(circleOptions);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(pos));
+                                firstTime = false;
+                                newlocation = pos;
+                                loadPlaces();
+                                // pintarYMoverCasa(pos);
                                 editTextDireccion.setText("");
-                                drawPath(ubicacionusuario, pos);
+                                // drawPath(ubicacionusuario, pos);
                             }
                         }
 
@@ -258,7 +279,7 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
             if (!direccion.isEmpty()){
                 LatLng position = null;
                 try{
-                    List<Address> addresses = mGeocoder.getFromLocationName(direccion,2,lowerLeftLatitude,lowerLeftLongitude,upperRightLatitude,upperRightLongitude);
+                    List<Address> addresses = mGeocoder.getFromLocationName(direccion,2);//lowerLeftLatitude,lowerLeftLongitude,upperRightLatitude,upperRightLongitude);
                     if (addresses !=  null && !addresses.isEmpty()){
                         Address addressResult = addresses.get(0);
                         position = new LatLng(addressResult.getLatitude(),addressResult.getLongitude());
@@ -414,19 +435,42 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
         }
 
         public void loadPlaces() {
+            alojamientosmapa = new ArrayList<Alojamiento>();
             myRef = database.getReference("/alojamientos");
             myRef. addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                         Alojamiento locaciones = singleSnapshot.getValue(Alojamiento.class);
+
                         LatLng ubicacionActual = new LatLng(locaciones.getUbicacion().getLatitud(), locaciones.getUbicacion().getLongitud());
 
-                        if (distance(ubicacionusuario.latitude,ubicacionusuario.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
-                            MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
-                            lugar.title(locaciones.getUbicacion().getNombre());
-                            mMap.addMarker(lugar);
+                        if (newlocation == null){
+                            if (distance(ubicacionusuario.latitude,ubicacionusuario.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
+                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
+                                lugar.title(locaciones.getUbicacion().getNombre());
+                                mMap.addMarker(lugar);
+                                alojamientosmapa.add(locaciones);
+                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+
+                                        gotomaker(marker);
+                                        return true;
+                                    }
+                                });
+
+
+                            }
                         }
+                        else{
+                            if (distance(newlocation.latitude,newlocation.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
+                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
+                                lugar.title(locaciones.getUbicacion().getNombre());
+                                mMap.addMarker(lugar);
+                            }
+                        }
+
 
                     }
                 }
@@ -435,6 +479,18 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                     Log.w("TAG", "error en la consulta", databaseError.toException());
                 }
             });
+        }
+        public void gotomaker(Marker marker){
+            String name = marker.getTitle();
+            for(Alojamiento a: alojamientosmapa){
+                Log.i("TAG",a.getNombre() + "-" + name);
+                if (a.getNombre().equals(name)){
+
+                    Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
+                    intent.putExtra("alojamiento",(Serializable) a);
+                    startActivity(intent);
+                }
+            }
         }
 }
 

@@ -31,7 +31,7 @@ public class MapHttpConnection {
 
         }
         catch (Exception e) {
-            Log.d("Exception while reading url", e.toString());
+            Log.d("Excep while reading url", e.toString());
         } finally {
             istream.close();
             urlConnection.disconnect();

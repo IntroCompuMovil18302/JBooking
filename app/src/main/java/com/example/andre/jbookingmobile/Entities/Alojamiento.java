@@ -28,7 +28,10 @@ public class Alojamiento implements Serializable {
     private double valorNoche;
     private String fotos;
     private Ubicacion ubicacion;
+
     private Anfitrion anfitrion;
+    private String anfitrionId;
+
     private Calendario calendario;
     private List<Comentario> comentarios;
     private List<Reserva> reservas;
@@ -45,6 +48,43 @@ public class Alojamiento implements Serializable {
         this.fotos = fotos;
         this.ubicacion = ubicacion;
         this.anfitrion = anfitrion;
+        this.calendario = calendario;
+        this.comentarios = comentarios;
+        this.reservas = reservas;
+    }
+
+    public Alojamiento(String id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas, String anfitrionId) {
+        this.id = id;
+        this.tipo = tipo;
+        this.valorNoche = valorNoche;
+        this.fotos = fotos;
+        this.ubicacion = ubicacion;
+        this.anfitrion = anfitrion;
+        this.calendario = calendario;
+        this.comentarios = comentarios;
+        this.reservas = reservas;
+        this.anfitrionId = anfitrionId;
+    }
+
+    public Alojamiento(String id, String nombre, String descripcion, String tipo, String tipoPropiedad, String disposicion, int huespedes, int dormitorios, int camas, int banhos, boolean banhosPriv, String servicios, String serviciosSec, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, String anfitrionId, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.tipoPropiedad = tipoPropiedad;
+        this.disposicion = disposicion;
+        this.huespedes = huespedes;
+        this.dormitorios = dormitorios;
+        this.camas = camas;
+        this.banhos = banhos;
+        this.banhosPriv = banhosPriv;
+        this.servicios = servicios;
+        this.serviciosSec = serviciosSec;
+        this.valorNoche = valorNoche;
+        this.fotos = fotos;
+        this.ubicacion = ubicacion;
+        this.anfitrion = anfitrion;
+        this.anfitrionId = anfitrionId;
         this.calendario = calendario;
         this.comentarios = comentarios;
         this.reservas = reservas;
@@ -207,4 +247,5 @@ public class Alojamiento implements Serializable {
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
+
 }

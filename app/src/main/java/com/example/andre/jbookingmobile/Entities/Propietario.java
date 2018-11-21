@@ -5,21 +5,21 @@ import java.util.Date;
 import java.util.List;
 
 public class Propietario extends Usuario  implements Serializable {
-    private Lugar lugar;
+    private List<Lugar> lugar;
 
     public Propietario() {
     }
 
-    public Propietario(String id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, Lugar lugar) {
+    public Propietario(String id, String nombre, Date fechaNacimiento, String foto, String correo, List<Reserva> reservas, List<Lugar> lugar) {
         super(id, nombre, fechaNacimiento, foto, correo, reservas);
         this.lugar = lugar;
     }
 
-    public Lugar getLugar() {
+    public List<Lugar> getLugar() {
         return lugar;
     }
 
-    public void setLugar(Lugar lugar) {
+    public void setLugar(List<Lugar> lugar) {
         this.lugar = lugar;
     }
 }
