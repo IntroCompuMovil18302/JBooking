@@ -148,6 +148,13 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.light));
         }
 
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+            }
+        });
+
     }
 
     @Override

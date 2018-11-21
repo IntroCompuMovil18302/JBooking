@@ -38,7 +38,7 @@ public class Registro3Activity extends AppCompatActivity {
     private Spinner spinGen;
     private EditText regNac;
     private Huesped myUsr;
-    private ArrayList<String> paises;
+    ArrayList<String> countries = new ArrayList<String>();
     private Spinner nacionalidades;
     String paissel = "";
 
@@ -61,10 +61,15 @@ public class Registro3Activity extends AppCompatActivity {
     public void initvariables(){
         regButton= findViewById(R.id.buttonRegistro3);
         spinGen=findViewById(R.id.spinRegistrarGenero);
+        nacionalidades = findViewById(R.id.nacionalidades);
         Bundle bundle=getIntent().getBundleExtra("bundle");
         myUsr= (Huesped) bundle.getSerializable("USR");
-        paises = new ArrayList<>();
-        consumeRESTVolley();
+        countries.add("Seleccione un país");
+        nacionalityREST();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.support_simple_spinner_dropdown_item, countries);
+        nacionalidades.setAdapter(adapter);
+        //consumeRESTVolley();
 
         /*paises.add("Argentina");
         paises.add("Bolivia");
@@ -87,13 +92,7 @@ public class Registro3Activity extends AppCompatActivity {
         paises.add("Uruguay");
         paises.add("Venezuela");*/
 
-
-
-        nacionalidades = findViewById(R.id.nacionalidades);
-        Log.i("LAG",paises.size()+"");
-        HintAdapter hintAdapterTipo=new HintAdapter(this,android.R.layout.simple_list_item_1,this.paises);
-        nacionalidades.setAdapter(hintAdapterTipo);
-        nacionalidades.setSelection(hintAdapterTipo.getCount());
+        Log.i("LAG",countries.size()+"");
 
 
     }
@@ -104,11 +103,11 @@ public class Registro3Activity extends AppCompatActivity {
                 String gen= (String)spinGen.getSelectedItem();
                 String nacionalidad= (String)nacionalidades.getSelectedItem();
                 myUsr.setGenero(gen);
-                paissel = (String)nacionalidades.getSelectedItem();
-                nacionalidad = paissel;
+                //paissel = (String)nacionalidades.getSelectedItem();
+                //nacionalidad = paissel;
 
-                Log.i("NAC",paissel+"hola");
-                myUsr.setNacionalidad(paissel);
+                Log.i("NAC",nacionalidad+"hola");
+                myUsr.setNacionalidad(nacionalidad);
                 Log.i("NAC",myUsr.getNacionalidad()+"hola");
 
 
@@ -123,18 +122,25 @@ public class Registro3Activity extends AppCompatActivity {
         });
     }
 
-
-    public void consumeRESTVolley(){
+    private void nacionalityREST () {
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://restcountries.eu/rest/v2/";
-        String path = "region/Americas";
-        String query = "?fields=name";
-        StringRequest req = new StringRequest(Request.Method.GET, url+path+query,
+        String query = "https://restcountries.eu/rest/v2/all?fields=name";
+        StringRequest req = new StringRequest(Request.Method.GET, query,
                 new Response.Listener() {
                     @Override
                     public void onResponse(Object response) {
                         String data = (String)response;
-                        jsonmake(data);
+                        try {
+                            JSONArray nacionalities = new JSONArray(data);
+                            for(int i=0; i<nacionalities.length(); i++)
+                            {
+                                JSONObject jo = (JSONObject) nacionalities.get(i);
+                                String n = (String)jo.get("name");
+                                countries.add(n);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -142,30 +148,7 @@ public class Registro3Activity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.i("TAG", "Error handling rest invocation"+error.getCause());
                     }
-                }
-        );
+                });
         queue.add(req);
-    }
-
-    protected void jsonmake(String response) {
-        JSONArray result;
-        List<String> newList = new ArrayList<String>();
-        try {
-            result = new JSONArray(response);
-            for (int i = 0; i < 10/*result.length()*/; i++) {
-                JSONObject jo = (JSONObject) result.get(i);
-                // Log.d("TAG", "Json Object " + jo.toString());
-                String name = (String) jo.get("name");
-        //        paisesarray[i] = name;
-                Log.i("CAG",name);
-                paises.add(name.toString());
-            }
-            //paises.addAll(newList);
-            for (String e:paises){
-                Log.i("CCC",e);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }

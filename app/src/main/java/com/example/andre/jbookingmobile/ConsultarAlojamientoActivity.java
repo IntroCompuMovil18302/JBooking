@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.example.andre.jbookingmobile.Entities.Comentario;
 import com.example.andre.jbookingmobile.Entities.Lugar;
 import com.example.andre.jbookingmobile.Entities.Ubicacion;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -59,6 +60,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConsultarAlojamientoActivity extends AppCompatActivity implements OnMapReadyCallback{
 
@@ -88,6 +90,8 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
 
         FirebaseDatabase database;
         DatabaseReference myRef;
+        Map<String,Boolean> dobleclickalojs;
+        Map<String,Boolean> dobleclicklugar;
 
         private final static int LOCALIZATION_PERMISSION = 0;
         private final static String justificacion = "Acepte porfavor";
@@ -102,6 +106,10 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                     .findFragmentById(R.id.map);
             requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION,justificacion,LOCALIZATION_PERMISSION);
             mapFragment.getMapAsync(this);
+
+            dobleclickalojs = new HashMap<String,Boolean>();
+            dobleclicklugar = new HashMap<String,Boolean>();
+
             editTextDireccion = findViewById(R.id.editTextMapaDireccion);
             mGeocoder = new Geocoder(getBaseContext());
             mLocationRequest = createLocationRequest();
@@ -452,10 +460,24 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
 
                         if (newlocation == null){
                             if (distance(ubicacionusuario.latitude,ubicacionusuario.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
-                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
+                                List<Comentario> comentarios = locaciones.getComentarios();
+                                int sum = 0;
+                                for (Comentario c : comentarios){
+                                    sum += c.getPuntuacion();
+                                }
+                                if (comentarios.size() == 0){
+                                    sum = sum;
+                                }else{
+                                    sum = sum/comentarios.size();
+                                }
+                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual)
+                                        .title(locaciones.getUbicacion().getNombre())
+                                        .snippet("Calificaciones: "+sum)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
                                 lugar.title(locaciones.getUbicacion().getNombre());
                                 mMap.addMarker(lugar);
                                 alojamientosmapa.add(locaciones);
+                                dobleclickalojs.put(locaciones.getNombre(),Boolean.FALSE);
                                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                     @Override
                                     public boolean onMarkerClick(Marker marker) {
@@ -470,10 +492,24 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                         else{
                             if (distance(newlocation.latitude,newlocation.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
                                 if (!lugaresmapa.contains(locaciones)){
-                                    MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
+                                    List<Comentario> comentarios = locaciones.getComentarios();
+                                    int sum = 0;
+                                    for (Comentario c : comentarios){
+                                        sum += c.getPuntuacion();
+                                    }
+                                    if (comentarios.size() == 0){
+                                        sum = sum;
+                                    }else{
+                                        sum = sum/comentarios.size();
+                                    }
+                                    MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual)
+                                            .title(locaciones.getUbicacion().getNombre())
+                                            .snippet("Calificaciones: "+sum)
+                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.casitaperro));
                                     lugar.title(locaciones.getUbicacion().getNombre());
                                     mMap.addMarker(lugar);
                                     alojamientosmapa.add(locaciones);
+                                    dobleclickalojs.put(locaciones.getNombre(),Boolean.FALSE);
                                     mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                         @Override
                                         public boolean onMarkerClick(Marker marker) {
@@ -509,10 +545,24 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
 
                     if (newlocation == null){
                         if (distance(ubicacionusuario.latitude,ubicacionusuario.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
-                            MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.tourist));
-                            lugar.title(lugares.getUbicacion().getNombre());
+                            List<Comentario> comentarios = lugares.getComentarios();
+                            int sum = 0;
+                            for (Comentario c : comentarios){
+                                sum += c.getPuntuacion();
+                            }
+                            if (comentarios.size() == 0){
+                                sum = sum;
+                            }else{
+                                sum = sum/comentarios.size();
+                            }
+                            MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual)
+                                    .title(lugares.getUbicacion().getNombre())
+                                    .snippet("Calificacion: "+sum)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.tourist));
+                            //lugar.title(lugares.getUbicacion().getNombre());
                             mMap.addMarker(lugar);
                             lugaresmapa.add(lugares);
+                            dobleclicklugar.put(lugares.getNombre(),Boolean.FALSE);
                             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                 @Override
                                 public boolean onMarkerClick(Marker marker) {
@@ -527,10 +577,23 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
                     else{
                         if (distance(newlocation.latitude,newlocation.longitude,ubicacionActual.latitude,ubicacionActual.longitude)<2.0){
                             if (!lugaresmapa.contains(lugares)){
-                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.tourist));
-                                lugar.title(lugares.getUbicacion().getNombre());
+                                List<Comentario> comentarios = lugares.getComentarios();
+                                int sum = 0;
+                                for (Comentario c : comentarios){
+                                    sum += c.getPuntuacion();
+                                }
+                                if (comentarios.size() == 0){
+                                    sum = sum;
+                                }else{
+                                    sum = sum/comentarios.size();
+                                }
+                                MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual)
+                                        .title(lugares.getUbicacion().getNombre())
+                                        .snippet("Calificacion: "+sum)
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tourist));
                                 mMap.addMarker(lugar);
                                 lugaresmapa.add(lugares);
+                                dobleclicklugar.put(lugares.getNombre(),Boolean.FALSE);
                                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                     @Override
                                     public boolean onMarkerClick(Marker marker) {
@@ -559,17 +622,37 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
         for(Alojamiento a: alojamientosmapa){
             Log.i("TAG",a.getNombre() + "-" + name);
             if (a.getNombre().equals(name)){
-                Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
-                intent.putExtra("alojamiento",(Serializable) a);
-                startActivity(intent);
+                if (dobleclickalojs.get(a.getNombre())){
+                    dobleclickalojs.remove(a.getNombre());
+                    dobleclickalojs.put(a.getNombre(),Boolean.FALSE);
+                    Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
+                    intent.putExtra("alojamiento",(Serializable) a);
+                    startActivity(intent);
+                }else{
+                    Log.i("First","else load alojs");
+                    dobleclickalojs.remove(a.getNombre());
+                    dobleclickalojs.put(a.getNombre(),Boolean.TRUE);
+                    marker.showInfoWindow();
+                }
+
             }
         }
         for (Lugar l: lugaresmapa){
             Log.i("TAG",l.getNombre() + "-" + name);
             if (l.getNombre().equals(name)){
-                Intent intent = new Intent(ConsultarAlojamientoActivity.this,LugarDetalleActivity.class);
-                intent.putExtra("lugar",(Serializable) l);
-                startActivity(intent);
+                if (dobleclicklugar.get(l.getNombre())){
+                    dobleclicklugar.remove(l.getNombre());
+                    dobleclicklugar.put(l.getNombre(),Boolean.FALSE);
+                    Intent intent = new Intent(ConsultarAlojamientoActivity.this,LugarDetalleActivity.class);
+                    intent.putExtra("lugar",(Serializable) l);
+                    startActivity(intent);
+                }else{
+                    Log.i("First","else load alojs turistic");
+                    dobleclicklugar.remove(l.getNombre());
+                    dobleclicklugar.put(l.getNombre(),Boolean.TRUE);
+                    marker.showInfoWindow();
+                }
+
             }
         }
     }
@@ -578,18 +661,32 @@ public class ConsultarAlojamientoActivity extends AppCompatActivity implements O
         String name = marker.getTitle();
         for(Lugar a: lugaresmapa){
             Log.i("TAG",a.getNombre() + "-" + name);
-            if (a.getNombre().equals(name)){
+            if (dobleclicklugar.get(a.getNombre())){
+                dobleclicklugar.remove(a.getNombre());
+                dobleclicklugar.put(a.getNombre(),Boolean.FALSE);
                 Intent intent = new Intent(ConsultarAlojamientoActivity.this,LugarDetalleActivity.class);
                 intent.putExtra("lugar",(Serializable) a);
                 startActivity(intent);
+            }else{
+                Log.i("First","else load turistic");
+                dobleclicklugar.remove(a.getNombre());
+                dobleclicklugar.put(a.getNombre(),Boolean.TRUE);
+                marker.showInfoWindow();
             }
         }
         for(Alojamiento a: alojamientosmapa){
             Log.i("TAG",a.getNombre() + "-" + name);
-            if (a.getNombre().equals(name)){
+            if (dobleclickalojs.get(a.getNombre())){
+                dobleclickalojs.remove(a.getNombre());
+                dobleclickalojs.put(a.getNombre(),Boolean.FALSE);
                 Intent intent = new Intent(ConsultarAlojamientoActivity.this,AlojamientoDetalleActivity.class);
                 intent.putExtra("alojamiento",(Serializable) a);
                 startActivity(intent);
+            }else{
+                Log.i("First","else load turistic alojs");
+                dobleclickalojs.remove(a.getNombre());
+                dobleclickalojs.put(a.getNombre(),Boolean.TRUE);
+                marker.showInfoWindow();
             }
         }
     }
