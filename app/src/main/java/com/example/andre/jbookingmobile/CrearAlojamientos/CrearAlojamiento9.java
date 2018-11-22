@@ -133,8 +133,8 @@ public class CrearAlojamiento9 extends AppCompatActivity {
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat format12 = new SimpleDateFormat("yyyy-MM-dd");
         String formatted = format1.format(calendar1.getTime());
-        String rangeTxt = formatted + " < _ > " + format12.format(calendar2.getTime());
-        String rangeTxt1 = format1.format(fechaInicioTemp.getTime()) + " < _ > " + format12.format(fechaFinTemp.getTime());
+        String rangeTxt = formatted + "  " + format12.format(calendar2.getTime());
+        String rangeTxt1 = format1.format(fechaInicioTemp.getTime()) + "  " + format12.format(fechaFinTemp.getTime());
         System.out.println(rangeTxt);
         System.out.println(rangeTxt1);
         TextView tempTV = new TextView(this);
@@ -178,7 +178,7 @@ public class CrearAlojamiento9 extends AppCompatActivity {
             calendar1 = cal.first;
             calendar2 = cal.second;
             calendar1.add(Calendar.DATE, 1);
-            fechasoDisponibles.add(calendar1.getTime());
+            //fechasoDisponibles.add(calendar1.getTime());
             while (fechaIgual(calendar1.getTime(), calendar2.getTime()) < 0) {
                 fechasoDisponibles.add(calendar1.getTime());
                 calendar1.add(Calendar.DATE, 1);
