@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento1;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
+
+
         navView = findViewById(R.id.navview);
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.content_frame, new Fragment1());
@@ -58,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentTransaction = true;
                                 break;
                             case R.id.menu_seccion_3:
-                                fragment = new Fragment3();
-                                fragmentTransaction = true;
+                                Intent intent1 = new Intent(MainActivity.this,CrearAlojamiento1.class);
+                                startActivity(intent1);
                                 break;
                             case R.id.logout:
                                 mAuth.signOut();
