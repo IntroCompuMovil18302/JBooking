@@ -54,6 +54,7 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     private int contadorTouch;
     private Date fechaInicio;
     private Date fechaFin;
+    private List<Date> fechasNoDispo = new ArrayList<>();
     private FirebaseAuth mAuth;
     private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseDatabase database;
@@ -107,6 +108,8 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         int todayDay = today.get(Calendar.DAY_OF_MONTH);
         //calendarView.travelTo(new DateData(todayYear,todayMonth+1,todayDay));
         marcarNoDisponibles();
+        calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+        //calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
         calendarView.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(View view, DateData date) {
@@ -115,17 +118,39 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         });
     }
 
+    private boolean fechaUnicaValida(DateData date){
+        for (Date dd : fechasNoDispo){
+            Calendar cc = Calendar.getInstance();
+            cc.setTime(dd);
+            if (cc.get(Calendar.YEAR) == date.getYear() && cc.get(Calendar.MONTH)+1 == date.getMonth() && cc.get(Calendar.DAY_OF_MONTH) == date.getDay()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean fechaRangoValido(Date fe1, Date fe2){
+        for (Date dd : fechasNoDispo){
+            if (dd.getTime()>=fe1.getTime() && dd.getTime()<=fe2.getTime()){
+                return  false;
+            }
+        }
+        return true;
+    }
+
     private void marcarNoDisponibles(){
         Calendario calendario = alojamiento.getCalendario();
-        List<Date> fechasOcupadas =  null;// = calendario.getFechasOcupadas();
+        List<Date> fechasOcupadas =  null;
+        fechasOcupadas = calendario.getFechasOcupadas();
         if (fechasOcupadas == null){
             fechasOcupadas =  new ArrayList<>();
         }
+        fechasNoDispo = fechasOcupadas;
         Calendar fechita = Calendar.getInstance();
         fechita.set(Calendar.YEAR,2018);
         fechita.set(Calendar.MONTH,10);
         fechita.set(Calendar.DAY_OF_MONTH,6);
-        fechasOcupadas.add(fechita.getTime());
+        //fechasOcupadas.add(fechita.getTime());
         calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#E34444"));
         for (Date fecha: fechasOcupadas){
             Calendar diaActual = Calendar.getInstance();
@@ -140,62 +165,78 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         calendar0.set(Calendar.MONTH,date.getMonth()-1);
         calendar0.set(Calendar.DAY_OF_MONTH,date.getDay());
         if (contadorTouch == 0){
-            ++contadorTouch;
+            if(fechaUnicaValida(date)) {
+                ++contadorTouch;
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, date.getYear());
-            calendar.set(Calendar.MONTH, date.getMonth()-1);
-            calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
-            fechaInicio = calendar.getTime();
-
-            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-            calendarView.markDate(new DateData(date.getYear(),date.getMonth(),date.getDay()));
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, date.getYear());
+                calendar.set(Calendar.MONTH, date.getMonth() - 1);
+                calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
+                fechaInicio = calendar.getTime();
+                calendarView.markDate(new DateData(date.getYear(), date.getMonth(), date.getDay()));
+            }else{
+                Toast.makeText(CalendarioAlojamientoActivity.this,"Seleccione fecha disponible",Toast.LENGTH_SHORT).show();
+            }
         }else if (contadorTouch == 1){
             if (fechaIgual(fechaInicio, calendar0.getTime()) == 0){
                 // se deja todo igual
             }else if(fechaIgual(fechaInicio, calendar0.getTime()) > 0){
-                Calendar calendar1 = Calendar.getInstance();
-                calendar1.setTime(fechaInicio);
-                calendarView.unMarkDate(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH));
+                if (fechaUnicaValida(date)) {
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.setTime(fechaInicio);
+                    calendarView.unMarkDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH) + 1, calendar1.get(Calendar.DAY_OF_MONTH));
 
-                Calendar calendar2 = Calendar.getInstance();
-                calendar2.set(Calendar.YEAR, date.getYear());
-                calendar2.set(Calendar.MONTH, date.getMonth()-1);
-                calendar2.set(Calendar.DAY_OF_MONTH, date.getDay());
-                fechaInicio = calendar2.getTime();
-
-                calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-                calendarView.markDate(date);
+                    Calendar calendar2 = Calendar.getInstance();
+                    calendar2.set(Calendar.YEAR, date.getYear());
+                    calendar2.set(Calendar.MONTH, date.getMonth() - 1);
+                    calendar2.set(Calendar.DAY_OF_MONTH, date.getDay());
+                    fechaInicio = calendar2.getTime();
+                    calendarView.markDate(date);
+                }else {
+                    Toast.makeText(CalendarioAlojamientoActivity.this,"Seleccione fecha disponible",Toast.LENGTH_SHORT).show();
+                }
             }else{
-                ++contadorTouch;
-
                 Calendar calendar3 = Calendar.getInstance();
                 calendar3.set(Calendar.YEAR, date.getYear());
                 calendar3.set(Calendar.MONTH, date.getMonth()-1);
                 calendar3.set(Calendar.DAY_OF_MONTH, date.getDay());
-                fechaFin = calendar3.getTime();
+                if (fechaRangoValido(fechaInicio,calendar3.getTime())) {
+                    ++contadorTouch;
+                    fechaFin = calendar3.getTime();
+                    calendarView.markDate(date);
 
-                calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-                calendarView.markDate(date);
+                    dibujarSegmento(fechaInicio, fechaFin);
+                }else{
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.setTime(fechaInicio);
+                    calendarView.unMarkDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH) + 1, calendar1.get(Calendar.DAY_OF_MONTH));
 
-                dibujarSegmento(fechaInicio,fechaFin);
+                    Calendar calendar2 = Calendar.getInstance();
+                    calendar2.set(Calendar.YEAR, date.getYear());
+                    calendar2.set(Calendar.MONTH, date.getMonth() - 1);
+                    calendar2.set(Calendar.DAY_OF_MONTH, date.getDay());
+                    fechaInicio = calendar2.getTime();
+                    calendarView.markDate(date);
+                }
             }
         }else if (contadorTouch == 2){
-            contadorTouch = 1;
+            if (fechaUnicaValida(date)) {
+                contadorTouch = 1;
 
-            limpiarSegmento(fechaInicio,fechaFin);
+                limpiarSegmento(fechaInicio, fechaFin);
 
-            fechaFin = null;
+                fechaFin = null;
 
-            Calendar calendar4 = Calendar.getInstance();
-            calendar4.set(Calendar.YEAR, date.getYear());
-            calendar4.set(Calendar.MONTH, date.getMonth()-1);
-            calendar4.set(Calendar.DAY_OF_MONTH, date.getDay());
+                Calendar calendar4 = Calendar.getInstance();
+                calendar4.set(Calendar.YEAR, date.getYear());
+                calendar4.set(Calendar.MONTH, date.getMonth() - 1);
+                calendar4.set(Calendar.DAY_OF_MONTH, date.getDay());
 
-            fechaInicio = calendar4.getTime();
+                fechaInicio = calendar4.getTime();
 
-            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-            calendarView.markDate(date);
+
+                calendarView.markDate(date);
+            }
         }
     }
 
@@ -219,7 +260,7 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         calendar1.add(Calendar.DATE,1);
 
         while(fechaIgual(calendar1.getTime(),calendar2.getTime()) < 0){
-            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+
             calendarView.markDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH)+1, calendar1.get(Calendar.DAY_OF_MONTH));
             calendar1.add(Calendar.DATE,1);
         }
