@@ -37,8 +37,9 @@ public class Alojamiento implements Serializable {
     private List<Reserva> reservas;
 
     public Alojamiento() {
-        comentarios = new ArrayList<>();
-        reservas = new ArrayList<>();
+        comentarios = new ArrayList<Comentario>();
+        reservas = new ArrayList<Reserva>();
+        calendario = new Calendario();
     }
 
     public Alojamiento(String id, String tipo, double valorNoche, String fotos, Ubicacion ubicacion, Anfitrion anfitrion, Calendario calendario, List<Comentario> comentarios, List<Reserva> reservas) {
@@ -246,6 +247,10 @@ public class Alojamiento implements Serializable {
 
     public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
+    }
+
+    public void agregarcomentario(Comentario comentario){
+        this.comentarios.add(comentario);
     }
 
 }

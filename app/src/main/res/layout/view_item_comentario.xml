@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="21dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            app:srcCompat="@drawable/casa" />
+
+        <TextView
+            android:id="@+id/textViewusernamei"
+            android:layout_width="307dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="Username"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            tools:background="@android:color/holo_blue_light" />
+
+        <TextView
+            android:id="@+id/textViewcalificacionlist"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:text="5"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewDescripcioni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripcion . . ."
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/owhiteboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

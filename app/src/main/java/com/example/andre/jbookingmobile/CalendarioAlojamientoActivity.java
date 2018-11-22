@@ -1,6 +1,7 @@
 package com.example.andre.jbookingmobile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -16,11 +18,26 @@ import android.widget.Toast;
 
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.Entities.Calendario;
+import com.example.andre.jbookingmobile.Entities.Huesped;
+import com.example.andre.jbookingmobile.Entities.Reserva;
+import com.example.andre.jbookingmobile.Entities.User;
+import com.example.andre.jbookingmobile.Entities.Usuario;
+import com.example.andre.jbookingmobile.Services.NotificationService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sun.bob.mcalendarview.MCalendarView;
 import sun.bob.mcalendarview.MarkStyle;
@@ -36,8 +53,17 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button buttonReservar;
     private int contadorTouch;
+    private Date limiteInferior;
+    private Date limiteSuperior;
     private Date fechaInicio;
     private Date fechaFin;
+    private List<Date> fechasNoDispo = new ArrayList<>();
+    private FirebaseAuth mAuth;
+    private com.google.firebase.auth.FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+    public final String PATH_RESERVAS = "reservas";
+    public final String PATH_ALOJAMIENTO = "alojamientos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +80,21 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         });
 
         alojamiento =  (Alojamiento)getIntent().getExtras().getSerializable("alojamiento");
-
+        Log.i("Tagggg",alojamiento.getId()+"Hola");
+        Log.i("Tagggg",alojamiento.getNombre());
+        mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         calendarView = findViewById(R.id.calendarAlojamiento);
         buttonReservar = findViewById(R.id.buttonCalendarioAlojamientoReservar);
         contadorTouch = 0;
         initEvents();
+        database = FirebaseDatabase.getInstance();
+
+        buttonReservar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                realizarreserva();
+            }
+        });
     }
 
     @Override
@@ -75,6 +111,8 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         int todayDay = today.get(Calendar.DAY_OF_MONTH);
         //calendarView.travelTo(new DateData(todayYear,todayMonth+1,todayDay));
         marcarNoDisponibles();
+        calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+        //calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
         calendarView.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(View view, DateData date) {
@@ -83,17 +121,105 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         });
     }
 
+    private boolean fechaUnicaValida(DateData date){
+        for (Date dd : fechasNoDispo){
+            Calendar cc = Calendar.getInstance();
+            cc.setTime(dd);
+            if (cc.get(Calendar.YEAR) == date.getYear() && cc.get(Calendar.MONTH)+1 == date.getMonth() && cc.get(Calendar.DAY_OF_MONTH) == date.getDay()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private List<Date> disponiblesToNoDisponibles(List<Date> disponibles){
+
+        List<Date> misNoDisponibles = new ArrayList<>();
+        if (disponibles==null){
+            disponibles = new ArrayList<>();
+        }
+        //orden
+
+        if (!disponibles.isEmpty()){
+            Log.d("calen", disponibles.size()+"");
+
+
+            Date minimo = minDate(disponibles);
+            Date maximo = maxDate(disponibles);
+            Calendar x1 = Calendar.getInstance();
+            Calendar x2 = Calendar.getInstance();
+            x1.setTime(minimo);
+            x1.add(Calendar.DATE,-1);
+            x2.setTime(maximo);
+            x2.add(Calendar.DATE,1);
+            calendarView.setMarkedStyle(MarkStyle.LEFTSIDEBAR, Color.parseColor("#00ff00"));
+            calendarView.markDate(x1.getTime().getYear(),x1.getTime().getMonth()+1,x1.getTime().getDay());
+            calendarView.setMarkedStyle(MarkStyle.RIGHTSIDEBAR, Color.parseColor("#00ff00"));
+            calendarView.markDate(x2.getTime().getYear(),x2.getTime().getMonth()+1,x2.getTime().getDay());
+            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+            while (!(minimo.getYear() == maximo.getYear() && minimo.getMonth() == maximo.getMonth() && minimo.getDay()== maximo.getDay())){
+                if (!esta(minimo, disponibles)){
+                    misNoDisponibles.add(minimo);
+                }
+                Calendar ca1= Calendar.getInstance();
+                ca1.setTime(minimo);
+                ca1.add(Calendar.DATE,1);
+                minimo = ca1.getTime();
+            }
+        }
+        return  misNoDisponibles;
+    }
+
+    private boolean esta (Date d1, List<Date> todos){
+        for (Date g1 :todos){
+            if(d1.getYear() == g1.getYear() && g1.getMonth() == d1.getMonth() && g1.getDay() == d1.getYear()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Date minDate(List<Date> d){
+        Date menor = d.get(0);
+        for (Date d1:d){
+            if (menor.getTime() > d1.getTime()){
+                menor = d1;
+            }
+        }
+        return  menor;
+    }
+
+    private Date maxDate(List<Date> d){
+        Date max = d.get(0);
+        for (Date d1:d){
+            if (max.getTime() < d1.getTime()){
+                max = d1;
+            }
+        }
+        return  max;
+    }
+
+
+    private boolean fechaRangoValido(Date fe1, Date fe2){
+        for (Date dd : fechasNoDispo){
+            if (dd.getTime()>=fe1.getTime() && dd.getTime()<=fe2.getTime()){
+                return  false;
+            }
+        }
+        return true;
+    }
+
     private void marcarNoDisponibles(){
         Calendario calendario = alojamiento.getCalendario();
-        List<Date> fechasOcupadas =  null;// = calendario.getFechasOcupadas();
+        List<Date> fechasOcupadas =  null;
+        List<Date> fechasNoDispoibles = disponiblesToNoDisponibles(calendario.getFechasDisponibles());// sacar del calendario
+        fechasOcupadas = calendario.getFechasOcupadas();
         if (fechasOcupadas == null){
             fechasOcupadas =  new ArrayList<>();
         }
-        Calendar fechita = Calendar.getInstance();
-        fechita.set(Calendar.YEAR,2018);
-        fechita.set(Calendar.MONTH,10);
-        fechita.set(Calendar.DAY_OF_MONTH,6);
-        fechasOcupadas.add(fechita.getTime());
+        fechasOcupadas.addAll(fechasNoDispoibles);
+        fechasNoDispo = fechasOcupadas;
+
         calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#E34444"));
         for (Date fecha: fechasOcupadas){
             Calendar diaActual = Calendar.getInstance();
@@ -108,62 +234,78 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         calendar0.set(Calendar.MONTH,date.getMonth()-1);
         calendar0.set(Calendar.DAY_OF_MONTH,date.getDay());
         if (contadorTouch == 0){
-            ++contadorTouch;
+            if(fechaUnicaValida(date)) {
+                ++contadorTouch;
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, date.getYear());
-            calendar.set(Calendar.MONTH, date.getMonth()-1);
-            calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
-            fechaInicio = calendar.getTime();
-
-            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-            calendarView.markDate(new DateData(date.getYear(),date.getMonth(),date.getDay()));
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, date.getYear());
+                calendar.set(Calendar.MONTH, date.getMonth() - 1);
+                calendar.set(Calendar.DAY_OF_MONTH, date.getDay());
+                fechaInicio = calendar.getTime();
+                calendarView.markDate(new DateData(date.getYear(), date.getMonth(), date.getDay()));
+            }else{
+                Toast.makeText(CalendarioAlojamientoActivity.this,"Seleccione fecha disponible",Toast.LENGTH_SHORT).show();
+            }
         }else if (contadorTouch == 1){
             if (fechaIgual(fechaInicio, calendar0.getTime()) == 0){
                 // se deja todo igual
             }else if(fechaIgual(fechaInicio, calendar0.getTime()) > 0){
-                Calendar calendar1 = Calendar.getInstance();
-                calendar1.setTime(fechaInicio);
-                calendarView.unMarkDate(calendar1.get(Calendar.YEAR),calendar1.get(Calendar.MONTH)+1,calendar1.get(Calendar.DAY_OF_MONTH));
+                if (fechaUnicaValida(date)) {
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.setTime(fechaInicio);
+                    calendarView.unMarkDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH) + 1, calendar1.get(Calendar.DAY_OF_MONTH));
 
-                Calendar calendar2 = Calendar.getInstance();
-                calendar2.set(Calendar.YEAR, date.getYear());
-                calendar2.set(Calendar.MONTH, date.getMonth()-1);
-                calendar2.set(Calendar.DAY_OF_MONTH, date.getDay());
-                fechaInicio = calendar2.getTime();
-
-                calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-                calendarView.markDate(date);
+                    Calendar calendar2 = Calendar.getInstance();
+                    calendar2.set(Calendar.YEAR, date.getYear());
+                    calendar2.set(Calendar.MONTH, date.getMonth() - 1);
+                    calendar2.set(Calendar.DAY_OF_MONTH, date.getDay());
+                    fechaInicio = calendar2.getTime();
+                    calendarView.markDate(date);
+                }else {
+                    Toast.makeText(CalendarioAlojamientoActivity.this,"Seleccione fecha disponible",Toast.LENGTH_SHORT).show();
+                }
             }else{
-                ++contadorTouch;
-
                 Calendar calendar3 = Calendar.getInstance();
                 calendar3.set(Calendar.YEAR, date.getYear());
                 calendar3.set(Calendar.MONTH, date.getMonth()-1);
                 calendar3.set(Calendar.DAY_OF_MONTH, date.getDay());
-                fechaFin = calendar3.getTime();
+                if (fechaRangoValido(fechaInicio,calendar3.getTime())) {
+                    ++contadorTouch;
+                    fechaFin = calendar3.getTime();
+                    calendarView.markDate(date);
 
-                calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-                calendarView.markDate(date);
+                    dibujarSegmento(fechaInicio, fechaFin);
+                }else{
+                    Calendar calendar1 = Calendar.getInstance();
+                    calendar1.setTime(fechaInicio);
+                    calendarView.unMarkDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH) + 1, calendar1.get(Calendar.DAY_OF_MONTH));
 
-                dibujarSegmento(fechaInicio,fechaFin);
+                    Calendar calendar2 = Calendar.getInstance();
+                    calendar2.set(Calendar.YEAR, date.getYear());
+                    calendar2.set(Calendar.MONTH, date.getMonth() - 1);
+                    calendar2.set(Calendar.DAY_OF_MONTH, date.getDay());
+                    fechaInicio = calendar2.getTime();
+                    calendarView.markDate(date);
+                }
             }
         }else if (contadorTouch == 2){
-            contadorTouch = 1;
+            if (fechaUnicaValida(date)) {
+                contadorTouch = 1;
 
-            limpiarSegmento(fechaInicio,fechaFin);
+                limpiarSegmento(fechaInicio, fechaFin);
 
-            fechaFin = null;
+                fechaFin = null;
 
-            Calendar calendar4 = Calendar.getInstance();
-            calendar4.set(Calendar.YEAR, date.getYear());
-            calendar4.set(Calendar.MONTH, date.getMonth()-1);
-            calendar4.set(Calendar.DAY_OF_MONTH, date.getDay());
+                Calendar calendar4 = Calendar.getInstance();
+                calendar4.set(Calendar.YEAR, date.getYear());
+                calendar4.set(Calendar.MONTH, date.getMonth() - 1);
+                calendar4.set(Calendar.DAY_OF_MONTH, date.getDay());
 
-            fechaInicio = calendar4.getTime();
+                fechaInicio = calendar4.getTime();
 
-            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
-            calendarView.markDate(date);
+
+                calendarView.markDate(date);
+            }
         }
     }
 
@@ -187,7 +329,7 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         calendar1.add(Calendar.DATE,1);
 
         while(fechaIgual(calendar1.getTime(),calendar2.getTime()) < 0){
-            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+
             calendarView.markDate(calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH)+1, calendar1.get(Calendar.DAY_OF_MONTH));
             calendar1.add(Calendar.DATE,1);
         }
@@ -218,6 +360,116 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
             calendarView.unMarkDate(marcadas.get(i));
         }
     }
+
+    private void realizarreserva(){
+        if (fechaInicio!=null && fechaFin!=null) {
+            Reserva myReserva = new Reserva();
+            myReserva.setAlojamiento(this.alojamiento);
+            myReserva.setAlojamientoId(this.alojamiento.getId());
+            myReserva.setFechaInicio(this.fechaInicio);
+            myReserva.setFechaFin(this.fechaFin);
+            int dias = fechaFin.getDay() - fechaInicio.getDay();
+            myReserva.setValor(alojamiento.getValorNoche() * dias);
+            myReserva.setTipo(alojamiento.getTipo());
+            loadHuesped(myReserva);
+        }else {
+            Toast.makeText(CalendarioAlojamientoActivity.this,"Seleccione las fechas",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    public void loadHuesped(final Reserva reserva) {
+        List<Huesped> aux = new ArrayList<Huesped>();
+        myRef = database.getReference("/users/huespedes");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Huesped locaciones = singleSnapshot.getValue(Huesped.class);
+                    Log.i("TAG1",locaciones.getCorreo());
+                    Log.i("TAG1",mAuth.getCurrentUser().getEmail());
+                    if (locaciones.getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                        Log.i("TAG1","Encontro un correo");
+                        // PONER CODIGO PARA CARGAR LA IMAGEN DESDE HUESPED
+                        reserva.setUsuario(locaciones);
+                        reserva.setUsuarioId(locaciones.getId());
+                        updatealojamiento(reserva);
+
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
+    }
+
+    public void updatealojamiento(Reserva reserva){
+
+        //Update Alojamiento
+
+        List<Date> fechasocupadas;
+        if (alojamiento.getCalendario().isEmpty()){
+            fechasocupadas = new ArrayList<Date>();
+        }else {
+            fechasocupadas = alojamiento.getCalendario().getFechasOcupadas();
+        }
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.setTime(fechaInicio);
+        calendar2.setTime(fechaFin);
+
+        calendar1.add(Calendar.DATE,1);
+        fechasocupadas.add(calendar1.getTime());
+        while(fechaIgual(calendar1.getTime(),calendar2.getTime()) < 0){
+            fechasocupadas.add(calendar1.getTime());
+            calendar1.add(Calendar.DATE,1);
+        }
+        fechasocupadas.add(calendar1.getTime());
+
+        Calendario calendario = new Calendario();
+        calendario.setFechasOcupadas(fechasocupadas);
+        alojamiento.setCalendario(calendario);
+
+        FirebaseDatabase database3= FirebaseDatabase.getInstance();
+        DatabaseReference myRef3 = database.getReference().child(PATH_ALOJAMIENTO);
+
+        String key = alojamiento.getId();
+        myRef3=database3.getReference().child(PATH_ALOJAMIENTO);
+        Log.i("TAGa",alojamiento.toString());
+        //myRef3.setValue(alojamiento);
+
+        Map<String, Object> alojamientoUpdates = new HashMap<>();
+        alojamientoUpdates.put(alojamiento.getId(), alojamiento);
+        myRef3.updateChildren(alojamientoUpdates);
+
+        addreserva(reserva);
+
+    }
+
+    public void addreserva(Reserva reserva){
+        //Agregar Reserva
+        FirebaseDatabase database2= FirebaseDatabase.getInstance();
+        DatabaseReference myRef2 = database.getReference().child(PATH_RESERVAS);
+        String key = myRef2.push().getKey();
+        myRef2=database2.getReference().child(PATH_RESERVAS).child(key);
+        reserva.setId(key);
+        myRef2.setValue(reserva);
+
+        Intent intent = new Intent(CalendarioAlojamientoActivity.this, NotificationService.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("reserva", reserva);
+
+        intent.putExtras(bundle);
+
+
+        startService(intent);
+        Intent intent2 = new Intent(CalendarioAlojamientoActivity.this,MainActivity.class);
+        startActivity(intent2);
+    }
+
 }
 
 

@@ -84,4 +84,20 @@ public class Reserva implements Serializable {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    public String getAlojamientoId() {
+        return alojamientoId;
+    }
+
+    public void setAlojamientoId(String alojamientoId) {
+        this.alojamientoId = alojamientoId;
+    }
+
+    public String getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(String usuarioId) {
+        this.usuarioId = usuarioId;
+    }
 }

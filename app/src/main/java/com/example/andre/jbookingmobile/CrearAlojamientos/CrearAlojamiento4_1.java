@@ -51,14 +51,14 @@ public class CrearAlojamiento4_1 extends FragmentActivity implements OnMapReadyC
             public void onClick(View view) {
                 LatLng current = mMap.getCameraPosition().target;
                 //mMap.addMarker(new MarkerOptions().position(current).title("Marker in Sydney"));
-                Ubicacion currentUb= new Ubicacion(current.latitude,current.longitude,0.0,""+ mAuth.getCurrentUser().getDisplayName());
+                Ubicacion currentUb= new Ubicacion(current.latitude,current.longitude,0.0,myAlj.getNombre());
                 myAlj.setUbicacion(currentUb);
 
-                Toast.makeText(CrearAlojamiento4_1.this,current.latitude+" "+current.longitude + " "+ mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
+               // Toast.makeText(CrearAlojamiento4_1.this,current.latitude+" "+current.longitude + " "+ mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
 
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("ALOJ",  myAlj);
-                Intent intent = new Intent(CrearAlojamiento4_1.this, CrearAlojamiento5.class);
+                Intent intent = new Intent(CrearAlojamiento4_1.this, CrearAlojamiento7.class);
                 intent.putExtra("bundle",bundle);
                 startActivity(intent);
             }

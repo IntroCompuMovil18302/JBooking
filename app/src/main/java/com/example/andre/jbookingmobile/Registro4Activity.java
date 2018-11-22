@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento7;
 import com.example.andre.jbookingmobile.Entities.Anfitrion;
 import com.example.andre.jbookingmobile.Entities.Huesped;
 import com.example.andre.jbookingmobile.Entities.Propietario;
@@ -188,6 +187,7 @@ public class Registro4Activity extends AppCompatActivity {
                                     String key = myRef.push().getKey();
                                     myRef=database.getReference().child(PATH_USERS).child(PATH_PRPIETARIOS).child(key);
                                     myRef.setValue(myPro);
+                                    startActivity(new Intent(Registro4Activity.this, PropietarioActivity.class)); //o en el listener
                                 }else if(Rol.equals("HUESPED")){
                                     Huesped aux = (Huesped) myUser;
                                     upcrb.setDisplayName(aux.getNombre());
@@ -226,6 +226,7 @@ public class Registro4Activity extends AppCompatActivity {
                                     String key = myRef.push().getKey();
                                     myRef=database.getReference().child(PATH_USERS).child(PATH_HUESPEDES).child(key);
                                     myRef.setValue(myPro);
+                                    startActivity(new Intent(Registro4Activity.this, AnfitrionAcitvity.class)); //o en el listener
                                 }else if(Rol.equals("ANFITRION")){
                                     Anfitrion aux = (Anfitrion) myUser;
                                     upcrb.setDisplayName(aux.getNombre());
@@ -267,11 +268,10 @@ public class Registro4Activity extends AppCompatActivity {
                                     myRef=database.getReference().child(PATH_USERS).child(PATH_ANFITRIONES).child(key);
                                     //Log.i("TAG", myPro.getCorreo());
                                     myRef.setValue(myPro);
+                                    startActivity(new Intent(Registro4Activity.this, AnfitrionAcitvity.class)); //o en el listener
+
                                 }
 
-                                Intent intent = new Intent(Registro4Activity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
                             }
                         }
                         if (!task.isSuccessful()) {

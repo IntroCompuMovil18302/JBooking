@@ -6,15 +6,26 @@
     tools:context=".Fragment2">
 
     <Button
-        android:id="@+id/butNewAloj"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Crear Alojamineto" />
+        android:id="@+id/buttonFragment1MapaReserva"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/round_button"
+        android:text="Map"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextoBoton" />
 
-    <TextView
+    <GridView
+        android:id="@+id/gridViewFragment1Reservas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/fragment2" />
-
+        android:columnWidth="130dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:horizontalSpacing="4dp"
+        android:numColumns="2"
+        android:paddingLeft="15dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp" />
 </FrameLayout>

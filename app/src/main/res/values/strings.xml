@@ -19,6 +19,7 @@
     <string name="title_activity_main">MainActivity</string>
 
     <string name="misalojamientos">Mis alojamientos</string>
+    <string name="misalugarse">Mis Lugares</string>
 
     <string name="fragment1">Fragmento 1</string>
     <string name="fragment2">Fragmento 2</string>
@@ -118,4 +119,25 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="siguiente">SIGUIENTE</string>
     <string name="title_activity_crear_alojamiento4_1">Map</string>
+    <string name="title_activity_crear_lugar2">Map</string>
+
+    <string-array name="paises">
+        <item>Colombia</item>
+        <item>Mexico</item>
+        <item>Chile</item>
+        <item>Uruguay</item>
+        <item>Argentina</item>
+        <item>Venezuela</item>
+        <item>Ecuador</item>
+    </string-array>
+
+    <string-array name="calificacion">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
 </resources>

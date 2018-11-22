@@ -5,6 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".MisAlojamientosFragment">
 
+    <GridView
+        android:id="@+id/gridViewFragment1Alojamientos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="130dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:horizontalSpacing="4dp"
+        android:numColumns="2"
+        android:paddingLeft="15dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp" />
+
     <Button
         android:id="@+id/buttonMisAlojamientosAdd"
         android:layout_width="70dp"

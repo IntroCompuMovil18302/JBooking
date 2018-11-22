@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LugarDetalleActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="118dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutGaleria2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/buttoncomollegarLugar"
+                android:layout_width="173dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="0.6"
+                android:background="@drawable/boton_general"
+                android:text="Como Llegar"
+                android:textAllCaps="true"
+                android:textColor="@color/colorTextoBoton"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/buttonComentarios"
+                android:layout_width="169dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="0.6"
+                android:background="@drawable/boton_general"
+                android:text="Comentarios"
+                android:textAllCaps="true"
+                android:textColor="@color/colorTextoBoton"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewLugarDetalleDescripcion"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="36dp"
+                android:text="A veces hace falta renegar y sentir que la humanidad da vergüenza, que la sociedad está enferma y que uno puede ser lo que quiera menos el psicoanalista del otro."
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLugarDetalleNombre" />
+
+            <TextView
+                android:id="@+id/textViewLugarDetalleNombre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:text="Apartamento con bonita vista"
+                android:textAllCaps="false"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLugarDetalleLugar" />
+
+            <TextView
+                android:id="@+id/textViewLugarDetalleLugar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Boyaca, Duitama"
+                android:textAllCaps="true"
+                android:textColor="@color/colorUbicacion"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

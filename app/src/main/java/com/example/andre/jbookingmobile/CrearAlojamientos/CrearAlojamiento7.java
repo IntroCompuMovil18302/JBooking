@@ -24,13 +24,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.andre.jbookingmobile.AnfitrionAcitvity;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.example.andre.jbookingmobile.Entities.Anfitrion;
+import com.example.andre.jbookingmobile.Entities.Huesped;
 import com.example.andre.jbookingmobile.MainActivity;
 import com.example.andre.jbookingmobile.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,6 +47,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -110,9 +116,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     publicar();
-                    Intent intent = new Intent(CrearAlojamiento7.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    startActivity(new Intent(CrearAlojamiento7.this, AnfitrionAcitvity.class));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -141,8 +145,9 @@ public class CrearAlojamiento7 extends AppCompatActivity {
     private void publicar() throws InterruptedException {
 
         subirimagenes();
-        sleep(8000);
+        sleep(6000);
         getURISfotos();
+
 
     }
 
@@ -229,7 +234,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
                              View view = inflaterReg.inflate(R.layout.imagen_alojamiento_vis, linearLayoutGaleriaReg,false);
                             ImageView imagenActual = view.findViewById(R.id.imageViewAlojamientoDetalleFotoReg);
                             Picasso.with(CrearAlojamiento7.this).load(imageUri).into(imagenActual);
-                    //Toast.makeText(this,myAlj.getFotos(),Toast.LENGTH_LONG).show();
+                   // Toast.makeText(this,myAlj.getFotos(),Toast.LENGTH_LONG).show();
                             linearLayoutGaleriaReg.addView(view);
                 }
                 return;
@@ -315,7 +320,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
             //Log.i("-------ON SUCCESS"+fotosHTTP+".",path+"--"+imagsCont);
 
             //String npath = "alojamientos/andyflow/img1.png";
-            String npath = "alojamientos/"+myAlj.getNombre().toString().replaceAll(" ","")+"/img".concat(Integer.toString(i)).concat(".png");
+            String npath = "alojamientos/"+myAlj.getNombre().toString()+"/img".concat(Integer.toString(i)).concat(".png");
             Log.i("npath",npath);
             userimgref = storage.getReference().child(npath);
             Log.i("------------ON FOR"+fotosHTTP+"--","Si si ");
@@ -327,13 +332,12 @@ public class CrearAlojamiento7 extends AppCompatActivity {
                     Log.i("----ON SUCCESS SECOND"+fotosHTTP+".","Entro al on succes");
 
                     if (contaux >= 4){
-                        myAlj.setFotos(fotosHTTP);
-                        myAlj.getUbicacion().setNombre(myAlj.getNombre().toString());
-                        myRef=database.getReference().child(PATH_ALOJAMIENTOS);
-                        String key = myRef.push().getKey();
-                        myRef=database.getReference().child(PATH_ALOJAMIENTOS).child(key);
-                        myRef.setValue(myAlj);
 
+                        myAlj.setFotos(fotosHTTP);
+                        cargarContenido();
+
+
+                        //myRef.setValue(myAlj);
 
                     }
                     contaux++;
@@ -346,6 +350,39 @@ public class CrearAlojamiento7 extends AppCompatActivity {
         Log.i("Tag3",myAlj.getFotos());
 
 
+
+    }
+
+    public void cargarContenido(){
+        myRef = database.getReference("/users/anfitriones");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Anfitrion locaciones = singleSnapshot.getValue(Anfitrion.class);
+                    Log.i("TAG1",locaciones.getCorreo());
+                    Log.i("TAG1",mAuth.getCurrentUser().getEmail());
+                    if (locaciones.getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                        Log.i("TAG1","Encontro un correo");
+                        // PONER CODIGO PARA CARGAR LA IMAGEN DESDE HUESPED
+
+                        myAlj.setAnfitrion(locaciones);
+
+                        FirebaseDatabase database2= FirebaseDatabase.getInstance();
+                        DatabaseReference myRef2 = database.getReference().child(PATH_ALOJAMIENTOS);
+                        String key = myRef2.push().getKey();
+                        myAlj.setId(key);
+                        myRef2=database2.getReference().child(PATH_ALOJAMIENTOS).child(key);
+                        myRef2.setValue(myAlj);
+
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
 
     }
 }

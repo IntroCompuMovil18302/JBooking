@@ -34,7 +34,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:layout_weight="1"
-            android:background="@drawable/boton_general"
+            android:background="@drawable/roundcorner"
             android:elevation="5dp"
             android:text="Seleccionar"
             android:textColor="@color/colorTextoBoton" />

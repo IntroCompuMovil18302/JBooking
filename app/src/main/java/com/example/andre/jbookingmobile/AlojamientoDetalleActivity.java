@@ -4,16 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.example.andre.jbookingmobile.Entities.Comentario;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -39,8 +38,11 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
     private TextView textViewCamas;
     private TextView textViewBanhos;
     private TextView textViewServicios;
+    private TextView textViewCalificacion;
 
     private Button buttonDisponibilidad;
+    private Button buttonComentarios;
+    private Button butttonComollegar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +68,11 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
         textViewCamas = findViewById(R.id.textViewAlojamientoDetalleCamas);
         textViewBanhos = findViewById(R.id.textViewAlojamientoDetalleBanhos);
         textViewServicios = findViewById(R.id.textViewAlojamientoDetalleServicios);
+        textViewCalificacion = findViewById(R.id.textViewCalificacioni);
 
         buttonDisponibilidad = findViewById(R.id.buttonAlojamientoDetalleDisponible);
+        buttonComentarios = findViewById(R.id.buttonComentarios);
+        butttonComollegar = findViewById(R.id.buttonComoLlegarTo);
 
         alojamiento = (Alojamiento) getIntent().getExtras().getSerializable("alojamiento");
 
@@ -100,7 +105,7 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
 
         textViewLugar.setText(alojamiento.getUbicacion().getNombre());
         textViewNombre.setText(alojamiento.getNombre());
-        textViewTipo.setText(alojamiento.getTipoPropiedad());
+        textViewTipo.setText(alojamiento.getTipo());
         textViewDescripcion.setText(alojamiento.getDescripcion());
         textViewHuespedes.setText(alojamiento.getHuespedes()+" Huespedes");
         textViewCuartos.setText(alojamiento.getDormitorios()+" Dormitorios");
@@ -108,6 +113,18 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
         textViewBanhos.setText(alojamiento.getBanhos()+" Baños");
         textViewServicios.setText(alojamiento.getServicios()+"");
         textViewPrecio.setText("$"+alojamiento.getValorNoche()+"/ Noche");
+
+        List<Comentario> comentarios = alojamiento.getComentarios();
+        int sum = 0;
+        for (Comentario c : comentarios){
+            sum += c.getPuntuacion();
+        }
+        if (comentarios.size() == 0){
+            sum = sum;
+        }else{
+            sum = sum/comentarios.size();
+        }
+        textViewCalificacion.setText("Calificacion: "+sum);
     }
 
     private void initEvents(){
@@ -115,6 +132,22 @@ public class AlojamientoDetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AlojamientoDetalleActivity.this,CalendarioAlojamientoActivity.class);
+                intent.putExtra("alojamiento",(Serializable) alojamiento);
+                startActivity(intent);
+            }
+        });
+        buttonComentarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AlojamientoDetalleActivity.this,ComentariosListaActivity.class);
+                intent.putExtra("alojamiento",(Serializable) alojamiento);
+                startActivity(intent);
+            }
+        });
+        butttonComollegar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AlojamientoDetalleActivity.this,ComoLlegarActivity.class);
                 intent.putExtra("alojamiento",(Serializable) alojamiento);
                 startActivity(intent);
             }

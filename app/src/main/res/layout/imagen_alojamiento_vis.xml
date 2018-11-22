@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/imageViewAlojamientoDetalleFotoReg"
-        android:layout_width="340dp"
-        android:layout_height="165dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars[3]" />
 </LinearLayout>

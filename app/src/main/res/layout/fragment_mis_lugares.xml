@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MisLugaresFragment">
+
+    <GridView
+        android:id="@+id/gridViewFragment1Lugares"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="130dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:horizontalSpacing="4dp"
+        android:numColumns="2"
+        android:paddingLeft="15dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp" />
+
+    <Button
+        android:id="@+id/buttonMisLugaresAdd"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_button"
+        android:text="Add"
+        android:textAllCaps="false"
+        android:textColor="@color/colorTextoBoton" />
+
+</FrameLayout>
