@@ -14,10 +14,6 @@
             android:id="@+id/menu_seccion_3"
             android:icon="@drawable/ic_man_user"
             android:title="@string/settings"/>
-        <item
-            android:id="@+id/menu_seccion_4"
-            android:icon="@drawable/ic_house"
-            android:title="@string/misalojamientos"/>
     </group>
 
     <item
