@@ -70,7 +70,7 @@ public class CrearAlojamiento8 extends AppCompatActivity {
 
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("ALOJ",  myAlj);
-                    Intent intent = new Intent(CrearAlojamiento8.this, CrearAlojamiento4_1.class);
+                    Intent intent = new Intent(CrearAlojamiento8.this, CrearAlojamiento9.class);
                     intent.putExtra("bundle",bundle);
                     startActivity(intent);
                 }

@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.andre.jbookingmobile">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -14,7 +11,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
+<<<<<<<<< Temporary merge branch 1
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -47,7 +45,10 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Registro4Activity" />
         <activity android:name=".Registro3Activity" />
+
+
         <activity android:name=".AlojamientoDetalleActivity" />
+
         <activity android:name=".ConsultarAlojamientoActivity" />
         <activity android:name=".CrearAlojamientos.CrearAlojamiento1" />
         <activity android:name=".CrearAlojamientos.CrearAlojamiento2" />
@@ -62,7 +63,7 @@
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -98,6 +99,7 @@
             android:name=".Services.RnotificationService"
             android:enabled="true"
             android:exported="true"></service>
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento9"></activity>
     </application>
 
 </manifest>
