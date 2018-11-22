@@ -234,7 +234,7 @@ public class CrearAlojamiento7 extends AppCompatActivity {
                              View view = inflaterReg.inflate(R.layout.imagen_alojamiento_vis, linearLayoutGaleriaReg,false);
                             ImageView imagenActual = view.findViewById(R.id.imageViewAlojamientoDetalleFotoReg);
                             Picasso.with(CrearAlojamiento7.this).load(imageUri).into(imagenActual);
-                    Toast.makeText(this,myAlj.getFotos(),Toast.LENGTH_LONG).show();
+                   // Toast.makeText(this,myAlj.getFotos(),Toast.LENGTH_LONG).show();
                             linearLayoutGaleriaReg.addView(view);
                 }
                 return;

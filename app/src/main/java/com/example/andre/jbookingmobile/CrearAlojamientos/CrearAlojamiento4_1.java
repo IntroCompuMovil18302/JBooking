@@ -54,7 +54,7 @@ public class CrearAlojamiento4_1 extends FragmentActivity implements OnMapReadyC
                 Ubicacion currentUb= new Ubicacion(current.latitude,current.longitude,0.0,myAlj.getNombre());
                 myAlj.setUbicacion(currentUb);
 
-                Toast.makeText(CrearAlojamiento4_1.this,current.latitude+" "+current.longitude + " "+ mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
+               // Toast.makeText(CrearAlojamiento4_1.this,current.latitude+" "+current.longitude + " "+ mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
 
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("ALOJ",  myAlj);

@@ -231,7 +231,7 @@ public class CrearLugar3 extends AppCompatActivity {
                     View view = inflaterReg.inflate(R.layout.imagen_alojamiento_vis, linearLayoutGaleriaReg,false);
                     ImageView imagenActual = view.findViewById(R.id.imageViewAlojamientoDetalleFotoReg);
                     Picasso.with(CrearLugar3.this).load(imageUri).into(imagenActual);
-                    Toast.makeText(this,myLug.getFotos(),Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this,myLug.getFotos(),Toast.LENGTH_LONG).show();
                     linearLayoutGaleriaReg.addView(view);
                 }
                 return;

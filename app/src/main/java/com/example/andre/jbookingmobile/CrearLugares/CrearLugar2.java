@@ -70,7 +70,7 @@ public class CrearLugar2 extends AppCompatActivity implements OnMapReadyCallback
                 Ubicacion currentUb= new Ubicacion(current.latitude,current.longitude,0.0,myLug.getNombre());
                 myLug.setUbicacion(currentUb);
 
-                Toast.makeText(CrearLugar2.this,current.latitude+" "+current.longitude + " "+ mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CrearLugar2.this,current.latitude+" "+current.longitude + " "+ mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_SHORT).show();
 
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("LUG",  myLug);
