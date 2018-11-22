@@ -327,15 +327,19 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     }
 
     private void realizarreserva(){
-        Reserva myReserva = new Reserva();
-        myReserva.setAlojamiento(this.alojamiento);
-        myReserva.setAlojamientoId(this.alojamiento.getId());
-        myReserva.setFechaInicio(this.fechaInicio);
-        myReserva.setFechaFin(this.fechaFin);
-        int dias = fechaFin.getDay() - fechaInicio.getDay();
-        myReserva.setValor(alojamiento.getValorNoche()* dias);
-        myReserva.setTipo(alojamiento.getTipo());
-        loadHuesped(myReserva);
+        if (fechaInicio!=null && fechaFin!=null) {
+            Reserva myReserva = new Reserva();
+            myReserva.setAlojamiento(this.alojamiento);
+            myReserva.setAlojamientoId(this.alojamiento.getId());
+            myReserva.setFechaInicio(this.fechaInicio);
+            myReserva.setFechaFin(this.fechaFin);
+            int dias = fechaFin.getDay() - fechaInicio.getDay();
+            myReserva.setValor(alojamiento.getValorNoche() * dias);
+            myReserva.setTipo(alojamiento.getTipo());
+            loadHuesped(myReserva);
+        }else {
+            Toast.makeText(CalendarioAlojamientoActivity.this,"Seleccione las fechas",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -427,6 +431,8 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
 
 
         startService(intent);
+        Intent intent2 = new Intent(CalendarioAlojamientoActivity.this,MainActivity.class);
+        startActivity(intent2);
     }
 
 }
