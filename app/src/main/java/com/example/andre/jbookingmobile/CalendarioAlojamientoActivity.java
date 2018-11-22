@@ -91,12 +91,7 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.trans_right_in,
-                R.anim.trans_right_out);
-    }
+
 
     private void initEvents(){
         Calendar today = Calendar.getInstance();
@@ -279,11 +274,6 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
                         reserva.setUsuario(locaciones);
                         reserva.setUsuarioId(locaciones.getId());
                         updatealojamiento(reserva);
-
-
-
-
-
                     }
                 }
             }

@@ -88,7 +88,8 @@
         <activity android:name=".ComoLlegarActivity" />
         <activity android:name=".ComentariosActivity" />
         <activity android:name=".ComentariosListaActivity" />
-        <activity android:name=".ComentariosListaLugarActivity"></activity>
+        <activity android:name=".ComentariosListaLugarActivity" />
+        <activity android:name=".CrearAlojamientos.CrearAlojamiento9"></activity>
     </application>
 
 </manifest>

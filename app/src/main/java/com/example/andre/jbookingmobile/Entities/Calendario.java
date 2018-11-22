@@ -9,9 +9,13 @@ import java.util.List;
 
 public class Calendario implements Serializable {
     private List<Date> fechasOcupadas;
+    private List<Date> fechasDisponibles;
+
+
 
     public Calendario() {
         fechasOcupadas = new ArrayList<Date>();
+        fechasDisponibles = new ArrayList<>();
     }
 
     public Calendario(List<Date> fechasOcupadas) {
@@ -24,6 +28,14 @@ public class Calendario implements Serializable {
 
     public void setFechasOcupadas(List<Date> fechasOcupadas) {
         this.fechasOcupadas = fechasOcupadas;
+    }
+
+    public List<Date> getFechasDisponibles() {
+        return fechasDisponibles;
+    }
+
+    public void setFechasDisponibles(List<Date> fechasDisponibles) {
+        this.fechasDisponibles = fechasDisponibles;
     }
 
     public boolean insertarFechaOcupada(Date inicio, Date fin){
