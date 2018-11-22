@@ -88,7 +88,16 @@
         <activity android:name=".ComoLlegarActivity" />
         <activity android:name=".ComentariosActivity" />
         <activity android:name=".ComentariosListaActivity" />
-        <activity android:name=".ComentariosListaLugarActivity"></activity>
+        <activity android:name=".ComentariosListaLugarActivity" />
+        <activity android:name=".TourActivity" />
+
+        <service
+            android:name=".Services.NotificationService"
+            android:exported="false" />
+        <service
+            android:name=".Services.RnotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

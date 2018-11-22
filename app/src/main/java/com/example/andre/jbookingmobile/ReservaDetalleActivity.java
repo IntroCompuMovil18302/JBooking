@@ -41,6 +41,7 @@ public class ReservaDetalleActivity extends AppCompatActivity {
     private TextView textViewHasta;
 
     private Button buttonComentarios;
+    private Button buttonHoy;
 
 
 
@@ -70,6 +71,7 @@ public class ReservaDetalleActivity extends AppCompatActivity {
         textViewHasta = findViewById(R.id.textViewTo);
 
         buttonComentarios = findViewById(R.id.buttonReservaDetalleComentario);
+        buttonHoy = findViewById(R.id.buttonReservaHoy);
 
         reserva = (Reserva) getIntent().getExtras().getSerializable("reserva");
 
@@ -117,6 +119,14 @@ public class ReservaDetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ReservaDetalleActivity.this,ComentariosActivity.class);
+                intent.putExtra("reserva",(Serializable) reserva);
+                startActivity(intent);
+            }
+        });
+        buttonHoy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReservaDetalleActivity.this,TourActivity.class);
                 intent.putExtra("reserva",(Serializable) reserva);
                 startActivity(intent);
             }

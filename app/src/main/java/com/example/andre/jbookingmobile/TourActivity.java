@@ -15,16 +15,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.andre.jbookingmobile.Adapters.AlojamientoAdaptador;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
+import com.example.andre.jbookingmobile.Entities.Comentario;
 import com.example.andre.jbookingmobile.Entities.Lugar;
-import com.example.andre.jbookingmobile.Entities.Ubicacion;
+import com.example.andre.jbookingmobile.Entities.Reserva;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -35,7 +33,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -57,8 +54,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class TourActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Geocoder mGeocoder;
@@ -76,8 +74,12 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
     private LatLng newlocation;
     private Lugar lugar;
     private Alojamiento alojamiento;
+    private Reserva reserva;
     LatLng obecjtrute;
+    LatLng origena;
     Boolean drawer = false;
+    Map<String,Boolean> dobleclicklugar;
+    private List<Lugar> lugaresmapa = new ArrayList<Lugar>();
 
     public static final double lowerLeftLatitude = 4.486388;
     public static final double lowerLeftLongitude = -74.227082;
@@ -88,6 +90,7 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
 
     FirebaseDatabase database;
     DatabaseReference myRef;
+    private Boolean entro = false;
 
     private final static int LOCALIZATION_PERMISSION = 0;
     private final static String justificacion = "Acepte porfavor";
@@ -95,25 +98,19 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_como_llegar);
+        setContentView(R.layout.activity_tour);
         mAuth = com.google.firebase.auth.FirebaseAuth.getInstance();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION,justificacion,LOCALIZATION_PERMISSION);
         mapFragment.getMapAsync(this);
-        editTextDireccion = findViewById(R.id.editTextMapaDireccion);
+        reserva = (Reserva) getIntent().getExtras().getSerializable("reserva");
+        origena = new LatLng(reserva.getAlojamiento().getUbicacion().getLatitud(),reserva.getAlojamiento().getUbicacion().getLongitud());
         mGeocoder = new Geocoder(getBaseContext());
         mLocationRequest = createLocationRequest();
         database= FirebaseDatabase.getInstance();
-
-        if (getIntent().getExtras().getSerializable("lugar") != null){
-            lugar = (Lugar) getIntent().getExtras().getSerializable("lugar");
-        }else{
-            alojamiento = (Alojamiento) getIntent().getExtras().getSerializable("alojamiento");
-        }
-
-
+        dobleclicklugar = new HashMap<String,Boolean>();
         initEventos();
         initLocationUpdates();
         newlocation = null;
@@ -138,7 +135,7 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
         mMap = googleMap;
 
 
-        LatLng bogota = new LatLng(4.65, -74.05);
+        LatLng bogota = new LatLng(reserva.getAlojamiento().getUbicacion().getLatitud(), reserva.getAlojamiento().getUbicacion().getLongitud());
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(bogota));
@@ -151,23 +148,6 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
         }else{
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.light));
         }
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                mMap.clear();
-
-                usuario = mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.destini)));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-                mMap.addMarker(new MarkerOptions().position(obecjtrute).icon(BitmapDescriptorFactory.fromResource(R.drawable.housedr)));
-                drawer = true;
-
-
-                drawPath(latLng,obecjtrute);
-            }
-        });
-
     }
 
     @Override
@@ -199,7 +179,6 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     //Aqui el significa que ya ha habido respuesta, y el permiso fue concedido
                 }
-
                 break;
             }
         }
@@ -220,58 +199,18 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
-    private void initEventos(){
-        locationCallback = new LocationCallback(){
+    private void initEventos() {
+        locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                Location location = locationResult.getLastLocation();
-                if (location != null && mMap != null){
-                    LatLng ubicacionActual = new LatLng(location.getLatitude(), location.getLongitude());
-                    LatLng destino;
-                    if (lugar!= null){
-                        destino = new LatLng(lugar.getUbicacion().getLatitud(),lugar.getUbicacion().getLongitud());
-                    }else{
-                        destino = new LatLng(alojamiento.getUbicacion().getLatitud(),alojamiento.getUbicacion().getLongitud());
-                    }
 
-                    ubicacionusuario = ubicacionActual;
-                    if (usuario == null){
-                        usuario = mMap.addMarker(new MarkerOptions().position(ubicacionActual).icon(BitmapDescriptorFactory.fromResource(R.drawable.je)));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(ubicacionActual));
-                        mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-                    }else{
-                        usuario.setPosition(ubicacionActual);
-                    }
+                LatLng ubicacionactual = new LatLng(reserva.getAlojamiento().getUbicacion().getLatitud(), reserva.getAlojamiento().getUbicacion().getLongitud());
+                mMap.addMarker(new MarkerOptions().position(ubicacionactual).icon(BitmapDescriptorFactory.fromResource(R.drawable.housedr)));
 
-                    MarkerOptions lugarmark;
-                    if (lugar != null){
-                        lugarmark =  new MarkerOptions().position(destino).icon(BitmapDescriptorFactory.fromResource(R.drawable.destini));
-                        lugarmark.title(lugar.getUbicacion().getNombre());
-                    }else {
-                        lugarmark =  new MarkerOptions().position(destino).icon(BitmapDescriptorFactory.fromResource(R.drawable.housedr));
-                        lugarmark.title(alojamiento.getUbicacion().getNombre());
-                    }
+                loadTouristicPlaces();
+                pintlugares(ubicacionactual);
 
-                    obecjtrute = destino;
-                    mMap.addMarker(lugarmark);
-                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            gotomarker(marker);
-                            return true;
-                        }
-                    });
-
-                    if (!drawer){
-                        drawPath(ubicacionActual,destino);
-                    }
-
-                    if (firstTime){
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(ubicacionActual));
-                        firstTime = false;
-                    }
-                }
             }
         };
     }
@@ -289,14 +228,14 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
                     Address addressResult = addresses.get(0);
                     position = new LatLng(addressResult.getLatitude(),addressResult.getLongitude());
                 }else {
-                    Toast.makeText(ComoLlegarActivity.this, "Lugar no encontrado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TourActivity.this, "Lugar no encontrado", Toast.LENGTH_SHORT).show();
                 }
             }catch (IOException e){
                 e.printStackTrace();
             }
             return position;
         }else {
-            Toast.makeText(ComoLlegarActivity.this, "La direccion esta vacia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TourActivity.this, "La direccion esta vacia", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
@@ -317,7 +256,7 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
     private void drawPath(LatLng origin, LatLng dest){
         // Getting URL to the Google Directions API
         String url = getDirectionsUrl(origin, dest);
-        ComoLlegarActivity.ReadTask downloadTask = new ComoLlegarActivity.ReadTask();
+        TourActivity.ReadTask downloadTask = new TourActivity.ReadTask();
 
         downloadTask.execute(url);
 
@@ -371,7 +310,7 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            new ComoLlegarActivity.ParserTask().execute(result);
+            new TourActivity.ParserTask().execute(result);
         }
 
     }
@@ -439,17 +378,74 @@ public class ComoLlegarActivity extends AppCompatActivity implements OnMapReadyC
         return Math.round(result*100.0)/100.0;
     }
 
-    public void gotomarker(Marker marker){
-        if (lugar != null){
-            String name = marker.getTitle();
-            Intent intent = new Intent(ComoLlegarActivity.this,LugarDetalleActivity.class);
-            intent.putExtra("lugar",(Serializable) this.lugar);
-            startActivity(intent);
-        }else{
-            String name = marker.getTitle();
-            Intent intent = new Intent(ComoLlegarActivity.this,AlojamientoDetalleActivity.class);
-            intent.putExtra("alojamiento",(Serializable) this.alojamiento);
-            startActivity(intent);
+    public void loadTouristicPlaces() {
+        myRef = database.getReference("/lugares");
+        myRef. addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Lugar lugares = singleSnapshot.getValue(Lugar.class);
+
+                    LatLng ubicacionActual = new LatLng(lugares.getUbicacion().getLatitud(), lugares.getUbicacion().getLongitud());
+                    if (distance(reserva.getAlojamiento().getUbicacion().getLatitud(),reserva.getAlojamiento().getUbicacion().getLongitud(),ubicacionActual.latitude,ubicacionActual.longitude)<5.0){
+                        List<Comentario> comentarios = lugares.getComentarios();
+                        int sum = 0;
+                        for (Comentario c : comentarios){
+                            sum += c.getPuntuacion();
+                        }
+                        if (comentarios.size() == 0){
+                            sum = sum;
+                        }else{
+                            sum = sum/comentarios.size();
+                        }
+                        MarkerOptions lugar =  new MarkerOptions().position(ubicacionActual)
+                                .title(lugares.getUbicacion().getNombre())
+                                .snippet("Calificacion: "+sum)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.tourist));
+                        //lugar.title(lugares.getUbicacion().getNombre());
+                        mMap.addMarker(lugar);
+                        //lugaresmapa.add(lugares);
+                        dobleclicklugar.put(lugares.getNombre(),Boolean.FALSE);
+                        addtolist(lugares);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "error en la consulta", databaseError.toException());
+            }
+        });
+    }
+
+    public void pintlugares(LatLng origen){
+        if (!entro && lugaresmapa.size()>0){
+            int count = 1;
+            LatLng origin = origen;
+            Log.i("TAGA",lugaresmapa.size()+"");
+            for (Lugar l:this.lugaresmapa){
+                LatLng destino = new LatLng(l.getUbicacion().getLatitud(),l.getUbicacion().getLongitud());
+                drawPath(origin, destino);
+                origin = destino;
+            }
+            entro = true;
         }
+    }
+
+    public void addtolist(Lugar lugar){
+        if (lugaresmapa.size()!=0){
+            double first = distance(origena.latitude,origena.longitude,lugar.getUbicacion().getLatitud(),lugar.getUbicacion().getLongitud());
+            double second = distance(origena.latitude,origena.longitude,lugaresmapa.get(0).getUbicacion().getLatitud(),lugaresmapa.get(0).getUbicacion().getLongitud());
+            if (first <= second){
+                this.lugaresmapa.add(0,lugar);
+            }
+            else{
+                this.lugaresmapa.add(lugar);
+            }
+        }else{
+            this.lugaresmapa.add(lugar);
+        }
+
+
+
     }
 }

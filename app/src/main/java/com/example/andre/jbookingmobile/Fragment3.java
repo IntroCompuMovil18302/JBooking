@@ -1,5 +1,6 @@
 package com.example.andre.jbookingmobile;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -19,6 +20,8 @@ import com.example.andre.jbookingmobile.Entities.Anfitrion;
 import com.example.andre.jbookingmobile.Entities.Huesped;
 import com.example.andre.jbookingmobile.Entities.Propietario;
 import com.example.andre.jbookingmobile.Entities.Usuario;
+import com.example.andre.jbookingmobile.Services.NotificationService;
+import com.example.andre.jbookingmobile.Services.RnotificationService;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -212,6 +215,8 @@ public class Fragment3 extends Fragment {
                         StorageReference islandRef = storageRef.child(path);
                         showimage(islandRef);
                         yaencontro = true;
+                        Intent intent = new Intent(getView().getContext(), RnotificationService.class);
+                        getView().getContext().startService(intent);
                     }
                 }
                 if (!yaencontro){

@@ -1,6 +1,7 @@
 package com.example.andre.jbookingmobile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.example.andre.jbookingmobile.Entities.Huesped;
 import com.example.andre.jbookingmobile.Entities.Reserva;
 import com.example.andre.jbookingmobile.Entities.User;
 import com.example.andre.jbookingmobile.Entities.Usuario;
+import com.example.andre.jbookingmobile.Services.NotificationService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -280,10 +282,6 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
                         reserva.setUsuarioId(locaciones.getId());
                         updatealojamiento(reserva);
 
-
-
-
-
                     }
                 }
             }
@@ -345,6 +343,15 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         myRef2=database2.getReference().child(PATH_RESERVAS).child(key);
         reserva.setId(key);
         myRef2.setValue(reserva);
+
+        Intent intent = new Intent(CalendarioAlojamientoActivity.this, NotificationService.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("reserva", reserva);
+
+        intent.putExtras(bundle);
+
+
+        startService(intent);
     }
 
 }

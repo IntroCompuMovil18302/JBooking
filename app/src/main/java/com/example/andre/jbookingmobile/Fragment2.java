@@ -20,6 +20,8 @@ import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento1;
 import com.example.andre.jbookingmobile.CrearAlojamientos.CrearAlojamiento3;
 import com.example.andre.jbookingmobile.Entities.Alojamiento;
 import com.example.andre.jbookingmobile.Entities.Reserva;
+import com.example.andre.jbookingmobile.Services.RnotificationService;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +42,7 @@ public class Fragment2 extends Fragment {
     private List<Reserva> reservas;
     private GridView gridViewReservas;
     private ReservaAdaptador reservaAdaptador;
+    FirebaseAuth mAuth;
 
     public static final String PATH_RESERVAS = "reservas/";
 
@@ -56,9 +59,11 @@ public class Fragment2 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fragment2, container, false);
         database = FirebaseDatabase.getInstance();
         reservas = new ArrayList<>();
+        mAuth = FirebaseAuth.getInstance();
         reservaAdaptador = new ReservaAdaptador(getContext(), reservas);
         gridViewReservas = view.findViewById(R.id.gridViewFragment1Reservas);
-
+        Intent intent = new Intent(getView().getContext(), RnotificationService.class);
+        getView().getContext().startService(intent);
         gridViewReservas.setAdapter(reservaAdaptador);
 
         initEvents();
@@ -72,8 +77,10 @@ public class Fragment2 extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Reserva reserva = dataSnapshot.getValue(Reserva.class);
-                reservas.add(reserva);
-                reservaAdaptador.notifyDataSetChanged();
+                if (reserva.getUsuario().getCorreo().equals(mAuth.getCurrentUser().getEmail())){
+                    reservas.add(reserva);
+                    reservaAdaptador.notifyDataSetChanged();
+                }
             }
 
             @Override
