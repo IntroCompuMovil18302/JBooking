@@ -62,8 +62,8 @@ public class Fragment2 extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         reservaAdaptador = new ReservaAdaptador(getContext(), reservas);
         gridViewReservas = view.findViewById(R.id.gridViewFragment1Reservas);
-        Intent intent = new Intent(getView().getContext(), RnotificationService.class);
-        getView().getContext().startService(intent);
+        Intent intent = new Intent(view.getContext(), RnotificationService.class);
+        view.getContext().startService(intent);
         gridViewReservas.setAdapter(reservaAdaptador);
 
         initEvents();
