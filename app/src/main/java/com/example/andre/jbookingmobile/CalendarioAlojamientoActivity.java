@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,8 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button buttonReservar;
     private int contadorTouch;
+    private Date limiteInferior;
+    private Date limiteSuperior;
     private Date fechaInicio;
     private Date fechaFin;
     private List<Date> fechasNoDispo = new ArrayList<>();
@@ -129,6 +132,39 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
         return true;
     }
 
+    private List<Date> disponiblesToNoDisponibles(List<Date> disponibles){
+        List<Date> misNoDisponibles = new ArrayList<>();
+        if (disponibles==null){
+            disponibles = new ArrayList<>();
+        }
+        disponibles.sort(new Comparator<Date>() {
+            @Override
+            public int compare(Date o1, Date o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        if (!disponibles.isEmpty()){
+            limiteInferior = (Date) disponibles.get(0).clone();
+            limiteSuperior = (Date) disponibles.get(disponibles.size()-1).clone();
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(limiteInferior);
+            Calendar c2 = Calendar.getInstance();
+            c2.setTime(limiteSuperior);
+            int tot = 0;
+            while (!(c1.get(Calendar.YEAR)==c2.get(Calendar.YEAR)) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)){
+                c1.add(Calendar.DATE,1);
+                Calendar r1 = Calendar.getInstance();
+                r1.setTime(disponibles.get(tot));
+                if(r1.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && r1.get(Calendar.MONTH) == c1.get(Calendar.MONTH) && r1.get(Calendar.DAY_OF_MONTH) == c1.get(Calendar.DAY_OF_MONTH)){
+                    tot++;
+                }else{
+                    misNoDisponibles.add(r1.getTime());
+                }
+            }
+        }
+        return  misNoDisponibles;
+    }
+
     private boolean fechaRangoValido(Date fe1, Date fe2){
         for (Date dd : fechasNoDispo){
             if (dd.getTime()>=fe1.getTime() && dd.getTime()<=fe2.getTime()){
@@ -141,16 +177,14 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     private void marcarNoDisponibles(){
         Calendario calendario = alojamiento.getCalendario();
         List<Date> fechasOcupadas =  null;
+        List<Date> fechasNoDispoibles = disponiblesToNoDisponibles(new ArrayList<Date>());// sacar del calendario
         fechasOcupadas = calendario.getFechasOcupadas();
         if (fechasOcupadas == null){
             fechasOcupadas =  new ArrayList<>();
         }
+        fechasOcupadas.addAll(fechasNoDispoibles);
         fechasNoDispo = fechasOcupadas;
-        Calendar fechita = Calendar.getInstance();
-        fechita.set(Calendar.YEAR,2018);
-        fechita.set(Calendar.MONTH,10);
-        fechita.set(Calendar.DAY_OF_MONTH,6);
-        //fechasOcupadas.add(fechita.getTime());
+
         calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#E34444"));
         for (Date fecha: fechasOcupadas){
             Calendar diaActual = Calendar.getInstance();
