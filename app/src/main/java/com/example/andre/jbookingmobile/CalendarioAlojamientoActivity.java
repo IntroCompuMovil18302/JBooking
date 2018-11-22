@@ -133,37 +133,72 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     }
 
     private List<Date> disponiblesToNoDisponibles(List<Date> disponibles){
+
         List<Date> misNoDisponibles = new ArrayList<>();
         if (disponibles==null){
             disponibles = new ArrayList<>();
         }
-        disponibles.sort(new Comparator<Date>() {
-            @Override
-            public int compare(Date o1, Date o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        //orden
+
         if (!disponibles.isEmpty()){
-            limiteInferior = (Date) disponibles.get(0).clone();
-            limiteSuperior = (Date) disponibles.get(disponibles.size()-1).clone();
-            Calendar c1 = Calendar.getInstance();
-            c1.setTime(limiteInferior);
-            Calendar c2 = Calendar.getInstance();
-            c2.setTime(limiteSuperior);
-            int tot = 0;
-            while (!(c1.get(Calendar.YEAR)==c2.get(Calendar.YEAR)) && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)){
-                c1.add(Calendar.DATE,1);
-                Calendar r1 = Calendar.getInstance();
-                r1.setTime(disponibles.get(tot));
-                if(r1.get(Calendar.YEAR) == c1.get(Calendar.YEAR) && r1.get(Calendar.MONTH) == c1.get(Calendar.MONTH) && r1.get(Calendar.DAY_OF_MONTH) == c1.get(Calendar.DAY_OF_MONTH)){
-                    tot++;
-                }else{
-                    misNoDisponibles.add(r1.getTime());
+            Log.d("calen", disponibles.size()+"");
+
+
+            Date minimo = minDate(disponibles);
+            Date maximo = maxDate(disponibles);
+            Calendar x1 = Calendar.getInstance();
+            Calendar x2 = Calendar.getInstance();
+            x1.setTime(minimo);
+            x1.add(Calendar.DATE,-1);
+            x2.setTime(maximo);
+            x2.add(Calendar.DATE,1);
+            calendarView.setMarkedStyle(MarkStyle.LEFTSIDEBAR, Color.parseColor("#00ff00"));
+            calendarView.markDate(x1.getTime().getYear(),x1.getTime().getMonth()+1,x1.getTime().getDay());
+            calendarView.setMarkedStyle(MarkStyle.RIGHTSIDEBAR, Color.parseColor("#00ff00"));
+            calendarView.markDate(x2.getTime().getYear(),x2.getTime().getMonth()+1,x2.getTime().getDay());
+            calendarView.setMarkedStyle(MarkStyle.BACKGROUND, Color.parseColor("#37bad6"));
+            while (!(minimo.getYear() == maximo.getYear() && minimo.getMonth() == maximo.getMonth() && minimo.getDay()== maximo.getDay())){
+                if (!esta(minimo, disponibles)){
+                    misNoDisponibles.add(minimo);
                 }
+                Calendar ca1= Calendar.getInstance();
+                ca1.setTime(minimo);
+                ca1.add(Calendar.DATE,1);
+                minimo = ca1.getTime();
             }
         }
         return  misNoDisponibles;
     }
+
+    private boolean esta (Date d1, List<Date> todos){
+        for (Date g1 :todos){
+            if(d1.getYear() == g1.getYear() && g1.getMonth() == d1.getMonth() && g1.getDay() == d1.getYear()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Date minDate(List<Date> d){
+        Date menor = d.get(0);
+        for (Date d1:d){
+            if (menor.getTime() > d1.getTime()){
+                menor = d1;
+            }
+        }
+        return  menor;
+    }
+
+    private Date maxDate(List<Date> d){
+        Date max = d.get(0);
+        for (Date d1:d){
+            if (max.getTime() < d1.getTime()){
+                max = d1;
+            }
+        }
+        return  max;
+    }
+
 
     private boolean fechaRangoValido(Date fe1, Date fe2){
         for (Date dd : fechasNoDispo){
@@ -177,7 +212,7 @@ public class CalendarioAlojamientoActivity extends AppCompatActivity {
     private void marcarNoDisponibles(){
         Calendario calendario = alojamiento.getCalendario();
         List<Date> fechasOcupadas =  null;
-        List<Date> fechasNoDispoibles = disponiblesToNoDisponibles(new ArrayList<Date>());// sacar del calendario
+        List<Date> fechasNoDispoibles = disponiblesToNoDisponibles(calendario.getFechasDisponibles());// sacar del calendario
         fechasOcupadas = calendario.getFechasOcupadas();
         if (fechasOcupadas == null){
             fechasOcupadas =  new ArrayList<>();
